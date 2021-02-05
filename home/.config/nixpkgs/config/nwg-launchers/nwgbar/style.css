@@ -1,0 +1,42 @@
+* {
+    font-family: "SF Pro Display";
+    font-weight: 500;
+    font-size: 14px;
+}
+
+#bar {
+    margin: 30px /* affects top/bottom & left/right alignment */
+}
+
+button, image {
+    background: none;
+    border-style: none;
+    box-shadow: none;
+    color: #fff;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+}
+
+button:hover {
+    background-color: #4A5568;
+}
+
+button:focus {
+    background-color: #4A5568;
+}
+
+button image {
+    padding: 10px 0px;
+}
+
+grid {
+    background-color: rgba(45,55,72,0.95);
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    /* e.g. for common background to all buttons */
+}
+

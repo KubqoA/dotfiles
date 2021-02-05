@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Lock screen",
+    "exec": "~/.config/swaylock/lock",
+    "icon": "/home/jarbet/.config/nwg-launchers/nwgbar/images/lock.svg"
+  },
+  {
+  	"name": "Suspend",
+  	"exec": "~/.config/swaylock/lock;systemctl suspend",
+  	"icon": "/home/jarbet/.config/nwg-launchers/nwgbar/images/suspend.svg"
+  },
+  {
+  	"name": "Hibernate",
+  	"exec": "~/.config/swaylock/lock;systemctl hibernate",
+  	"icon": "/home/jarbet/.config/nwg-launchers/nwgbar/images/hibernate.svg"
+  },
+  {
+    "name": "Logout",
+    "exec": "loginctl terminate-user $USER",
+    "icon": "/home/jarbet/.config/nwg-launchers/nwgbar/images/logout.svg"
+  },
+  {
+    "name": "Reboot",
+    "exec": "systemctl reboot",
+    "icon": "/home/jarbet/.config/nwg-launchers/nwgbar/images/reboot.svg"
+  },
+  {
+    "name": "Shutdown",
+    "exec": "systemctl -i poweroff",
+    "icon": "/home/jarbet/.config/nwg-launchers/nwgbar/images/shutdown.svg"
+  }
+]
