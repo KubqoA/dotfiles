@@ -1,18 +1,18 @@
 { config, lib, pkgs, ... }:
 
 let
-  buildScript = import ../src/buildScript.nix pkgs;
-  wallpaper = ../src/bg.jpg;
-  lockScript = buildScript "lock" ../src/lock {
+  buildScript = import ../buildScript.nix pkgs;
+  wallpaper = ../config/bg.jpg;
+  lockScript = buildScript "lock" ../config/swaylock/lock {
     bg = wallpaper;
-    lock = ../src/lock.svg;
+    lock = ../config/swaylock/lock.svg;
     swaylock = "${pkgs.swaylock-effects}/bin/swaylock";
   };
-  import-gsettingsScript = buildScript "import-gsettings" ../src/import-gsettings {
+  import-gsettingsScript = buildScript "import-gsettings" ../config/import-gsettings {
     gsettings = "${pkgs.glib}/bin/gsettings";
   };
-  theme = pkgs.callPackage ../src/WhiteSur-gtk-theme {};
-  iconTheme = pkgs.callPackage ../src/WhiteSur-icon-theme {};
+  theme = pkgs.callPackage ../pkgs/WhiteSur-gtk-theme {};
+  iconTheme = pkgs.callPackage ../pkgs/WhiteSur-icon-theme {};
   cursor-theme-name = "capitaine-cursors";
 in
 {

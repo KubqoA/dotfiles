@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  ls-colors = import ../src/ls-colors;
+  ls-colors = import ../pkgs/ls-colors;
 in
 {
   home.packages = [ ls-colors ];
@@ -12,7 +12,7 @@ in
     enable = true;
     enableCompletion = true;
     enableAutosuggestions = true;
-    shellAliases = import ../config/aliases.nix;
+    shellAliases = import ../config/zsh/aliases.nix;
     defaultKeymap = "viins";
     autocd = true;
     dotDir = ".config/zsh";
@@ -32,8 +32,9 @@ in
     };
     initExtraBeforeCompInit = ''
       eval $(${pkgs.coreutils}/bin/dircolors -b ${ls-colors}/share/LS_COLORS)
+      ${builtins.readFile ../config/zsh/pre-compinit.zsh}
     '';
-    initExtra = builtins.readFile ../config/post-compinit.zsh;
+    initExtra = builtins.readFile ../config/zsh/post-compinit.zsh;
     plugins = [
       rec {
         name = "zsh-syntax-highlighting";

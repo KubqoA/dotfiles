@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 let
-  buildScript = import ../src/buildScript.nix pkgs;
+  buildScript = import ../buildScript.nix pkgs;
   battery = { name } : {
     bat = name;
     states = {
