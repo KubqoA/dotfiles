@@ -1,33 +1,15 @@
 { config, lib, pkgs, ... }:
 
 let
+  buildScript = import ../src/buildScript.nix pkgs;
   wallpaper = ../src/bg.jpg;
-  lockScript = pkgs.stdenv.mkDerivation rec {
-    name = "lock";
-    buildCommand = ''
-      install -Dm755 $script $out/bin/${name}
-      patchShebangs $out/bin/${name}
-    '';
-    script = pkgs.substituteAll {
-      # substitutes
-      bg = wallpaper;
-      lock = ../src/lock.svg;
-      swaylock = "${pkgs.swaylock-effects}/bin/swaylock";
-
-      src = ../src/lock;
-      isExecutable = true;
-    };
+  lockScript = buildScript "lock" ../src/lock {
+    bg = wallpaper;
+    lock = ../src/lock.svg;
+    swaylock = "${pkgs.swaylock-effects}/bin/swaylock";
   };
-  import-gsettingsScript = pkgs.stdenv.mkDerivation rec {
-    name = "import-gsettings";
-    buildCommand = ''
-      install -Dm755 $script $out/bin/${name}
-      patchShebangs $out/bin/${name}
-    '';
-    script = pkgs.substituteAll {
-      gsettings = "${pkgs.glib}/bin/gsettings";
-      src = ../src/import-gsettings;
-    };
+  import-gsettingsScript = buildScript "import-gsettings" ../src/import-gsettings {
+    gsettings = "${pkgs.glib}/bin/gsettings";
   };
   theme = pkgs.callPackage ../src/WhiteSur-gtk-theme {};
   iconTheme = pkgs.callPackage ../src/WhiteSur-icon-theme {};

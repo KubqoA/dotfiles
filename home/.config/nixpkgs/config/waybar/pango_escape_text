@@ -1,0 +1,7 @@
+#!@python@
+
+import sys
+import gi
+from gi.repository import GLib
+
+print(GLib.markup_escape_text(' '.join(sys.argv[1:])))

@@ -1,6 +1,7 @@
 { pkgs, ... }:
 
 let
+  buildScript = import ../src/buildScript.nix pkgs;
   battery = { name } : {
     bat = name;
     states = {
@@ -13,8 +14,18 @@ let
     format-alt = "{time} {icon}";
     format-icons = [ "" "" "" "" "" ];
   };
-  mediaplayer = "${(import ../config/waybar/mediaplayer.nix {})}/bin/mediaplayer";
-  play-pause = "${(import ../config/waybar/play-pause.nix {})}/bin/play-pause";
+  pango_escape_text = buildScript "pango_escape_text" ../config/waybar/pango_escape_text {
+    python = "${(pkgs.python38.buildEnv.override {
+      extraLibs = with pkgs.python38Packages; [ pygobject3 ];
+    })}/bin/python";
+  };
+  mediaplayer = buildScript "mediaplayer" ../config/waybar/mediaplayer {
+    playerctl = "${pkgs.playerctl}/bin/playerctl";
+    pango_escape_text = "${pango_escape_text}/bin/pango_escape_text";
+  };
+  play-pause = buildScript "play-pause" ../config/waybar/play-pause {
+    playerctl = "${pkgs.playerctl}/bin/playerctl";
+  };
   media = { number } : {
     format = "{icon} {}";
     return-type = "json";
@@ -23,12 +34,12 @@ let
       Playing = "";
       Paused = "";
     };
-    exec = "${mediaplayer} ${number}";
+    exec = "${mediaplayer}/bin/mediaplayer ${number}";
     exec-if = "[ $(${pkgs.playerctl}/bin/playerctl -l | wc -l) -ge ${number} ]";
     interval = 1;
-    on-click = "${play-pause} ${number}";
+    on-click = "${play-pause}/bin/play-pause ${number}";
   };
-  nordvpn = "${(import ../config/waybar/nordvpn.nix {})}/bin/nordvpn-status";
+  nordvpn = buildScript "nordvpn" ../config/waybar/nordvpn {};
 in
 {
   programs.waybar = {
@@ -125,7 +136,7 @@ in
         "custom/nordvpn" = {
           format = "{}  ";
           return-type = "json";
-          exec = "${nordvpn}";
+          exec = "${nordvpn}/bin/nordvpn";
           interval = 10;
         };
       };

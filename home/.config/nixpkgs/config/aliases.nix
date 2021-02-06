@@ -6,12 +6,16 @@
   term = "alacritty &";
 
   # git
+  gad = "git add .";
+  gc = "git commit";
   gcan = "git commit --amend -a --no-edit";
   gri = "git rebase --interactive";
   grc = "git rebase --continue";
   gra = "git rebase --abort";
   gprm = "git pull origin master --rebase";
   gpr = "git pull origin main --rebase";
+  gp = "git push";
+  gfp = "git push --force";
   
   # nix
   hme = "home-manager edit";

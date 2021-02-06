@@ -1,7 +1,4 @@
-{ pkgs ? import <nixpkgs> { } }:
-
-pkgs.writeScriptBin "nordvpn-status" ''
-#!${pkgs.stdenv.shell}
+#!/bin/sh
 
 if ! command -v nordvpn &> /dev/null; then
     exit
@@ -15,4 +12,3 @@ if [ "$status" = "Connected" ]; then
 else
     echo '{"text": "Disonnected", "tooltip": "Disconnected", "class": "disconnected"}'
 fi
-''

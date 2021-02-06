@@ -1,12 +1,6 @@
-{ pkgs ? import <nixpkgs> { } }:
+#!/bin/sh
 
-let
-  pango_escape_text = "${import ./pango_escape_text.nix {}}/bin/pango_escape_text";
-in
-pkgs.writeScriptBin "mediaplayer" ''
-#!${pkgs.stdenv.shell}
-
-PLAYERCTL="${pkgs.playerctl}/bin/playerctl"
+PLAYERCTL="@playerctl@"
 
 if [ -n "$1" ]; then
     PLAYER="$($PLAYERCTL -l | sed -n "$1"p)"
@@ -24,11 +18,10 @@ case "$PLAYER" in
         TOOLTIP="Spotify"
         ;;
     *)
-        TOOLTIP="$(${pango_escape_text} "$($PLAYERCTL metadata title)")"
+        TOOLTIP="$(@pango_escape_text@ "$($PLAYERCTL metadata title)")"
         ;;
 esac
 
-TEXT=$(${pango_escape_text} "$TEXT")
+TEXT=$(@pango_escape_text@ "$TEXT")
 
 echo '{"text": "' "$TEXT"'", "tooltip": "'"$TOOLTIP"'", "class": "'"$($PLAYERCTL status)"'" , "alt": "'"$($PLAYERCTL status)"'"}' | sed -e 's/" - "/""/'
-''

@@ -8,7 +8,7 @@ let
   }) {};
 in
 {
-  home.packages = with pkgs; [ comma ];
+  home.packages = [ comma ];
 
   programs.alacritty = {
     enable = true;

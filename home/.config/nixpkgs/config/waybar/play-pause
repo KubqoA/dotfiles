@@ -1,0 +1,10 @@
+#!/bin/sh
+
+PLAYERCTL="@playerctl@"
+
+if [ -n "$1" ]; then
+  PLAYER="$($PLAYERCTL -l | sed -n "$1"p)"
+  PLAYERCTL="$PLAYERCTL -p $PLAYER"   
+fi
+
+$PLAYERCTL play-pause
