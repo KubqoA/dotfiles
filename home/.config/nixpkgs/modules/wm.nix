@@ -2,10 +2,11 @@
 
 let
   wallpaper = ../src/bg.jpg;
-  lockScript = pkgs.stdenv.mkDerivation {
+  lockScript = pkgs.stdenv.mkDerivation rec {
     name = "lock";
     buildCommand = ''
-      install -Dm755 $script $out/bin/lock
+      install -Dm755 $script $out/bin/${name}
+      patchShebangs $out/bin/${name}
     '';
     script = pkgs.substituteAll {
       # substitutes
@@ -17,7 +18,20 @@ let
       isExecutable = true;
     };
   };
+  import-gsettingsScript = pkgs.stdenv.mkDerivation rec {
+    name = "import-gsettings";
+    buildCommand = ''
+      install -Dm755 $script $out/bin/${name}
+      patchShebangs $out/bin/${name}
+    '';
+    script = pkgs.substituteAll {
+      gsettings = "${pkgs.glib}/bin/gsettings";
+      src = ../src/import-gsettings;
+    };
+  };
   theme = pkgs.callPackage ../src/WhiteSur-gtk-theme {};
+  iconTheme = pkgs.callPackage ../src/WhiteSur-icon-theme {};
+  cursor-theme-name = "capitaine-cursors";
 in
 {
   home.packages = [ pkgs.ulauncher ];
@@ -66,12 +80,16 @@ in
 
   gtk.enable = true;
   gtk.font.name = "SF Pro Display 11";
+  gtk.gtk2.extraConfig = ''
+    gtk-cursor-theme-name=${cursor-theme-name};
+  '';
   gtk.gtk3.extraConfig = {
-    gtk-cursor-theme-name = "Capitaine Cursors";
+    gtk-cursor-theme-name = cursor-theme-name;
   };
+  gtk.iconTheme.package = iconTheme;
+  gtk.iconTheme.name = "WhiteSur-icon-theme";
   gtk.theme.package = theme;
-  gtk.theme.name = "WhiteSur";
-  home.file.".icons/default".source = "${pkgs.capitaine-cursors}/share/icons/capitaine-cursors"; 
+  gtk.theme.name = "WhiteSur-gtk-theme-light";
 
   wayland.windowManager.sway = {
     enable = true;
@@ -159,6 +177,10 @@ in
         (rule "floating enable" { class = "Tk"; })
       ];
     };
+    extraConfig = ''
+      seat seat0 xcursor_theme ${cursor-theme-name} 24
+      exec_always ${import-gsettingsScript}/bin/import-gsettings
+    '';
     extraSessionCommands = ''
       export XDG_SESSION_TYPE=wayland
       export XDG_SESSION_DESKTOP=sway
