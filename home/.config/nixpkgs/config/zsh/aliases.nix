@@ -4,6 +4,7 @@
   ls = "ls --color=auto -F";
   chx = "chmod +x";
   term = "alacritty &";
+  sudo = "doas";
 
   # git
   gad = "git add .";

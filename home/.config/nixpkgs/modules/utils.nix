@@ -8,7 +8,7 @@ let
   }) {};
 in
 {
-  home.packages = [ comma ];
+  home.packages = with pkgs; [ comma ripgrep tree ncdu ];
 
   programs.alacritty = {
     enable = true;

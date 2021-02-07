@@ -1,7 +1,9 @@
 { config, lib, pkgs, ... }:
 
 let
-  buildScript = import ../buildScript.nix pkgs;
+  enableSwayBorders = false;
+
+  buildScript = import ../buildScript.nix;
   wallpaper = ../config/bg.jpg;
   lockScript = buildScript "lock" ../config/swaylock/lock {
     bg = wallpaper;
@@ -14,8 +16,8 @@ let
   theme = pkgs.callPackage ../pkgs/WhiteSur-gtk-theme {};
   iconTheme = pkgs.callPackage ../pkgs/WhiteSur-icon-theme {};
   cursor-theme-name = "capitaine-cursors";
-  unstable = import (fetchTarball https://nixos.org/channels/nixos-unstable/nixexprs.tar.xz) { };
-  sway-borders = import ../pkgs/sway-borders/default.nix unstable;
+  unstable = if enableSwayBorders then import (fetchTarball https://nixos.org/channels/nixos-unstable/nixexprs.tar.xz) { } else null;
+  sway-borders = if enableSwayBorders then import ../pkgs/sway-borders/default.nix unstable else null;
 in
 {
   home.packages = [ pkgs.ulauncher ];
@@ -77,7 +79,7 @@ in
 
   wayland.windowManager.sway = {
     enable = true;
-    package = sway-borders;
+    package = if enableSwayBorders then sway-borders else null;
     wrapperFeatures.gtk = true;
     config = {
       assigns = let
@@ -88,7 +90,7 @@ in
         assign 10 { class = "Slack"; };
       bars = [{ command = "waybar"; }];
       fonts = [ "Font Awesome 5 Free 11" "SF Pro Display 11" ];
-      gaps.inner = 25;
+      gaps.inner = if enableSwayBorders then 25 else 20;
       input."type:keyboard" = {
         xkb_layout = "us,sk";
         xkb_variant = ",qwerty";
@@ -162,12 +164,12 @@ in
     extraConfig = ''
       seat seat0 xcursor_theme ${cursor-theme-name} 24
       exec_always ${import-gsettingsScript}/bin/import-gsettings
-
+    '' + (if enableSwayBorders then ''
       border_images.focused ${../config/border.png}
       border_images.focused_inactive ${../config/border.png}
       border_images.unfocused ${../config/border.png}
       border_images.urgent ${../config/border.png}
-    '';
+    '' else "");
     extraSessionCommands = ''
       export XDG_SESSION_TYPE=wayland
       export XDG_SESSION_DESKTOP=sway
