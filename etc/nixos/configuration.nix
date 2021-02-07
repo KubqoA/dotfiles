@@ -79,7 +79,7 @@ in
     # browser
     ungoogled-chromium
     # nonfree
-    slack teams zoom-us spotify
+    slack teams zoom-us
     # dev
     neovim 
     clojure leiningen kotlin

@@ -1,6 +1,11 @@
 { pkgs, ... }:
 
+let
+  spicetify = fetchTarball https://github.com/pietdevries94/spicetify-nix/archive/master.tar.gz;
+in
 {
+  imports = [ (import "${spicetify}/module.nix") ];
+
   home.packages = with pkgs; [ imv ];
 
   programs.mpv = {
@@ -17,6 +22,13 @@
       save-position-on-quit = true;
       ytdl-format = "bestvideo[height<=?1080]+bestaudio/best";
     };
+  };
+
+  programs.spicetify = {
+    enable = true;
+    theme = "Dribbblish";
+    colorScheme = "dracula";
+    enabledExtensions = [ "fullAppDisplay.js" "newRelease.js" ];
   };
 
   programs.zathura = {
