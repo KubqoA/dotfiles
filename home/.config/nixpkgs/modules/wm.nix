@@ -18,6 +18,7 @@ let
   cursor-theme-name = "capitaine-cursors";
   unstable = if enableSwayBorders then import (fetchTarball https://nixos.org/channels/nixos-unstable/nixexprs.tar.xz) { } else null;
   sway-borders = if enableSwayBorders then import ../pkgs/sway-borders/default.nix unstable else null;
+  udiskie = import ../pkgs/udiskie/default.nix pkgs;
 in
 {
   home.packages = [ pkgs.ulauncher ];
@@ -144,7 +145,7 @@ in
         { command = "${lockScript}/bin/lock a"; }
         { command = "${pkgs.autotiling}/bin/autotiling"; }
         { command = "${pkgs.sway-contrib.inactive-windows-transparency}/bin/inactive-windows-transparency.py -o 0.9"; }
-        { command = "${pkgs.udiskie}/bin/udiskie -s --appindicator -f ${pkgs.pcmanfm}/bin/pcmanfm"; }
+        { command = "${udiskie}/bin/udiskie -s --appindicator --menu-update-workaround -f ${pkgs.pcmanfm}/bin/pcmanfm"; }
         { command = "${import-gsettingsScript}/bin/import-gsettings"; always = true; }
       ];
       terminal = "${pkgs.alacritty}/bin/alacritty";
