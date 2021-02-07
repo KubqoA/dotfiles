@@ -108,7 +108,7 @@ in
   programs.sway = {
     enable = true;
     # remove dmenu and rxvt-unicode from extraPackages
-    extraPackages = with pkgs; [ swaylock swayidle xwayland alacritty ];
+    extraPackages = with pkgs; [ swaylock-effects swayidle xwayland alacritty ];
   };
 
   i18n.defaultLocale = "en_US.UTF-8";
@@ -125,6 +125,7 @@ in
   services.printing.enable = true;
   services.tlp.enable = true;
   services.udisks2.enable = true;
+  services.fprintd.enable = true;
 
   system.stateVersion = "20.09";
 }
