@@ -14,6 +14,8 @@ let
   theme = pkgs.callPackage ../pkgs/WhiteSur-gtk-theme {};
   iconTheme = pkgs.callPackage ../pkgs/WhiteSur-icon-theme {};
   cursor-theme-name = "capitaine-cursors";
+  unstable = import (fetchTarball https://nixos.org/channels/nixos-unstable/nixexprs.tar.xz) { };
+  sway-borders = import ../pkgs/sway-borders/default.nix unstable;
 in
 {
   home.packages = [ pkgs.ulauncher ];
@@ -75,6 +77,7 @@ in
 
   wayland.windowManager.sway = {
     enable = true;
+    package = sway-borders;
     wrapperFeatures.gtk = true;
     config = {
       assigns = let
@@ -85,7 +88,7 @@ in
         assign 10 { class = "Slack"; };
       bars = [{ command = "waybar"; }];
       fonts = [ "Font Awesome 5 Free 11" "SF Pro Display 11" ];
-      gaps.inner = 20;
+      gaps.inner = 25;
       input."type:keyboard" = {
         xkb_layout = "us,sk";
         xkb_variant = ",qwerty";
@@ -137,12 +140,9 @@ in
       output."*" = { bg = "${wallpaper} fill"; };
       startup = [
         { command = "${lockScript}/bin/lock a"; }
-        { command = "kanshi"; }
-        { command = "autotiling"; }
-        { command = "inactive-windows-transparency -o 0.9"; }
-        { command = "ulauncher --hide-window"; }
+        { command = "${pkgs.autotiling}/bin/autotiling"; }
+        { command = "${pkgs.ulauncher}/bin/ulauncher --hide-window"; }
       ];
-      #terminal = "${pkgs.foot}/bin/foot";
       terminal = "${pkgs.alacritty}/bin/alacritty";
       window.border = 0;
       window.commands = let
@@ -162,6 +162,11 @@ in
     extraConfig = ''
       seat seat0 xcursor_theme ${cursor-theme-name} 24
       exec_always ${import-gsettingsScript}/bin/import-gsettings
+
+      border_images.focused ${../config/border.png}
+      border_images.focused_inactive ${../config/border.png}
+      border_images.unfocused ${../config/border.png}
+      border_images.urgent ${../config/border.png}
     '';
     extraSessionCommands = ''
       export XDG_SESSION_TYPE=wayland
