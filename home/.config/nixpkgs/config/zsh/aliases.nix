@@ -20,8 +20,9 @@
   
   # nix
   hme = "home-manager edit";
+  purgehm = "home-manager expire-generations now";
   os = "doas vim /etc/nixos";
   newos = "doas nixos-rebuild switch";
+  nixgc = "doas nix-collect-garbage -d";
   dbs = "doas vim /etc/nixos/databases.nix";
-  wlan = "doas vim /etc/nixos/wireless.nix";
 }
