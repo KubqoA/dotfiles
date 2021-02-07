@@ -11,6 +11,14 @@ in
     ./hardware-configuration.nix
   ];
 
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernel.sysctl = {
+    "fs.inotify.max_user_watches" = 524288;
+  };
+  boot.kernelParams = [ "psmouse.synaptics_intertouch=0" ];
+
   # Video and audio configuration
   hardware.enableAllFirmware = true;
   hardware.opengl = {
@@ -36,19 +44,12 @@ in
     extraConfig = "load-module module-switch-on-connect";
   };
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernel.sysctl = {
-    "fs.inotify.max_user_watches" = 524288;
-  };
-
   # Networking
   networking.hostName = "unacorda";
-  networking.interfaces.enp0s25.useDHCP = true;
-  networking.interfaces.wlp3s0.useDHCP = true;
-  networking.wireless.enable = true;
-  networking.wireless.networks = import ./wireless.nix;
+  networking.networkmanager = {
+    enable = true;
+    insertNameservers = [ "1.1.1.1" "1.0.0.1" ];
+  };
   
   time.timeZone = "Europe/Bratislava";
 
@@ -57,7 +58,7 @@ in
   users.extraUsers.jarbet = {
     hashedPassword = import ./password.nix;
     isNormalUser = true; 
-    extraGroups = [ "audio" "video" ];
+    extraGroups = [ "audio" "video" "networkmanager" "storage" ];
   };
   security.doas.enable = true;
   security.doas.extraRules = [ { users = [ "jarbet" ]; noPass = true; keepEnv = true; } ];
@@ -69,7 +70,7 @@ in
 
   environment.systemPackages = with pkgs; [
     # utils
-    bat fzy efibootmgr
+    bat fzy efibootmgr tpacpi-bat libappindicator
     # audio
     pulseaudio-ctl playerctl pavucontrol
     # term
@@ -85,7 +86,7 @@ in
     shellcheck
     # wayland/sway related packages
     swaylock-effects swayidle swaybg autotiling slurp grim
-    wl-clipboard wf-recorder xdg-desktop-portal-wlr pipewire
+    wl-clipboard wf-recorder xdg-desktop-portal-wlr
     nwg-launchers
     # visual
     capitaine-cursors gtk-engine-murrine
@@ -104,11 +105,13 @@ in
   };
 
   programs.light.enable = true;
-  programs.sway.enable = true;
+  programs.sway = {
+    enable = true;
+    # remove dmenu and rxvt-unicode from extraPackages
+    extraPackages = with pkgs; [ swaylock swayidle xwayland alacritty ];
+  };
 
   i18n.defaultLocale = "en_US.UTF-8";
-
-  services.printing.enable = true;
 
   services.postgresql = {
     enable = true;
@@ -119,6 +122,9 @@ in
     '';
     ensureDatabases = import ./databases.nix;
   };
+  services.printing.enable = true;
+  services.tlp.enable = true;
+  services.udisks2.enable = true;
 
   system.stateVersion = "20.09";
 }

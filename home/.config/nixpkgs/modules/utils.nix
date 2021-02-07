@@ -8,7 +8,7 @@ let
   }) {};
 in
 {
-  home.packages = with pkgs; [ comma ripgrep tree ncdu ];
+  home.packages = with pkgs; [ comma ripgrep tree ncdu udiskie pcmanfm ];
 
   programs.alacritty = {
     enable = true;

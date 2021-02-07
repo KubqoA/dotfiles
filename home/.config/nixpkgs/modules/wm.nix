@@ -67,7 +67,7 @@ in
   gtk.enable = true;
   gtk.font.name = "SF Pro Display 11";
   gtk.gtk2.extraConfig = ''
-    gtk-cursor-theme-name=${cursor-theme-name};
+    gtk-cursor-theme-name = "${cursor-theme-name}";
   '';
   gtk.gtk3.extraConfig = {
     gtk-cursor-theme-name = cursor-theme-name;
@@ -143,7 +143,9 @@ in
       startup = [
         { command = "${lockScript}/bin/lock a"; }
         { command = "${pkgs.autotiling}/bin/autotiling"; }
-        { command = "${pkgs.ulauncher}/bin/ulauncher --hide-window"; }
+        { command = "${pkgs.sway-contrib.inactive-windows-transparency}/bin/inactive-windows-transparency.py -o 0.9"; }
+        { command = "${pkgs.udiskie}/bin/udiskie -s --appindicator -f ${pkgs.pcmanfm}/bin/pcmanfm"; }
+        { command = "${import-gsettingsScript}/bin/import-gsettings"; always = true; }
       ];
       terminal = "${pkgs.alacritty}/bin/alacritty";
       window.border = 0;
@@ -163,7 +165,6 @@ in
     };
     extraConfig = ''
       seat seat0 xcursor_theme ${cursor-theme-name} 24
-      exec_always ${import-gsettingsScript}/bin/import-gsettings
     '' + (if enableSwayBorders then ''
       border_images.focused ${../config/border.png}
       border_images.focused_inactive ${../config/border.png}

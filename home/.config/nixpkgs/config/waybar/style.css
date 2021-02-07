@@ -25,7 +25,7 @@ window#waybar.hidden {
 #workspaces button {
 	margin: 10px 0 0 10px;
 	font-size: 16px;
-	padding: 6px 10px;
+	padding: 7px 10px;
 	border-radius: 5px;
     background-color: rgba(74,85,104,0.6);
     color: #ffffff;
@@ -73,7 +73,7 @@ window#waybar.hidden {
 #custom-power,
 #custom-nordvpn {
 	margin: 10px 10px 0 0;
-	padding: 6px 15px;
+	padding: 7px 15px;
     color: #ffffff;
     font-size: 13px;
     border-radius: 5px;
