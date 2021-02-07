@@ -62,6 +62,7 @@ in
   };
   security.doas.enable = true;
   security.doas.extraRules = [ { users = [ "jarbet" ]; noPass = true; keepEnv = true; } ];
+  services.mingetty.autologinUser = "jarbet";
 
   # Fix gdk-pixbuf .svg bug
   environment.sessionVariables = {

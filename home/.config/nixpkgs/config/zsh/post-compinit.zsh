@@ -11,4 +11,8 @@ export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=""
 
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
+if [ "$(tty)" = "/dev/tty1" ]; then
+	exec sway
+fi
+
 <~/.config/art
