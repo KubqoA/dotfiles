@@ -6,7 +6,7 @@ in
 {
   imports = [ (import "${spicetify}/module.nix") ];
 
-  home.packages = with pkgs; [ imv ];
+  home.packages = with pkgs; [ imv transmission-gtk ];
 
   programs.mpv = {
     enable = true;

@@ -27,8 +27,8 @@ in
       GIT_EDITOR = EDITOR;
       BROWSER = "firefox";
       PAGER = "less";
-      GO_PATH = "$HOME/go";
-      PATH = "$PATH:$HOME/.local/bin:$HOME/.config/composer/vendor/bin:$HOME/go/bin";
+      GO_PATH = "$HOME/.local/go";
+      PATH = "$PATH:$HOME/.local/bin:$HOME/.config/composer/vendor/bin:$HOME/.local/go/bin";
     };
     initExtraBeforeCompInit = ''
       eval $(${pkgs.coreutils}/bin/dircolors -b ${ls-colors}/share/LS_COLORS)

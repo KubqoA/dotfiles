@@ -23,6 +23,7 @@
   purgehm = "home-manager expire-generations now";
   os = "doas vim /etc/nixos";
   newos = "doas nixos-rebuild switch";
+  upgradeos = "doeas nix-channel --update && doas nixos-rebuild switch --upgrade";
   nixgc = "doas nix-collect-garbage -d";
   dbs = "doas vim /etc/nixos/databases.nix";
 }

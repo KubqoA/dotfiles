@@ -69,22 +69,32 @@ in
     GDK_PIXBUF_MODULE_FILE = "$(echo ${pkgs.librsvg.out}/lib/gdk-pixbuf-2.0/*/loaders.cache)";
   };
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; with pkgs.python38Packages; [
     # utils
     bat fzy efibootmgr tpacpi-bat libappindicator
+    networkmanager_openvpn
     # audio
     pulseaudio-ctl playerctl pavucontrol
-    # term
-    alacritty
-    # browser
-    ungoogled-chromium
+    # apps
+    brave
     # nonfree
     slack teams zoom-us
+
     # dev
-    neovim 
-    clojure leiningen kotlin
-    nodePackages.pnpm yarn nodejs
     shellcheck
+    # jvm
+    jdk11 clojure leiningen kotlin
+    # node
+    nodePackages.pnpm yarn nodejs-14_x
+    # go
+    go gopls
+    # haskell
+    ghc haskellPackages.haskell-language-server cabal2nix cabal-install
+    # python
+    python3 pytest mypy flake8
+    # others
+    swiProlog
+
     # wayland/sway related packages
     swaylock-effects swayidle swaybg autotiling slurp grim
     wl-clipboard wf-recorder xdg-desktop-portal-wlr

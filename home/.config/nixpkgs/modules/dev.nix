@@ -1,11 +1,6 @@
 { pkgs, ... }:
 
 {
-  programs.vscode = {
-    enable = true;
-    package = pkgs.vscodium;
-  };
-
   programs.neovim = {
     enable = true;
     vimAlias = true;
@@ -35,5 +30,10 @@
         # Utils
         vim-commentary
     ];
+  };
+
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscodium;
   };
 }
