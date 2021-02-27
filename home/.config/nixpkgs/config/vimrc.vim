@@ -17,6 +17,9 @@
     set cursorline
     set backspace=indent,eol,start
     set autoread
+    set linebreak
+    set showbreak=>>
+    set showmatch
 " Allow color schemes to do bright colors without forcing bold.
     set t_Co=16
 " Always show at least one more line at the bottom
@@ -47,6 +50,8 @@
 " Incremental highlighted search results
     set hlsearch
     set incsearch
+    set smartcase
+    set ignorecase
 " Turn off highlighting for search results
     nmap <Leader><space> :nohlsearch<cr>
 " Disable arrow keys for navigation. hjkl force
@@ -56,8 +61,20 @@
     vmap <Right> >gv
     noremap <Up> <Nop>
     noremap <Down> <Nop>
-" Easily insert new lines in normal mode
-    "nmap <Enter> o<ESC>
+" Move lines using Ctrl+Up/Down in normal, insert and visual modes
+    nnoremap <C-Up> :m-2<CR>
+    nnoremap <C-Down> :m+<CR>
+    inoremap <C-Up> <Esc>:m-2<CR>
+    inoremap <C-Down> <Esc>:m+<CR>
+    vnoremap <C-Up> :m '<-2<CR>gv=gv
+    vnoremap <C-Down> :m '>+1<CR>gv=gv
+    " or Ctrl+j/k
+    nnoremap <C-j> :m .+1<CR>==
+    nnoremap <C-k> :m .-2<CR>==
+    inoremap <C-j> <ESC>:m .+1<CR>==gi
+    inoremap <C-k> <ESC>:m .-2<CR>==gi
+    vnoremap <C-j> :m '>+1<CR>gv=gv
+    vnoremap <C-k> :m '<-2<CR>gv=gv
 " Run any command as a silent one (background)
     command! -nargs=1 Silent
     \   execute 'silent !' . <q-args>
@@ -89,6 +106,16 @@
     au Syntax * RainbowParenthesesLoadBraces
 " Clear Fireplace history
     nmap <Leader>cfh :unlet! g:FIREPLACE_HISTORY<cr>
+" C
+    autocmd FileType c set cindent
+    let g:ale_completion_enabled = 1
+    let g:ale_linters = {'c': ['gcc', 'clangtidy', 'clang-format']}
+    let g:ale_c_gcc_executable = 'gcc'
+    let g:ale_c_gcc_options = '-std=c99 -Wall -Wextra -pedantic'
+    let g:ale_c_clang_executable = 'gcc'
+    let g:ale_c_clang_options = '-std=c99 -Wall -Wextra -pedantic'
+    let g:ale_c_clangtidy_executable = 'clang-tidy'
+    let g:ale_c_clangtidy_options = '-std=c99 -Wall -Wextra -pedantic'
 
 " Notes
 " - 'zz' centers the line where the cursor is located

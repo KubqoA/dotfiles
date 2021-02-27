@@ -92,6 +92,8 @@ in
     ghc haskellPackages.haskell-language-server cabal2nix cabal-install
     # python
     python3 pytest mypy flake8
+    # c
+    gcc gdb cmake valgrind llvm cppcheck clang-tools
     # others
     swiProlog
 

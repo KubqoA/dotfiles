@@ -17,13 +17,15 @@
   gpr = "git pull origin main --rebase";
   gp = "git push";
   gfp = "git push --force";
+  gdf = "git diff HEAD .";
   
   # nix
   hme = "home-manager edit";
+  hms = "home-manager switch";
   purgehm = "home-manager expire-generations now";
   os = "doas vim /etc/nixos";
   newos = "doas nixos-rebuild switch";
-  upgradeos = "doeas nix-channel --update && doas nixos-rebuild switch --upgrade";
+  upgradeos = "doas nix-channel --update && doas nixos-rebuild switch --upgrade";
   nixgc = "doas nix-collect-garbage -d";
   dbs = "doas vim /etc/nixos/databases.nix";
 }
