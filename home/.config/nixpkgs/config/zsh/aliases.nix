@@ -5,6 +5,8 @@
   chx = "chmod +x";
   term = "alacritty &";
   sudo = "doas";
+  ssh = "TERM=xterm-256color ssh";
+  dots = "vim ~/.config/nixpkgs";
 
   # git
   gad = "git add .";
@@ -18,6 +20,9 @@
   gp = "git push";
   gfp = "git push --force";
   gdf = "git diff HEAD .";
+  gs = "git stash";
+  gsp = "git stash pop";
+  gstat = "git status";
   
   # nix
   hme = "home-manager edit";

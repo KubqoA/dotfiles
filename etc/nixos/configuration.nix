@@ -139,6 +139,7 @@ in
   services.tlp.enable = true;
   services.udisks2.enable = true;
   services.fprintd.enable = true;
+  services.onedrive.enable = true;
 
   system.stateVersion = "20.09";
 }

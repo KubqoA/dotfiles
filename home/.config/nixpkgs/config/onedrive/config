@@ -1,0 +1,4 @@
+sync_dir = "~"
+skip_dir = "Classes/Semester*"
+skip_file = "*~|*.tmp|*.mkv|*.mp4|*.avi|*.mov"
+local_first = "true"

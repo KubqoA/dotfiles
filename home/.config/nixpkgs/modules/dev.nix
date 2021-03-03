@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 {
+  home.packages = with pkgs; [ httpie jq ngrok wrk ];
+
   programs.neovim = {
     enable = true;
     vimAlias = true;
@@ -29,6 +31,8 @@
 
         # Utils
         vim-commentary
+        vim-dadbod
+        vim-dispatch
     ];
   };
 

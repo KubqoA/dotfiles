@@ -9,7 +9,9 @@ let
   udiskie = import ../pkgs/udiskie/default.nix pkgs;
 in
 {
-  home.packages = with pkgs; [ comma ripgrep tree ncdu udiskie pcmanfm ];
+  home.packages = with pkgs; [
+    comma ripgrep tree ncdu udiskie pcmanfm killall pfetch unzip wget
+  ];
 
   programs.alacritty = {
     enable = true;
@@ -19,8 +21,8 @@ in
       font.size = 11.0;
       font.offset.y = 3;
       colors.primary = {
-        background = "#0f0b0a";
         foreground = "#f9fafb";
+        background = "#0f0b0a";
       };
       background_opacity = 0.9;
     };
@@ -37,6 +39,9 @@ in
     source = ../config/nwg-launchers;
     recursive = true;
   };
+
+  home.file.".config/onedrive/config".source = ../config/onedrive/config;
+  home.file.".config/onedrive/sync_list".source = ../config/onedrive/sync_list;
 
   programs.git = {
     enable = true;
