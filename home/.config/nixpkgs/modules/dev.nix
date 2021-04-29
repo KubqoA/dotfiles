@@ -2,13 +2,12 @@
 
 let
   vscode-insiders = pkgs.callPackage ../pkgs/vscode-insiders {};
-  beekeeper-studio = pkgs.callPackage ../pkgs/beekeeper-studio {};
   tableplus = pkgs.callPackage ../pkgs/tableplus {};
 in
 {
   home.packages = with pkgs; [
     httpie jq ngrok wrk python38Packages.pynvim heroku
-    beekeeper-studio tableplus exercism
+    tableplus exercism
   ];
 
   home.file.".config/clojure/deps.edn".source = ../config/clojure/deps.edn;
