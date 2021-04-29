@@ -8,6 +8,7 @@
     let vimrc='~/.config/nixpkgs/config/vimrc.vim'
 " Set the default leader from backslash
     let mapleader=','
+    let maplocalleader=','
 " Basic
     set nocompatible
     filetype plugin indent on
@@ -22,6 +23,10 @@
     set showmatch
 " Allow color schemes to do bright colors without forcing bold.
     set t_Co=16
+    highlight clear SignColumn
+    autocmd VimEnter * highlight GitGutterAdd ctermbg=65
+    autocmd VimEnter * highlight GitGutterChange ctermbg=101
+    autocmd VimEnter * highlight GitGutterDelete ctermbg=131 ctermfg=255
 " Always show at least one more line at the bottom
     set scrolloff=1
     set sidescrolloff=5
@@ -69,12 +74,12 @@
     vnoremap <C-Up> :m '<-2<CR>gv=gv
     vnoremap <C-Down> :m '>+1<CR>gv=gv
     " or Ctrl+j/k
-    nnoremap <C-j> :m .+1<CR>==
-    nnoremap <C-k> :m .-2<CR>==
-    inoremap <C-j> <ESC>:m .+1<CR>==gi
-    inoremap <C-k> <ESC>:m .-2<CR>==gi
-    vnoremap <C-j> :m '>+1<CR>gv=gv
-    vnoremap <C-k> :m '<-2<CR>gv=gv
+    " nnoremap <C-j> :m .+1<CR>==
+    " nnoremap <C-k> :m .-2<CR>==
+    " inoremap <C-j> <ESC>:m .+1<CR>==gi
+    " inoremap <C-k> <ESC>:m .-2<CR>==gi
+    " vnoremap <C-j> :m '>+1<CR>gv=gv
+    " vnoremap <C-k> :m '<-2<CR>gv=gv
 " Run any command as a silent one (background)
     command! -nargs=1 Silent
     \   execute 'silent !' . <q-args>
@@ -99,23 +104,51 @@
     autocmd! User GoyoLeave Limelight!
 " Airline settings
     let g:airline_theme='deus'
-" Rainbow parantheses
-    au VimEnter * RainbowParenthesesToggle
-    au Syntax * RainbowParenthesesLoadRound
-    au Syntax * RainbowParenthesesLoadSquare
-    au Syntax * RainbowParenthesesLoadBraces
-" Clear Fireplace history
-    nmap <Leader>cfh :unlet! g:FIREPLACE_HISTORY<cr>
+" Highlight background
+    highlight NormalFloat ctermbg=23
+" Open new tab at current .
+    map <Leader>e. :tabedit .<cr>
+" Ale config
+    let g:ale_completion_enabled = 1
+    let g:ale_linters = {
+        \ 'c': ['gcc', 'clangtidy', 'clang-format'],
+        \ 'clojure': ['clj-kondo']
+        \}
 " C
     autocmd FileType c set cindent
-    let g:ale_completion_enabled = 1
-    let g:ale_linters = {'c': ['gcc', 'clangtidy', 'clang-format']}
     let g:ale_c_gcc_executable = 'gcc'
     let g:ale_c_gcc_options = '-std=c99 -Wall -Wextra -pedantic'
     let g:ale_c_clang_executable = 'gcc'
     let g:ale_c_clang_options = '-std=c99 -Wall -Wextra -pedantic'
     let g:ale_c_clangtidy_executable = 'clang-tidy'
     let g:ale_c_clangtidy_options = '-std=c99 -Wall -Wextra -pedantic'
+" Use Esc to exit terminal state (used by vim-jack-in)
+    :tnoremap <Esc> <C-\><C-n>
+" Completion configuration
+    let g:deoplete#enable_at_startup = 1
+    autocmd VimEnter * call deoplete#custom#option('keyword_patterns', {'clojure': '[\w!$%&*+/:<=>?@\^_~\-\.#]*'})
+    set completeopt-=preview
+    let g:float_preview#docked = 0
+    let g:float_preview#max_width = 80
+    let g:float_preview#max_height = 40
+" Search in project configuration
+    let g:clap_provider_grep_delay = 50
+    let g:clap_provider_grep_opts = '-H --no-heading --vimgrep --smart-case --hidden -g "!.git/"'
+
+    nnoremap <leader>*  :Clap grep ++query=<cword><cr>
+    nnoremap <leader>fg :Clap grep<cr>
+    nnoremap <leader>ff :Clap files --hidden<cr>
+    nnoremap <leader>fb :Clap buffers<cr>
+    nnoremap <leader>fw :Clap windows<cr>
+    nnoremap <leader>fr :Clap history<cr>
+    nnoremap <leader>fh :Clap command_history<cr>
+    nnoremap <leader>fj :Clap jumps<cr>
+    nnoremap <leader>fl :Clap blines<cr>
+    nnoremap <leader>fL :Clap lines<cr>
+    nnoremap <leader>ft :Clap filetypes<cr>
+    nnoremap <leader>fm :Clap marks<cr>
+" Conjure settings
+    let g:conjure#log#wrap = v:true
 
 " Notes
 " - 'zz' centers the line where the cursor is located
@@ -126,3 +159,4 @@
 " - ':n' when listing files to create a new file
 " - '<C-y-,>' expands Emmet tags
 " - '<Leader>b' turns on word wrapping
+" - 

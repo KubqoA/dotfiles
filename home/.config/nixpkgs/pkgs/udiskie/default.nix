@@ -1,8 +1,6 @@
 { lib, fetchFromGitHub, asciidoc-full, gettext
-, gobject-introspection, gtk3, libappindicator-gtk3, libnotify, librsvg
-, udisks2, wrapGAppsHook
-, python3Packages, ...
-}:
+, gobject-introspection, gtk3, libappindicator-gtk3, libnotify
+, librsvg, udisks2, wrapGAppsHook, python3Packages }:
 
 python3Packages.buildPythonApplication rec {
   pname = "udiskie";

@@ -10,6 +10,7 @@ in
 
   programs.mpv = {
     enable = true;
+    package = pkgs.wrapMpv (pkgs.mpv-unwrapped.override) { scripts = [ pkgs.mpvScripts.mpris ]; };
     bindings = {
       "ALT+k" = "add sub-scale +0.1";
       "ALT+j" = "add sub-scale -0.1";
@@ -24,6 +25,13 @@ in
       save-position-on-quit = true;
       ytdl-format = "bestvideo[height<=?1080]+bestaudio/best";
     };
+  };
+
+  home.file.".config/PulseEffects/output/WH-1000XM3.json".source = ../config/PulseEffects/WH-1000XM3.json;
+
+  services.pulseeffects = {
+    enable = true;
+    preset = "WH-1000XM3";
   };
 
   programs.spicetify = {

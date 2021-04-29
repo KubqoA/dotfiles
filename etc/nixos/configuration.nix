@@ -83,17 +83,22 @@ in
     # dev
     shellcheck
     # jvm
-    jdk11 clojure leiningen kotlin
+    jre jdk11 kotlin
+    # - clojure
+    clojure leiningen clj-kondo clojure-lsp
     # node
     nodePackages.pnpm yarn nodejs-14_x
     # go
     go gopls
     # haskell
-    ghc haskellPackages.haskell-language-server cabal2nix cabal-install
+    ghc haskellPackages.haskell-language-server cabal2nix cabal-install hlint
+    hlint haskellPackages.HUnit haskellPackages.QuickCheck haskellPackages.hpp
+    haskellPackages.parsec_3_1_14_0
     # python
     python3 pytest mypy flake8
     # c
-    gcc gdb cmake valgrind llvm cppcheck clang-tools
+    gcc gdb cmake valgrind cppcheck llvm clang clang-tools
+    autoconf automake binutils gnumake
     # others
     swiProlog
 

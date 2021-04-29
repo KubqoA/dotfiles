@@ -1,0 +1,18 @@
+{;:mvn/repos {"cognitect-dev-tools"
+ ;            {:url "https://dev-tools.cognitect.com/maven/releases/"}}
+
+ :aliases
+ {:repl
+  {:extra-deps {nrepl/nrepl {:mvn/version "0.7.0"}
+                cider/cider-nrepl {:mvn/version "0.25.2"}
+                com.bhauman/rebel-readline {:mvn/version "0.1.4"}}
+   :main-opts ["-m" "nrepl.cmdline"
+               "--middleware" "[cider.nrepl/cider-middleware]"
+               "--interactive"
+               "-f" "rebel-readline.main/-main"]}
+
+  :uberjar
+  {:extra-deps {uberdeps/uberdeps {:mvn/version "1.0.4"}}  
+   :main-opts ["-m" "uberdeps.uberjar"]}
+ }}
+

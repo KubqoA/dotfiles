@@ -1,6 +1,5 @@
-{ pkgs ? import <nixpkgs> {}
-, stdenv ? pkgs.stdenv
-, fetchFromGitHub ? pkgs.fetchFromGitHub
+{ stdenv, fetchFromGitHub, lib, gtk-engine-murrine
+, sassc, optipng, inkscape, glib, libxml2
 # options
 , alt ? "standard"
 , theme ? "default"
@@ -11,16 +10,16 @@
 stdenv.mkDerivation rec {
   name = "WhiteSur-gtk-theme";
   pname = "WhiteSur-gtk-theme";
-  version = "2021-01-15";
+  version = "2021-03-08";
 
   src = fetchFromGitHub {
     owner = "vinceliuice";
     repo = pname;
     rev = version;
-    sha256 = "15fsfd9d4xnkf84z9560qk5fcb6fc9887nnlk9n0pimwzvqvhbc2";
+    sha256 = "01xbs6fa847xrfv8k4knx5gq0sp0wirn1ijmaj6j99q0gv3lnqkg";
   };
 
-  buildInputs = with pkgs; [
+  buildInputs = [
     gtk-engine-murrine
     sassc
     optipng

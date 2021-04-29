@@ -28,6 +28,7 @@
   hme = "home-manager edit";
   hms = "home-manager switch";
   purgehm = "home-manager expire-generations now";
+  upgradehm = "nix-channel --update && hms";
   os = "doas vim /etc/nixos";
   newos = "doas nixos-rebuild switch";
   upgradeos = "doas nix-channel --update && doas nixos-rebuild switch --upgrade";

@@ -1,21 +1,21 @@
-{ pkgs ? import <nixpkgs> {}
-, stdenv ? pkgs.stdenv
-, fetchFromGitHub ? pkgs.fetchFromGitHub
+{ stdenv, fetchFromGitHub, lib, sassc, optipng
+, inkscape, glib, libxml2, gtk3, numix-icon-theme-circle
+, gnome3, hicolor-icon-theme
 }:
 
 stdenv.mkDerivation rec {
   name = "WhiteSur-icon-theme";
   pname = "WhiteSur-icon-theme";
-  version = "2020-10-11";
+  version = "2021-03-03";
 
   src = fetchFromGitHub {
     owner = "vinceliuice";
     repo = pname;
-    rev = version;
-    sha256 = "1az7aa3p0knc9kjhk9bqpl9x230b4ygav4fb4pr3wccikxvy61h4";
+    rev = "b3cfb6f66a9485ef48be028212d1bbd182093137";
+    sha256 = "1zhiiv6i9idzkb3pnn6s7hdp3bz0wspw2arbax28yhpc2i08bfiw";
   };
 
-  buildInputs = with pkgs; [
+  buildInputs = [
     sassc
     optipng
     inkscape
@@ -24,7 +24,7 @@ stdenv.mkDerivation rec {
     gtk3
   ];
 
-  propagatedBuildInputs = with pkgs; [
+  propagatedBuildInputs = [
     numix-icon-theme-circle
     gnome3.adwaita-icon-theme
     hicolor-icon-theme
