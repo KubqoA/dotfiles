@@ -49,7 +49,7 @@ in
     userEmail = "hi@jakubarbet.me";
     signing.key = "990D46A4F8E4A895ACA14D6D883E485DBD16738C";
     signing.signByDefault = true;
-    ignores = [ "/.idea" ];
+    ignores = [ "/.idea" "/.lsp" ];
     aliases = {
       last = "log -1 HEAD";
     };
