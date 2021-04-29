@@ -9,6 +9,7 @@ in
   imports = [
     <nixos-hardware/lenovo/thinkpad/t440s>
     ./hardware-configuration.nix
+    ./cachix.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
