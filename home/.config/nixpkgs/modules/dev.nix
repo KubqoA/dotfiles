@@ -5,10 +5,21 @@ let
   tableplus = pkgs.callPackage ../pkgs/tableplus {};
 in
 {
+  # nixpkgs.overlays = [
+  #   (import (builtins.fetchTarball {
+  #     url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
+  #   }))
+  # ];
+
   home.packages = with pkgs; [
     httpie jq ngrok wrk python38Packages.pynvim heroku
-    tableplus exercism
+    tableplus exercism # neovim-nightly luajit
   ];
+
+  # home.file.".config/nvim" = {
+  #   recursive = true;
+  #   source = ../config/nvim;
+  # };
 
   home.file.".config/clojure/deps.edn".source = ../config/clojure/deps.edn;
 

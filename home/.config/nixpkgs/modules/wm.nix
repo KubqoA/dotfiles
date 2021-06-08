@@ -47,13 +47,13 @@ in
     borderRadius = 4;
 
     defaultTimeout = 10000;
-#    extraConfig = ''
-#      [urgency=high]
-#      ignore-timeout=1
-#      text-color=#742A2A
-#      background-color=#FEB2B2
-#      progress-color=source #FC8181
-#    '';
+    extraConfig = ''
+      [urgency=high]
+      ignore-timeout=1
+      text-color=#742A2A
+      background-color=#FEB2B2
+      progress-color=source #FC8181
+    '';
   };
 
   home.file.".config/swaylock" = {
@@ -133,7 +133,7 @@ in
         # Exit sway
         "${mod}+Shift+e" = "exec ${pkgs.nwg-launchers}/bin/nwgbar -o 0.2";
       };
-      menu = "${pkgs.ulauncher}/bin/ulauncher";
+      menu = "${pkgs.nwg-launchers}/bin/nwggrid -o 0.8";
       modifier = "Mod4";
       output."*" = { bg = "${wallpaper} fill"; };
       startup = [

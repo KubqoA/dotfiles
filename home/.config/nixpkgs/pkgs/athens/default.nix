@@ -1,13 +1,13 @@
 { lib, fetchurl, appimageTools }:
 
 let
-  version = "1.0.0-beta.77";
+  version = "1.0.0-beta.85";
   
 in appimageTools.wrapType2 rec {
   name = "athens";
   src = fetchurl {
     url = "https://github.com/athensresearch/athens/releases/download/v${version}/Athens-${version}.AppImage";
-    sha256 = "34923fe2270aca147962d088734d203ab5405f6871d9eaa4bf5cb197c07aa713";
+    sha256 = "017k3l3wvq8jvlgiic2jmbxadndm9gcsd6wjy5m48mm45030095k";
   };
 
   extraPkgs = (pkgs: with pkgs; with xorg; [ libxshmfence ]);

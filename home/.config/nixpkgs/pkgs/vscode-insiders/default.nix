@@ -16,7 +16,7 @@
     src = fetchurl {
       name = "VSCode_insider_linux-x64.tar.gz";
       url = "https://update.code.visualstudio.com/latest/linux-x64/insider";
-      sha256 = "79ea2092cb7a72bfb356dc9d1a00fdb0b913dc965693ae6b963394c51458fc77";
+      sha256 = "18ac59ysh0f95g0d4n4hq8a7x7p8rza070casmirq0cfszmq3a51";
     };
 
     sourceRoot = "";

@@ -159,4 +159,4 @@
 " - ':n' when listing files to create a new file
 " - '<C-y-,>' expands Emmet tags
 " - '<Leader>b' turns on word wrapping
-" - 
+" - '<C-6>' 'alt-tab' between buffers
