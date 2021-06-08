@@ -1,0 +1,8 @@
+window:
+  padding:
+    x: 10
+    y: 10
+font:
+  size: 11.0
+  offset:
+    y: 3

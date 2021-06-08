@@ -1,0 +1,73 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "SF Pro Display", "Font Awesome 5 Free";
+    font-size: 13px;
+}
+
+window#waybar {
+    background-color: rgba(0,0,0,0);
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+#waybar > .horizontal {
+    padding: 10px 10px 0;
+}
+
+#waybar > .horizontal > .horizontal:nth-child(1) {
+    margin-right: 10px;
+}
+
+#workspaces button {
+	margin: 10px 0 0 10px;
+	font-size: 16px;
+	padding: 7px 10px;
+	border-radius: 5px;
+}
+
+#workspaces button:hover {
+    box-shadow: inherit;
+    text-shadow: inherit;
+}
+
+#mode {
+	margin: 10px 0 0 10px;
+	padding: 0 10px;
+	border-radius: 5px;
+}
+
+#window {
+    font-weight: 600;
+	margin: 10px 0 0 10px;
+}
+
+#tray,
+#pulseaudio,
+#network,
+#memory,
+#cpu,
+#backlight,
+#battery,
+#clock,
+#custom-media,
+#custom-power {
+	margin: 10px 10px 0 0;
+	padding: 7px 15px;
+    border-radius: 5px;
+}
+
+#backlight {
+    font-size: 15px;
+}
+#custom-media {
+    min-width: 100px;
+    margin: 10px 0 0 10px;
+}
+
+#custom-media:nth-child(2) {
+    margin-right: 10px;
+}
+

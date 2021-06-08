@@ -1,0 +1,22 @@
+#!/usr/bin/env bb
+(require '[clojure.java.shell :refer [sh]]
+         '[clojure.string :as str]
+         '[cheshire.core :as json])
+
+(defn escape-text [text] (str/escape text {\& "&amp;" \' "&apos;" \" "&quot;" \< "&lt;" \> "&gt;"}))
+
+(defn get-player-id [index] 
+  (-> (sh "playerctl" "-l") :out str/split-lines (nth index nil) (or (System/exit 1))))
+
+(defn playerctl [id & cmd] (let [ret (apply sh "playerctl" "-p" id cmd)]
+                             (if (= (:exit ret) 1) nil (str/trim (:out ret)))))
+
+(let [[index] (or *command-line-args* ["0"]) index (Integer/parseInt index)
+      player-id (get-player-id index)
+      artist    (playerctl player-id "metadata" "artist")
+      title     (playerctl player-id "metadata" "title")
+      status    (playerctl player-id "status")
+      text      (if (nil? artist) title (str artist " - " title))]
+  (println (json/generate-string {:text (escape-text text) :class status :alt status})))
+
+;; vim: set filetype=clojure :

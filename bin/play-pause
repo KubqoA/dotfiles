@@ -1,0 +1,11 @@
+#!/usr/bin/env bb
+(require '[clojure.java.shell :refer [sh]]
+         '[clojure.string :as str])
+
+(defn get-player-id [index] 
+  (-> (sh "playerctl" "-l") :out str/split-lines (nth index nil) (or (System/exit 1))))
+
+(let [[index] (or *command-line-args* ["0"]) index (Integer/parseInt index)]
+  (-> (sh "playerctl" "-p" (get-player-id index) "play-pause") :exit System/exit))
+
+;; vim: set filetype=clojure :

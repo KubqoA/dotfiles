@@ -1,0 +1,33 @@
+#!/usr/bin/env bb
+(require '[clojure.java.shell :refer [sh]]
+         '[clojure.string :refer [replace trim]])
+
+(defn get-module-path [module]
+  (str "modules/" (replace module "." "/") ".nix"))
+
+(defn write-module [module]
+  (let [path (get-module-path module)]
+    (->> (sh "dirname" path) :out trim (sh "mkdir" "-p"))
+    (spit path (format "{ config, options, lib, pkgs, ... }:
+
+with lib;
+let
+  cfg = config.modules.%s;
+in {
+  options.modules.%s = {
+    enable = _.mkBoolOpt false;
+  };
+
+  config = mkIf cfg.enable {
+    # TODO
+  };
+}" module module))))
+                  
+
+(let [[module] *command-line-args*]
+  (when (nil? module)
+    (println "You must specify the module name")
+    (System/exit 1))
+  (write-module module))
+
+;; vim: set filetype=clojure :
