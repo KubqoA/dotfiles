@@ -153,6 +153,11 @@ in {
       extraConfig = ''
         seat seat0 xcursor_theme "${config.modules.desktop.gtk.cursorTheme.name}" ${toString config.modules.desktop.gtk.cursorTheme.size}
       '';
+      extraSessionCommands = ''
+        export XDG_SESSION_TYPE=wayland
+        export XDG_SESSION_DESKTOP=sway
+        export XDG_CURRENT_DESKTOP=sway
+      '';
     };
   };
 }

@@ -16,7 +16,7 @@
       artist    (playerctl player-id "metadata" "artist")
       title     (playerctl player-id "metadata" "title")
       status    (playerctl player-id "status")
-      text      (if (nil? artist) title (str artist " - " title))]
+      text      (if (empty? artist) title (str artist " - " title))]
   (println (json/generate-string {:text (escape-text text) :class status :alt status})))
 
 ;; vim: set filetype=clojure :

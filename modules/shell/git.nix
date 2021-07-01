@@ -18,7 +18,12 @@ in {
       userEmail = cfg.userEmail;
       signing.key = cfg.signingKey;
       signing.signByDefault = true;
-      ignores = [ "/.idea" "/.lsp" ".nrepl-port" ];
+      ignores = [
+        "/.vscode"
+        "/.lsp"
+        ".nrepl-port"
+        ".direnv"
+      ];
       aliases = {
         last = "log -1 HEAD";
       };

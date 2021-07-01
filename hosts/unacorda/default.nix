@@ -50,7 +50,7 @@ in {
     slack zoom-us brave
 
     # Media
-    imv transmission-gtk
+    imv transmission-gtk spotify
 
     # Utils
     ripgrep bat libappindicator pfetch unzip killall ncdu tree
@@ -70,6 +70,7 @@ in {
     };
     desktop = {
       gtk.enable = true;
+      games.enable = true;
       swaywm = {
         enable = true;
         term = "alacritty";
@@ -80,6 +81,7 @@ in {
         wlsunset = enable;
       };
       apps = {
+        chromium = enable;
         firefox = enable;
         mpv = enable;
         vscode = enable;
@@ -87,6 +89,8 @@ in {
       };
     };
     dev = {
+      direnv = enable;
+
       c = enable;
       clojure = enable;
       ledger = enable;
