@@ -1,0 +1,27 @@
+#!/usr/bin/env bb
+
+(require '[clojure.java.shell :refer [sh]]
+         '[clojure.string :as str])
+
+(def otf-apple.nix "/persist/packages/otf-apple/default.nix")
+
+(def fonts ["https://devimages-cdn.apple.com/design/resources/download/SF-Pro.dmg"
+            "https://devimages-cdn.apple.com/design/resources/download/SF-Compact.dmg"
+            "https://devimages-cdn.apple.com/design/resources/download/SF-Mono.dmg"
+            "https://devimages-cdn.apple.com/design/resources/download/NY.dmg"])
+
+(defn prefetch [url] (future (->> url (sh "nix-prefetch-url" "--type" "sha256") :out str/trim-newline)))
+
+(defn gen-src [[url sha256]] (format "(fetchurl {url = \"%s\"; sha256 = \"%s\";})" url sha256))
+
+(def src (->> fonts
+              (map prefetch)
+              (map deref)
+              (zipmap fonts)
+              (map gen-src)
+              (apply str)
+              (format "src = [%s];")))
+
+(spit otf-apple.nix (str/replace (slurp otf-apple.nix) #"src = .*;" src))
+
+;; vim: set filetype=clojure :

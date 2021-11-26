@@ -6,5 +6,16 @@
 #            |___/             
 #
 
-{...}:
-{}
+{ ... }:
+
+{
+  networking.domain = "jakubarbet.me";
+  environment.noXlibs = true;
+
+  modules = {
+    services = {
+      nginx.enable = true;
+      openssh.enable = true;
+    };
+  };
+}

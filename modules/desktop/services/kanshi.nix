@@ -18,6 +18,18 @@ in {
           position = "0,0";
         }
       ];
+      profiles.work.outputs = [
+        {
+          criteria = "eDP-1";
+          mode = "1920x1080";
+          position = "0,1080";
+        }
+        {
+          criteria = "DP-2";
+          mode = "1920x1080";
+          position = "0,0";
+        }
+      ];
     };
   };
 }

@@ -10,6 +10,18 @@
 let
   inherit (lib._) enable;
 in {
+  nix = {
+    binaryCaches          = [
+      "https://hydra.iohk.io"
+      "https://iohk.cachix.org"
+    ];
+    binaryCachePublicKeys = [
+      "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+      "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
+  };
+
   imports = [
     ./hardware-configuration.nix
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t440s
@@ -18,11 +30,11 @@ in {
   #TODO temporary fixes
   fonts = {
     enableDefaultFonts = true;
-    fonts = with pkgs; [ font-awesome twitter-color-emoji _.otf-apple ];
+    fonts = with pkgs; [ font-awesome twitter-color-emoji _.otf-apple _.sf-mono-nerd-font ];
     fontconfig.enable = true;
     fontconfig.defaultFonts = {
       emoji = [ "Font Awesome 5 Free" "Noto Color Emoji" ];
-      monospace = [ "SF Mono" ];
+      monospace = [ "SFMono Nerd Font" "SF Mono" ];
       serif = [ "New York Medium" ];
       sansSerif = [ "SF Pro Text" ];
     };
@@ -63,7 +75,15 @@ in {
     shell = {
       git = enable;
       gpg = enable;
-      neovim = enable;
+      neovim = {
+        enable = true;
+        lsp.servers = [
+          "clangd"
+          "clojure_lsp"
+          "rnix"
+          "tsserver"
+        ];
+      };
       pass = enable;
       ssh = enable;
       zsh = enable;
@@ -110,7 +130,10 @@ in {
     };
     services = {
       networkmanager = enable;
-      postgresql = enable;
+      postgresql = {
+        enable = true;
+        databases = [ "covid" ];
+      };
       onedrive = enable;
     };
   };

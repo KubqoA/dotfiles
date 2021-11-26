@@ -124,7 +124,9 @@ in {
           "${mod}+Shift+0" = "move container to workspace 10";
           # Shortcuts for easier navigation between workspaces
           "${mod}+Control+Left" = "workspace prev";
+          "${mod}+Control+l" = "workspace prev";
           "${mod}+Control+Right" = "workspace next";
+          "${mod}+Control+h" = "workspace next";
           "${mod}+Tab" = "workspace back_and_forth";
           # Exit sway
           "${mod}+Shift+e" = "exec nwgbar -o 0.2";

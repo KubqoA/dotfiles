@@ -23,6 +23,8 @@ in {
         "/.lsp"
         ".nrepl-port"
         ".direnv"
+        "/.clangd"
+        "compile_commands.json"
       ];
       aliases = {
         last = "log -1 HEAD";

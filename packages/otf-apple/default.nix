@@ -1,35 +1,11 @@
-{ pkgs ? import <nixpkgs> { }
-
-, stdenv ? pkgs.stdenv
-, lib ? pkgs.lib
-, fetchurl ? pkgs.fetchurl
-, p7zip ? pkgs.p7zip
-}:
+{ fetchurl, lib, p7zip, stdenv }:
 
 stdenv.mkDerivation {
   name = "otf-apple";
   version = "1.0";
 
   buildInputs = [ p7zip ];
-
-  src = [
-    (fetchurl {
-      url = "https://developer.apple.com/design/downloads/SF-Font-Pro.dmg";
-      sha256 = "c0b158d8d777ef65cee37a86822d5adcefa730e1c5da115e41c5f1b4e3a83986";
-    })
-    (fetchurl {
-      url = "https://developer.apple.com/design/downloads/SF-Mono.dmg";
-      sha256 = "ec0518e310797d2f9cb924c18e3e7b661359f4fb653d1ad4315758ebcdb5ff11";
-    })
-    (fetchurl {
-      url = "https://developer.apple.com/design/downloads/SF-Font-Compact.dmg";
-      sha256 = "5e53392ef1bdd17b8daf940745bcc85ad9f01c975eaf1e812a5c0a2d67897ec5";
-    })
-    (fetchurl {
-      url = "https://developer.apple.com/design/downloads/NY-Font.dmg";
-      sha256 = "58058b5dbddb77eec84a0c0b10b41fc544bc7cd50c6cb49874da4197f91afde5";
-    })
-  ];
+  src = [(fetchurl {url = "https://devimages-cdn.apple.com/design/resources/download/SF-Pro.dmg"; sha256 = "1wy3v2c87cpd9w333w78s6nn7fl5cnbsv8wff01xml6m3wgl7brz";})(fetchurl {url = "https://devimages-cdn.apple.com/design/resources/download/SF-Compact.dmg"; sha256 = "1wklslljf8pz3aj2lyzrnqmqyydgdwmn5ywnpssrb2r4fkb7swak";})(fetchurl {url = "https://devimages-cdn.apple.com/design/resources/download/SF-Mono.dmg"; sha256 = "04gznp6ynn2p67a1lgb5zgs5j4v6gcz8xh94p6f2yzbr23iih1gc";})(fetchurl {url = "https://devimages-cdn.apple.com/design/resources/download/NY.dmg"; sha256 = "1cpk6ysrj346wmm89kd35w2fv8y5z136948fll06ib3mxh1gljp4";})];
 
   sourceRoot = "./";
 
