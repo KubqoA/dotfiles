@@ -3,6 +3,7 @@
 let
   inherit (lib) _;
 in {
+  #imports = _.attrValuesRec (_.mapModulesRec ./modules import);
   imports =
     [ inputs.home-manager.nixosModules.home-manager ]
     ++ _.attrValuesRec (_.mapModulesRec ./modules import);

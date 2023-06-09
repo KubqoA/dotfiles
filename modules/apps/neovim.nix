@@ -7,16 +7,28 @@ with lib;
     vimAlias = true;
     configure = {
       customRC = ''
-      lua require('impatient')
-      lua << EOF
-      ${pkgs.lib.readFile ./init.lua}
-      EOF
-      '';
-      packages.myPlugins = with pkgs.vimPlugins; {
+lua <<EOF
+${readFile ./neovim.lua}
+EOF
+'';
+      packages.myPlugins = let
+        vim-bind = pkgs.vimUtils.buildVimPlugin {
+          name = "vim-bind";
+          src = pkgs.fetchFromGitHub {
+            owner = "Absolight";
+            repo = "vim-bind";
+            rev = "4967dc658b50d71568f9f80fce2d27e6a4698fc5";
+            sha256 = "0hif1r329i5mylgkcb24dl1xcn287fvy7hpfln3whv8bwmphfc77";
+          };
+        };
+      in with pkgs.vimPlugins; {
         start = [
-          impatient-nvim # speed up loading Lua modules in Neovim
+	        impatient-nvim # speeds up loading Lua modules
           vim-vinegar # better netrw
           vim-commentary # easier commenting
+	        onenord-nvim # theme
+	        vim-bind # better bind zone higlighting
+
           (nvim-treesitter.withPlugins (plugins: with plugins; [
             tree-sitter-bash
             tree-sitter-c
@@ -27,13 +39,13 @@ with lib;
             tree-sitter-lua
             tree-sitter-markdown
             tree-sitter-nix
-	    tree-sitter-python
+	          tree-sitter-python
             tree-sitter-typescript
             tree-sitter-yaml
           ]))
-	  nvim-lspconfig
+	        
+          nvim-lspconfig
         ];
-	opt = [];
       };
     };
   };

@@ -24,16 +24,20 @@
     let
       system = "x86_64-linux";
 
-      # Extended lib, with custom modifications living under ‹lib._›
-      lib = import ./lib { inherit pkgs inputs; lib = nixpkgs.lib; };
-
       mkPkgs = pkgs: import pkgs {
         inherit system;
         config.allowUnfree = true;
         overlays = lib.attrValues self.overlays;
       };
 
+      # Extends pkgs, with custom packages defined via overlays
       pkgs = mkPkgs nixpkgs;
+
+      # Extended lib, with custom modifications living under ‹lib._›
+      lib = import ./lib {
+        inherit pkgs inputs;
+	lib = nixpkgs.lib;
+      };
 
       inherit (lib._) mapModules mapModulesRec mkHost mkPackage;
     in {

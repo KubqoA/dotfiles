@@ -1,5 +1,6 @@
-{ config, lib, ... }:
+{ config, lib, options, ... }:
 
+with lib;
 {
   config = lib.mkIf config.desktop {
     # User settings

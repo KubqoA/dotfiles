@@ -62,5 +62,6 @@
   security.sudo.enable = false;
   environment.shellAliases = {
     sudo = "doas";
+    root = "doas $SHELL";
   };
 }
