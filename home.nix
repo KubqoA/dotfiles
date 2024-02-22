@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   home = {
     username = "jakub";
     homeDirectory = "/home/jakub";
@@ -23,12 +21,12 @@
     defaultCacheTtlSsh = 172800;
     maxCacheTtlSsh = 172800;
     pinentryFlavor = "gnome3";
-    sshKeys = [ "CC54AAD6EF69F323DEB5CDDF9521D2F679686C9E" ];
+    sshKeys = ["CC54AAD6EF69F323DEB5CDDF9521D2F679686C9E"];
   };
 
   programs.password-store = {
     enable = true;
-#    package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
+    #    package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
   };
 
   xdg.enable = true;
