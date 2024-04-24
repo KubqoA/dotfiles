@@ -2,7 +2,7 @@ require('impatient')
 
 -- Variables
 local colorscheme='onenord'
-local background='light'
+local background='dark'
 
 -- Basic config
 local options = {

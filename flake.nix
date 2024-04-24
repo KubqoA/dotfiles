@@ -11,6 +11,12 @@
 
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # maybe split into separate flake?
+    eduroam-muni = {
+      url = "https://cat.eduroam.org/user/API.php?action=downloadInstaller&lang=en&profile=1871&device=linux&generatedfor=user&openroaming=0";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {
@@ -36,6 +42,8 @@
     # $ nix run home-manager/master -- switch --flake /etc/nixos#username
     homeConfigurations.jakub = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
+      extraSpecialArgs = {inherit inputs;};
+
       modules = [./users/jakub];
     };
 
