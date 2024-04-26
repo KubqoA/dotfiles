@@ -22,6 +22,16 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    wireplumber.configPackages = [
+      (pkgs.writeTextDir "share/wireplumber/bluetooth.lua.d/51-bluez-config.lua" ''
+        bluez_monitor.properties = {
+        	["bluez5.enable-sbc-xq"] = true,
+        	["bluez5.enable-msbc"] = true,
+        	["bluez5.enable-hw-volume"] = true,
+        	["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
+        }
+      '')
+    ];
   };
 
   environment.systemPackages = with pkgs; [
@@ -176,6 +186,8 @@
   users.users.root.hashedPassword = "$6$rounds=500000$0rEHES1LTcVCJYz3$9MnsxPUjY2fcMKIHdlzZB0KW/52gPIpe9ENWcfpUlAIzG75rC3hDotfr44k7MwVVc6Ri0ePZB.q7G3xNbSvCx.";
 
   security.polkit.enable = true;
+
+  security.pam.services.hyprlock = {};
 
   system.stateVersion = "24.05";
 }

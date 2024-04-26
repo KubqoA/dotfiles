@@ -1,0 +1,41 @@
+window {
+    border-radius: 24px;
+    border: none;
+    background: alpha(#26233a, 0.8);
+}
+
+#container {
+    margin: 24px 40px;
+    min-width: 194px;
+}
+
+image, label {
+    color: #faf4ed;
+}
+
+progressbar:disabled,
+image:disabled {
+    opacity: 0.5;
+}
+
+progressbar {
+    min-height: 6px;
+    border-radius: 999px;
+    background: transparent;
+    border: none;
+}
+
+trough {
+    min-height: inherit;
+    border-radius: inherit;
+    border: none;
+    background: alpha(#faf4ed, 0.5);
+}
+
+progress {
+    min-height: inherit;
+    border-radius: inherit;
+    border: none;
+    background: #faf4ed;
+}
+

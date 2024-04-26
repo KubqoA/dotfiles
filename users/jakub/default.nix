@@ -5,16 +5,21 @@
   pkgs,
   ...
 }: {
+  imports = [./neovim.nix];
+
   home = {
     username = "jakub";
     homeDirectory = "/home/jakub";
+    sessionVariables = rec {
+      EDITOR = "vim";
+      GIT_EDITOR = EDITOR;
+    };
     packages = with pkgs; let
       python-with-dbus = pkgs.python3.withPackages (p: with p; [dbus-python]);
     in [
       home-manager
       chromium
       firefox
-      pass
       git
       zsh
       obsidian
@@ -24,21 +29,27 @@
       glib # provides gsettings command
       swaybg
       hyprlock
-      dunst
+      wl-clipboard
 
       # eduroam installler
       (writeShellScriptBin "install-eduroam-muni" "${python-with-dbus}/bin/python3 ${inputs.eduroam-muni}")
     ];
   };
 
+  fonts.fontconfig.enable = true;
+
   xdg.enable = true;
 
   wayland.windowManager.sway = {
     enable = true;
-    config = rec {
+    config = {
       modifier = "Mod4";
       startup = [
         {command = "swaybg -m fill -i ${./bg.jpg}";}
+        {
+          command = "systemctl --user restart kanshi.service";
+          always = true;
+        }
       ];
       keybindings = let
         mod = config.wayland.windowManager.sway.config.modifier;
@@ -52,24 +63,32 @@
           # Control brightness
           XF86MonBrightnessUp = "exec swayosd-client --brightness raise";
           XF86MonBrightnessDown = "exec swayosd-client --brightness lower";
-          "${mod}+Control+l" = "workspace prev";
-          "${mod}+Control+h" = "workspace next";
+          "${mod}+Control+h" = "workspace prev";
+          "${mod}+Control+l" = "workspace next";
           "${mod}+Tab" = "workspace back_and_forth";
+          "Mod1+l" = "exec hyprlock";
         };
       terminal = "foot";
+      menu = "bemenu-run";
       gaps.inner = 30;
       window.titlebar = false;
       colors.focused = lib.mkOptionDefault {childBorder = lib.mkForce "#525252";};
     };
     extraConfig = ''
       bindsym --release Caps_Lock exec swayosd-client --caps-lock
-      #bindswitch lid:on output eDP-1 disable
-      #bindswitch lid:off output eDP-1 enable
+      bindswitch lid:on output eDP-1 disable
+      bindswitch lid:off output eDP-1 enable
     '';
     wrapperFeatures.base = true;
     wrapperFeatures.gtk = true;
   };
-  services.swayosd.enable = true;
+
+  programs.bemenu = {
+    enable = true;
+    settings = {
+      b = true;
+    };
+  };
 
   gtk = {
     enable = true;
@@ -89,60 +108,39 @@
   # ZSH configured manually - move into dotfiles
 
   # Terminal
-  programs.foot.enable = true;
-
-  # Editor
-  programs.neovim = {
+  programs.foot = {
     enable = true;
-    vimAlias = true;
-    extraLuaConfig = lib.readFile ./init.lua;
-    plugins = let
-      vim-bind = pkgs.vimUtils.buildVimPlugin {
-        name = "vim-bind";
-        src = pkgs.fetchFromGitHub {
-          owner = "Absolight";
-          repo = "vim-bind";
-          rev = "4967dc658b50d71568f9f80fce2d27e6a4698fc5";
-          sha256 = "0hif1r329i5mylgkcb24dl1xcn287fvy7hpfln3whv8bwmphfc77";
-        };
+    settings = {
+      main = {
+        pad = "10x10";
+        font = "monospace:size=10";
+        line-height = 12;
       };
-      hyprland-vim-syntax = pkgs.vimUtils.buildVimPlugin {
-        name = "hyprland-vim-syntax";
-        src = pkgs.fetchFromGitHub {
-          owner = "theRealCarneiro";
-          repo = "hyprland-vim-syntax";
-          rev = "71760fe0cad972070657b0528f48456f7e0027b2";
-          sha256 = "08lpa1q4m52xnhd9a017q6xnl5pagjsvdfiv0z5gsv55msz86mw6";
-        };
+
+      # Rose-Piné Dawn (By cement-drinker)
+      cursor.color = "faf4ed 575279";
+      colors = {
+        background = "faf4ed";
+        foreground = "575279";
+        regular0 = "f2e9e1"; # black (Overlay)
+        regular1 = "b4637a"; # red (Love)
+        regular2 = "31748f"; # green (Pine)
+        regular3 = "ea9d34"; # yellow (Gold)
+        regular4 = "56949f"; # blue (Foam)
+        regular5 = "907aa9"; # magenta (Iris)
+        regular6 = "d7827e"; # cyan (Rose)
+        regular7 = "575279"; # white (Text)
+
+        bright0 = "9893a5"; # bright black (Overlay)
+        bright1 = "b4637a"; # bright red (Love)
+        bright2 = "31748f"; # bright green (Pine)
+        bright3 = "ea9d34"; # bright yellow (Gold)
+        bright4 = "56949f"; # bright blue (Foam)
+        bright5 = "907aa9"; # bright magenta (Iris)
+        bright6 = "d7827e"; # bright cyan (Rose)
+        bright7 = "575279"; # bright white (Text)
       };
-    in
-      with pkgs.vimPlugins; [
-        impatient-nvim # speeds up loading Lua modules
-        vim-vinegar # better netrw
-        vim-commentary # easier commenting
-        onenord-nvim # theme
-        vim-bind # better bind zone higlighting
-        hyprland-vim-syntax
-
-        (nvim-treesitter.withPlugins (plugins:
-          with plugins; [
-            tree-sitter-bash
-            tree-sitter-c
-            tree-sitter-clojure
-            tree-sitter-fennel
-            tree-sitter-haskell
-            tree-sitter-json
-            tree-sitter-lua
-            tree-sitter-markdown
-            tree-sitter-nix
-            tree-sitter-python
-            tree-sitter-rust
-            tree-sitter-typescript
-            tree-sitter-yaml
-          ]))
-
-        nvim-lspconfig
-      ];
+    };
   };
 
   # Utilities
@@ -153,21 +151,30 @@
   };
   programs.password-store = {
     enable = true;
-    # package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
+    package = pkgs.pass.withExtensions (exts: [exts.pass-otp]);
   };
 
   # Services
   services.kanshi = {
     enable = true;
     profiles = {
-      laptop = {
+      home = {
         outputs = [
           {
+            criteria = "DP-2";
+            mode = "3840x2160";
+            position = "0,0";
+            scale = 1.0;
+          }
+          {
             criteria = "eDP-1";
+            status = "enable";
             mode = "1920x1080";
+            position = "3840,1080";
             scale = 1.0;
           }
         ];
+        exec = "${pkgs.gnugrep}/bin/grep closed /proc/acpi/button/lid/LID/state && ${pkgs.kanshi}/bin/kanshictl switch home-only-external";
       };
       home-only-external = {
         outputs = [
@@ -183,22 +190,16 @@
           }
         ];
       };
-      #home = {
-      #  outputs = [
-      #    {
-      #      criteria = "DP-2";
-      #      mode = "3840x2160";
-      #      position = "0,0";
-      #      scale = 1.0;
-      #    }
-      #    {
-      #      criteria = "eDP-1";
-      #      mode = "1920x1080";
-      #      position = "3840,1080";
-      #      scale = 1.0;
-      #    }
-      #  ];
-      #};
+      laptop = {
+        outputs = [
+          {
+            criteria = "eDP-1";
+            status = "enable";
+            mode = "1920x1080";
+            scale = 1.0;
+          }
+        ];
+      };
     };
   };
 
@@ -216,6 +217,14 @@
 
   services.syncthing.enable = true;
   services.syncthing.tray.enable = false;
+
+  services.swayosd = {
+    enable = true;
+    topMargin = 0.95;
+    stylePath = ./swayosd.css;
+  };
+
+  services.dunst.enable = true;
 
   home.stateVersion = "24.05";
 }
