@@ -31,9 +31,17 @@
       hyprlock
       wl-clipboard
 
+      # fonts
+      ibm-plex
+
       # eduroam installler
       (writeShellScriptBin "install-eduroam-muni" "${python-with-dbus}/bin/python3 ${inputs.eduroam-muni}")
     ];
+  };
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
   };
 
   fonts.fontconfig.enable = true;
@@ -113,7 +121,7 @@
     settings = {
       main = {
         pad = "10x10";
-        font = "monospace:size=10";
+        font = "IBM Plex Mono:size=10";
         line-height = 12;
       };
 

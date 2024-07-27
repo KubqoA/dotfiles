@@ -13,8 +13,13 @@
   hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
 
-  networking.hostName = "harmonium"; # Define your hostname.
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "harmonium"; # Define your hostname.
+    networkmanager = {
+      enable = true;
+      # wifi.backend = "iwd";
+    };
+  };
 
   security.rtkit.enable = true;
   services.pipewire = {
@@ -54,7 +59,7 @@
     # TODO: Research secret managers and use them to store the pass
     hashedPassword = "$6$rounds=500000$0rEHES1LTcVCJYz3$9MnsxPUjY2fcMKIHdlzZB0KW/52gPIpe9ENWcfpUlAIzG75rC3hDotfr44k7MwVVc6Ri0ePZB.q7G3xNbSvCx.";
     isNormalUser = true;
-    extraGroups = ["audio" "video" "wheel"];
+    extraGroups = ["audio" "video" "wheel" "networkmanager"];
     shell = pkgs.zsh;
   };
 

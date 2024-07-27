@@ -20,6 +20,14 @@ local options = {
 	background = background, -- sets the backround to either 'dark' or 'light'
 }
 
+-- Automatically set the working directory to the parent directory of opened file
+autocmd("VimEnter", {
+	pattern = "?*",
+	callback = function()
+		vim.cmd(":cd %:h")
+	end,
+})
+
 --- Plugin settings
 -- nvim-cmp
 local cmp = require("cmp")
@@ -117,6 +125,8 @@ require("lspconfig").lua_ls.setup({
 	},
 	capabilities = capabilities,
 })
+
+require("lspconfig").clangd.setup({})
 
 -- Treesitter config
 require("nvim-treesitter.configs").setup({

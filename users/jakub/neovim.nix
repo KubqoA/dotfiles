@@ -47,6 +47,7 @@
         # copilot-vim
         conform-nvim # formatter setup
         gitsigns-nvim
+        direnv-vim # better direnv integration
 
         cmp-nvim-lsp
         cmp-buffer
