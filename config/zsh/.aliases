@@ -1,0 +1,28 @@
+#!/usr/bin/env zsh
+
+# Generic
+alias ls="ls --color=tty"
+alias sysu="systemctl --user"
+alias chx="chmod +x"
+
+# Nix
+alias hm="home-manager --flake /persist/dotfiles"
+alias dots="vim /persist/dotfiles"
+alias home="vim /persist/dotfiles/users/$(whoami)/default.nix"
+
+# Git
+alias gc="git commit"
+alias gca="git commit --amend"
+alias gcan="git commit --amend -no-edit"
+alias gri="git rebase --interactive"
+alias grc="git rebase --continue"
+alias gra="git rebase --abort"
+alias gp="git push"
+alias gup="git push -u origin"
+alias gfp="git push -f"
+alias gs="git status"
+
+# Utils
+alias benchzsh="nix-shell -p hyperfine --run \"hyperfine 'zsh -i -c exit'\""
+alias benchvim="nix-shell -p hyperfine --run \"hyperfine 'nvim +:q!'\""
+

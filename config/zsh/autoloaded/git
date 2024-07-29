@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+
+if [ "$SSH_AUTH_SOCK" = "/run/user/1000/keyring/ssh" ]; then
+  export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+fi
+
+command git $@
+

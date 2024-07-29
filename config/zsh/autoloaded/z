@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+eval "$(zoxide init zsh)"
+__zoxide_z $@
+
