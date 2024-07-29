@@ -72,7 +72,10 @@
     # nix-darwin configurations defined in a flake can be enabled by running
     # $ darwin-rebuild build --flake dotfiles#nyckelharpa
     darwinConfigurations.nyckelharpa = nix-darwin.lib.darwinSystem {
-      specialArgs = {inherit self inputs;};
+      specialArgs = {
+        inherit self inputs;
+        system = macosSystem;
+      };
       system = macosSystem;
 
       modules = [

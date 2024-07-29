@@ -1,10 +1,10 @@
 {
   pkgs,
   self,
+  system,
   ...
 }: {
-  # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
+  imports = [./homebrew.nix];
 
   # Necessary for using flakes on this system.
   nix = {
@@ -17,10 +17,10 @@
     '';
   };
 
+  # Auto upgrade nix package and the daemon service.
+  services.nix-daemon.enable = true;
+
   environment.variables = {EDITOR = "vim";};
-  environment.shellAliases = {
-    darwin-rebuild = "darwin-rebuild --flake ~/dotfiles";
-  };
 
   environment.systemPackages = with pkgs; [
     curl
@@ -37,44 +37,6 @@
   };
   programs.zsh.enable = true;
 
-  environment.variables.HOMEBREW_NO_ANALYTICS = "1";
-
-  homebrew = {
-    enable = true;
-
-    onActivation = {
-      autoUpdate = true;
-      cleanup = "zap";
-      upgrade = true;
-    };
-
-    brews = [
-      "asdf"
-      "gpg"
-      "gpg2"
-      "pass"
-      "pass-otp"
-      "pinentry-mac"
-      "sqlite"
-    ];
-
-    casks = [
-      "arc"
-      "beekeeper-studio"
-      "figma"
-      "iterm2"
-      "loom"
-      "notion"
-      "obsidian"
-      "orbstack"
-      "raycast"
-      "spotify"
-      "unnaturalscrollwheels" # Enable natural scrolling in the trackpad but regular scroll on an external mouse
-      "whatsapp"
-      "zed"
-    ];
-  };
-
   users.users.jakub.home = "/Users/jakub";
 
   # Add ability to use Touch ID for sudo
@@ -88,5 +50,5 @@
   system.stateVersion = 4;
 
   # The platform the configuration will be used on.
-  nixpkgs.hostPlatform = "aarch64-darwin";
+  nixpkgs.hostPlatform = system;
 }
