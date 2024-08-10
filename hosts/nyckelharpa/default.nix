@@ -20,21 +20,13 @@
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
 
-  environment.variables = {EDITOR = "vim";};
-
-  environment.systemPackages = with pkgs; [
-    curl
-    git
-    wget
-    (neovim.override {
-      vimAlias = true;
-    })
-  ];
-
-  programs.gnupg.agent = {
+  # home-manager doesn't support gpg-agent service, so it needs to be enabled here
+  programs.gnupg.agent ={
     enable = true;
     enableSSHSupport = true;
   };
+
+  # Necessary here to set correct PATH
   programs.zsh.enable = true;
 
   users.users.jakub.home = "/Users/jakub";

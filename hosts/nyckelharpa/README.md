@@ -24,3 +24,10 @@ nix run nix-darwin -- switch --flake ~/dotfiles
 ```
 
 TODO: Add more instructions
+
+## Tweaks
+### Remap `§` to `` ` ``
+Useful for Czech keyboard layout
+```sh
+sudo hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000064,"HIDKeyboardModifierMappingDst":0x700000035}]}'
+```

@@ -29,66 +29,25 @@
     nix-darwin,
     ...
   }: let
-    mkPkgs = system:
-      import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
-
-    linuxSystem = "x86_64-linux";
-    macosSystem = "aarch64-darwin";
-    linuxPkgs = mkPkgs linuxSystem;
-    macosPkgs = mkPkgs macosSystem;
+    lib = import ./lib.nix inputs;
   in {
     # Sets the default formatter that is used when running
     # $ nix fmt
-    formatter.${linuxSystem} = linuxPkgs.alejandra;
-    formatter.${macosSystem} = macosPkgs.alejandra;
+    formatter = lib.formatter;
 
     # home-manager configurations defined in a flake can be enabled by running
     # $ nix run home-manager/master -- switch --flake dotfiles
-    # or in case of username mismatch
-    # $ nix run home-manager/master -- switch --flake dotfiles
-    homeConfigurations.jakub = home-manager.lib.homeManagerConfiguration {
-      pkgs = linuxPkgs;
-      extraSpecialArgs = {inherit inputs;};
-
-      modules = [./users/jakub-linux];
-    };
+    # or in case of username mismatch, e.g. jakub vs jakub-macos
+    # $ nix run home-manager/master -- switch --flake dotfiles#jakub-macos
+    homeConfigurations.jakub = lib.linuxHome ./users/jakub-linux;
+    homeConfigurations.jakub-macos = lib.macosHome ./users/jakub-macos;
 
     # nixos configurations defined in a flake can be enabled by running
     # $ nixos-rebuild switch --flake dotfiles
-    nixosConfigurations.harmonium = nixpkgs.lib.nixosSystem {
-      specialArgs = {
-        inherit inputs;
-        system = linuxSystem;
-        pkgs = linuxPkgs;
-      };
-      system = linuxSystem;
-
-      modules = [./hosts/harmonium];
-    };
+    nixosConfigurations.harmonium = lib.nixosSystem ./hosts/harmonium;
 
     # nix-darwin configurations defined in a flake can be enabled by running
     # $ darwin-rebuild build --flake dotfiles#nyckelharpa
-    darwinConfigurations.nyckelharpa = nix-darwin.lib.darwinSystem {
-      specialArgs = {
-        inherit self inputs;
-        system = macosSystem;
-      };
-      system = macosSystem;
-
-      modules = [
-        ./hosts/nyckelharpa
-
-        # Include the home-manager module directly inside the darwin conf
-        home-manager.darwinModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.jakub = import ./users/jakub-macos;
-        }
-      ];
-    };
+    darwinConfigurations.nyckelharpa = lib.macosSystem ./hosts/nyckelharpa;
   };
 }

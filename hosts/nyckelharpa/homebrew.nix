@@ -10,30 +10,51 @@
       upgrade = true;
     };
 
-    brews = [
-      "asdf"
-      "gpg"
-      "gpg2"
-      "pass"
-      "pass-otp"
-      "pinentry-mac"
-      "sqlite"
+    taps = [
+      "puma/puma" # for brews -> puma-dev
     ];
 
+    brews = [
+      # work specific
+      "rbenv"
+      "ruby-build"
+      "nodenv"
+      "puma/puma/puma-dev"
+      "libyaml"
+      "libsodium"
+      "vips"
+      "python-setuptools"
+      {
+        name = "postgresql";
+        restart_service = "changed";
+      }
+      {
+        name = "redis";
+        restart_service = "changed";
+      }
+    ];
+
+    # rubymine installed separately
     casks = [
+      "1password"
       "arc"
+      "around"
       "beekeeper-studio"
+      "betterdisplay"
       "figma"
+      "intellij-idea-ce"
       "iterm2"
+      "linearmouse"
       "loom"
+      "logi-options-plus"
+      "macmediakeyforwarder"
       "notion"
       "obsidian"
       "orbstack"
       "raycast"
       "spotify"
-      "steam"
-      "unnaturalscrollwheels" # Enable natural scrolling in the trackpad but regular scroll on an external mouse
-      "visual-studio-code"
+      "slack"
+      "syncthing"
       "whatsapp"
       "zed"
     ];

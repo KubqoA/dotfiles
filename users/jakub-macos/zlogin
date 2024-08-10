@@ -1,4 +1,4 @@
-# 
+#
 # source: https://github.com/Eriner/zim
 # startup file read in interactive login shells
 #
@@ -20,19 +20,17 @@
 
   # zcompile the completion cache; siginificant speedup, and .zshrc, .aliases
   zcompare ${ZDOTDIR}/.zcompdump
+  zcompare ${ZDOTDIR}/.zprofile
+  zcompare ${ZDOTDIR}/.zshenv
   zcompare ${ZDOTDIR}/.zshrc
-  zcompare ${ZDOTDIR}/.aliases
 
-  # zcompile all autloaded functions
-  for file in ${ZDOTDIR}/autoloaded/**/^(*.zwc)(.); do
-    zcompare ${file}
-  done
+  # zcompile all autloaded functions, if there are any
+  if [ -d "${ZDOTDIR}/autoloaded" ]; then
+    for file in ${ZDOTDIR}/autoloaded/**/^(*.zwc)(.); do
+      zcompare ${file}
+    done
+  fi
 
-  # zcompile all plugins
-  for file in ${ZDOTDIR}/**/*.zsh; do
-    zcompare ${file}
-  done
+  # with current setup, we can't use zcompare on plugins as they are stored
+  # in read-only nix root
 ) &!
-
-touch $HOME/hello
-

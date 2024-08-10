@@ -1,0 +1,27 @@
+# my minimal zshrc config, with few plugins downloaded by git and manually sourced
+# performance improvements and tweaks inspired by
+# - https://github.com/htr3n/zsh-config
+# - https://medium.com/@voyeg3r/holy-grail-of-zsh-performance-a56b3d72265d
+
+if [ "$SSH_AUTH_SOCK" = "/run/user/1000/keyring/ssh" ]; then
+  export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+fi
+
+# History settings
+mkdir -p "$(dirname "$HISTFILE")"
+
+# Fix home, end and delete
+bindkey  "^[[H"   beginning-of-line
+bindkey  "^[[F"   end-of-line
+bindkey  "^[[3~"  delete-char
+
+# Plugins
+# Set pure as prompt
+autoload -U promptinit; promptinit
+prompt pure
+
+bindkey '^[[A' history-substring-search-up # or '\eOA'
+bindkey '^[[B' history-substring-search-down # or '\eOB'
+HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
+
+cat <$ZDOTDIR/art
