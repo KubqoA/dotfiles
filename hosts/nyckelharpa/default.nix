@@ -21,7 +21,7 @@
   services.nix-daemon.enable = true;
 
   # home-manager doesn't support gpg-agent service, so it needs to be enabled here
-  programs.gnupg.agent ={
+  programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
   };

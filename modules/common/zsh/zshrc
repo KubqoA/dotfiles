@@ -3,10 +3,6 @@
 # - https://github.com/htr3n/zsh-config
 # - https://medium.com/@voyeg3r/holy-grail-of-zsh-performance-a56b3d72265d
 
-if [ "$SSH_AUTH_SOCK" = "/run/user/1000/keyring/ssh" ]; then
-  export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-fi
-
 # History settings
 mkdir -p "$(dirname "$HISTFILE")"
 

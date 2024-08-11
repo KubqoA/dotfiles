@@ -38,7 +38,7 @@
     # home-manager configurations defined in a flake can be enabled by running
     # $ nix run home-manager/master -- switch --flake dotfiles
     # or in case of username mismatch, e.g. jakub vs jakub-macos
-    # $ nix run home-manager/master -- switch --flake dotfiles#jakub-macos
+    # $ nix run home-manager/master -- switch --flake "dotfiles#jakub-macos"
     homeConfigurations.jakub = lib.linuxHome ./users/jakub-linux;
     homeConfigurations.jakub-macos = lib.macosHome ./users/jakub-macos;
 

@@ -1,4 +1,13 @@
 {pkgs, ...}: {
+  imports = let
+    modulePath = path: if builtins.pathExists ../../modules/${path} then ../../modules/${path} else ../../modules/${path}.nix;
+    moduleImports = builtins.map modulePath;
+  in moduleImports [
+    "common/git"
+    "common/password-store"
+    "common/zsh"
+  ];
+
   home = {
     username = "jakub";
     homeDirectory = "/Users/jakub";
@@ -51,9 +60,9 @@
     file = {
       # Disable the Last login message in the terminal
       ".hushlogin".text = "";
-      ".config/zsh/art".source = ./art;
-      # Set up gpg agent configuration
-      ".gnupg/sshcontrol".text = "CC54AAD6EF69F323DEB5CDDF9521D2F679686C9E";
+      # Set up gpg agent configuration, home-manager gpg-agent module is not
+      # supported on macOS
+      ".gnupg/sshcontrol".text = "CC54AAD6EF69F323DEB5CDDF9521D2F679686C9E\n";
       ".gnupg/gpg-agent.conf".text = ''
         default-cache-ttl 172800
         max-cache-ttl 172800
@@ -64,77 +73,14 @@
     };
   };
 
-  programs.git = {
-    enable = true;
-    lfs.enable = true;
-    userName = "Jakub Arbet";
-    userEmail = "hi@jakubarbet.me";
-    signing = {
-      key = "4EB39A80B52672EC";
-      signByDefault = true;
-    };
-    ignores = [
-      ".DS_Store"
-      ".idea"
-    ];
-  };
-
   programs.gpg.enable = true;
-
-  programs.password-store = {
-    enable = true;
-    package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
-    settings.PASSWORD_STORE_DIR = "$HOME/.local/share/password-store";
-  };
 
   programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
   };
 
-  programs.zsh = {
-    enable = true;
-    dotDir = ".config/zsh";
-    defaultKeymap = "emacs";
-    history = {
-      path = "$HOME/.local/share/.zsh_history";
-      size = 10000;
-      save = 10000;
-    };
-    completionInit = ''
-      # Autoload compinit with caching for 24h
-      setopt extendedglob
-      autoload -Uz compinit
-      if [[ ! -f $ZDOTDIR/.zcompdump || -n $ZDOTDIR/.zcompdump(#qNmh+24) ]]; then
-        compinit
-        touch $ZDOTDIR/.zcompdump
-        zcompile $ZDOTDIR/.zcompdump
-      else
-        compinit -C;
-      fi
-    '';
-    profileExtra = builtins.readFile ./profile;
-    envExtra = builtins.readFile ./zshenv;
-    loginExtra = builtins.readFile ./zlogin;
-    initExtra = builtins.readFile ./zshrc;
-
-    autosuggestion.enable = true;
-    historySubstringSearch.enable = true;
-    plugins = [
-      {
-        name = "pure";
-        src = "${pkgs.pure-prompt}/share/zsh/site-functions";
-      }
-      {
-        name = "zsh-completions";
-        src = "${pkgs.zsh-completions}/share/zsh/site-functions";
-      }
-      {
-        name = "fast-syntax-highlighting";
-        src = "${pkgs.zsh-fast-syntax-highlighting}/share/zsh/site-functions";
-      }
-    ];
-  };
+  programs.zsh.profileExtra = builtins.readFile ./profile;
 
   home.stateVersion = "24.05";
 }

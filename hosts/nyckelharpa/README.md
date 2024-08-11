@@ -3,27 +3,28 @@
 # nyckelharpa
 
 ## Setup
-1. Install [`nix`](https://nix.dev/install-nix)
+1. Install prerequisites - [`nix`](https://nix.dev/install-nix) and [homebrew](https://brew.sh)
 ```sh
 curl -L https://nixos.org/nix/install | sh
-```
-
-2. Install [homebrew](https://brew.sh)
-```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-3. Clone the repository
+2. Clone the repository
 ```sh
-git clone git@github.com:KubqoA/dotfiles.git
+git clone git@github.com:KubqoA/dotfiles.git ~/.config/dotfiles
 ```
 
-4. Install [`nix-darwin`](https://github.com/LnL7/nix-darwin?tab=readme-ov-file#flakes)
+3. Install [`nix-darwin`](https://github.com/LnL7/nix-darwin?tab=readme-ov-file#flakes) and `home-manager`
 ```sh
-nix run nix-darwin -- switch --flake ~/dotfiles
+nix run nix-darwin -- switch --flake ~/.config/dotfiles
+nix run home-manager/master -- switch --flake "~/.config/dotfiles#jakub-macos"
 ```
 
-TODO: Add more instructions
+4. To apply further updates, run
+```sh
+mkdarwin # for darwin-rebuild switch
+hm switch # for home-manager switch
+```
 
 ## Tweaks
 ### Remap `§` to `` ` ``
