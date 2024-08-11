@@ -1,5 +1,5 @@
 {
-  description = "My NixOS dotfiles";
+  description = "My NixOS, macOS and home-manager configurations";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -29,7 +29,7 @@
     nix-darwin,
     ...
   }: let
-    lib = import ./lib.nix inputs;
+    lib = import ./lib inputs;
   in {
     # Sets the default formatter that is used when running
     # $ nix fmt

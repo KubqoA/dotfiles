@@ -1,8 +1,4 @@
-{
-  lib,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
     # formatters
     stylua
@@ -18,7 +14,7 @@
   programs.neovim = {
     enable = true;
     vimAlias = true;
-    extraLuaConfig = lib.readFile ./init.lua;
+    extraLuaConfig = builtins.readFile ./init.lua;
     plugins = let
       vim-bind = pkgs.vimUtils.buildVimPlugin {
         name = "vim-bind";
@@ -29,20 +25,10 @@
           sha256 = "0hif1r329i5mylgkcb24dl1xcn287fvy7hpfln3whv8bwmphfc77";
         };
       };
-      #hyprland-vim-syntax = pkgs.vimUtils.buildVimPlugin {
-      #  name = "hyprland-vim-syntax";
-      #  src = pkgs.fetchFromGitHub {
-      #    owner = "theRealCarneiro";
-      #    repo = "hyprland-vim-syntax";
-      #    rev = "71760fe0cad972070657b0528f48456f7e0027b2";
-      #    sha256 = "08lpa1q4m52xnhd9a017q6xnl5pagjsvdfiv0z5gsv55msz86mw6";
-      #  };
-      #};
     in
       with pkgs.vimPlugins; [
         rose-pine # theme
         vim-vinegar # better netrw
-        comment-nvim # easier commenting
         autoclose-nvim # auto pairs & closes brackets
         # copilot-vim
         conform-nvim # formatter setup

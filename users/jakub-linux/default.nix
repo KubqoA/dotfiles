@@ -5,7 +5,11 @@
   pkgs,
   ...
 }: {
-  imports = [./neovim.nix];
+  imports = lib._.moduleImports [
+    "common/git"
+    "common/neovim"
+    "common/password-store"
+  ];
 
   home = {
     username = "jakub";
@@ -20,7 +24,6 @@
       home-manager
       chromium
       firefox
-      git
       zsh
       obsidian
       fzf
@@ -157,10 +160,6 @@
     enable = true;
     enableZshIntegration = true;
   };
-  programs.password-store = {
-    enable = true;
-    package = pkgs.pass.withExtensions (exts: [exts.pass-otp]);
-  };
 
   # Services
   services.kanshi = {
@@ -220,7 +219,7 @@
     defaultCacheTtlSsh = 172800;
     maxCacheTtlSsh = 172800;
     pinentryPackage = pkgs.pinentry-bemenu;
-    sshKeys = ["CC54AAD6EF69F323DEB5CDDF9521D2F679686C9E"];
+    sshKeys = [config.gpgSshControl];
   };
 
   services.syncthing.enable = true;

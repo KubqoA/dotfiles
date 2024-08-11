@@ -1,9 +1,12 @@
-{pkgs, ...}: {
-  imports = let
-    modulePath = path: if builtins.pathExists ../../modules/${path} then ../../modules/${path} else ../../modules/${path}.nix;
-    moduleImports = builtins.map modulePath;
-  in moduleImports [
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  imports = lib._.moduleImports [
     "common/git"
+    "common/neovim"
     "common/password-store"
     "common/zsh"
   ];
@@ -62,7 +65,7 @@
       ".hushlogin".text = "";
       # Set up gpg agent configuration, home-manager gpg-agent module is not
       # supported on macOS
-      ".gnupg/sshcontrol".text = "CC54AAD6EF69F323DEB5CDDF9521D2F679686C9E\n";
+      ".gnupg/sshcontrol".text = "${config.gpgSshControl}\n";
       ".gnupg/gpg-agent.conf".text = ''
         default-cache-ttl 172800
         max-cache-ttl 172800

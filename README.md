@@ -25,7 +25,7 @@ The dotfiles contain configuration for:
 Refer to the respective host directories for more information.
 
 ## To-Do
-- [ ] Modularize the setup
+- [x] Modularize the setup
 - [ ] Custom Sway/[newm-atha](https://sr.ht/~atha/newm-atha/) based desktop setup
 - [ ] Docker support
 - [ ] Dev environments
