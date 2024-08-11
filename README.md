@@ -3,6 +3,8 @@
 ![Made with trial and error](https://img.shields.io/badge/Made%20with-trial%20and%20error-blue?style=flat-square&logo=haskell)
 [![NixOS Unstable](https://img.shields.io/badge/NixOS-unstable-blue.svg?style=flat-square&logo=NixOS&logoColor=white)](https://nixos.org)
 
+Currently transitioning to a new setup, the old dotfiles can be found in the [`old` branch](https://github.com/KubqoA/dotfiles/tree/old).
+
 NixOS dotfiles with support for:
 - Darling erasure - restoring the machine to a clean state on every boot
 - Secureboot via [lanzaboote](https://github.com/nix-community/lanzaboote)
