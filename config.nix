@@ -1,11 +1,6 @@
 # Global configuration options that can be referenced by all modules
 # Autoloaded as a module by `makeHome` and `makeSystem` functions
-{
-  config,
-  lib,
-  options,
-  ...
-}:
+{lib, ...}:
 with lib; {
   options = {
     gitSigningKey = mkOption {type = types.str;};

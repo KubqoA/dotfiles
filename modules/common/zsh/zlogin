@@ -34,3 +34,4 @@
   # with current setup, we can't use zcompare on plugins as they are stored
   # in read-only nix root
 ) &!
+

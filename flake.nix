@@ -22,13 +22,7 @@
     };
   };
 
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    home-manager,
-    nix-darwin,
-    ...
-  }: let
+  outputs = inputs: let
     lib = import ./lib inputs;
   in {
     # Sets the default formatter that is used when running

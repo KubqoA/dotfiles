@@ -5,6 +5,8 @@
   ...
 }: {
   imports = lib._.moduleImports [
+    "common/aliases"
+    "common/env"
     "common/git"
     "common/neovim"
     "common/password-store"
@@ -22,12 +24,11 @@
       wget
       git-crypt
       pinentry_mac
+      bun
+      nurl
     ];
 
     sessionVariables = rec {
-      EDITOR = "nvim";
-      GIT_EDITOR = EDITOR;
-
       # Work
       OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
       DISABLE_SPRING = "true";
@@ -35,29 +36,14 @@
     };
 
     shellAliases = {
-      cd = "z";
-      ls = "ls --color=tty";
-      chx = "chmod +x";
       hm = "home-manager --flake \"$HOME/.config/dotfiles#jakub-macos\"";
-      mkdarwin = "darwin-rebuild switch --flake ~/.config/dotfiles";
+      dw = "darwin-rebuild --flake \"$HOME/.config/dotfiles\"";
       dots = "$EDITOR ~/.config/dotfiles";
 
-      # Git
-      gc = "git commit";
-      gca = "git commit --amend";
-      gcan = "git commit --amend --no-edit";
-      gp = "git pull";
-      gpu = "git push";
-      gpf = "git push --force";
-      grm = "git pull origin main --rebase";
-      grc = "git rebase --continue";
-      gra = "git rebase --abort";
-
-      # Utils
-      benchzsh = "hyperfine 'zsh -i -c exit' --warmup 1";
-
       # Work
+      linear = "git checkout main && git pull && git checkout -b $(pbpaste)";
       swarm = "RBENV_VERSION=$(cat $IAC_PATH/.ruby-version) $IAC_PATH/exe/swarm";
+      prod-deploy = "git checkout main && git pull && swarm production deploy";
     };
 
     file = {

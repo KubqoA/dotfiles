@@ -22,7 +22,7 @@ nix run home-manager/master -- switch --flake "~/.config/dotfiles#jakub-macos"
 
 4. To apply further updates, run
 ```sh
-mkdarwin # for darwin-rebuild switch
+dw switch # for darwin-rebuild switch
 hm switch # for home-manager switch
 ```
 
@@ -31,4 +31,9 @@ hm switch # for home-manager switch
 Useful for Czech keyboard layout
 ```sh
 sudo hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000064,"HIDKeyboardModifierMappingDst":0x700000035}]}'
+```
+
+### Faster dock movement from display to display
+```sh
+defaults write com.apple.dock autohide-delay -float 2; killall Dock
 ```

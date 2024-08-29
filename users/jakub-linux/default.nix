@@ -6,6 +6,8 @@
   ...
 }: {
   imports = lib._.moduleImports [
+    "common/aliases"
+    "common/env"
     "common/git"
     "common/neovim"
     "common/password-store"
@@ -14,10 +16,6 @@
   home = {
     username = "jakub";
     homeDirectory = "/home/jakub";
-    sessionVariables = rec {
-      EDITOR = "vim";
-      GIT_EDITOR = EDITOR;
-    };
     packages = with pkgs; let
       python-with-dbus = pkgs.python3.withPackages (p: with p; [dbus-python]);
     in [

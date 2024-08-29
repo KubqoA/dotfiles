@@ -21,3 +21,4 @@ bindkey '^[[B' history-substring-search-down # or '\eOB'
 HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 
 cat <$ZDOTDIR/art
+

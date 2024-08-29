@@ -11,10 +11,14 @@
     };
 
     taps = [
+      "homebrew/services"
       "puma/puma" # for brews -> puma-dev
     ];
 
     brews = [
+      "gpg"
+      "gpg2"
+
       # work specific
       "rbenv"
       "ruby-build"
@@ -34,8 +38,8 @@
       }
     ];
 
-    # rubymine installed separately
     casks = [
+      "bruno"
       "1password"
       "arc"
       "around"
@@ -52,9 +56,11 @@
       "obsidian"
       "orbstack"
       "raycast"
+      "rubymine"
       "spotify"
       "slack"
       "syncthing"
+      "visual-studio-code"
       "whatsapp"
       "zed"
     ];

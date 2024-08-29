@@ -25,15 +25,26 @@
           sha256 = "0hif1r329i5mylgkcb24dl1xcn287fvy7hpfln3whv8bwmphfc77";
         };
       };
+      auto-dark-mode-nvim = pkgs.vimUtils.buildVimPlugin {
+        name = "auto-dark-mode.nvim";
+        src = pkgs.fetchFromGitHub {
+          owner = "f-person";
+          repo = "auto-dark-mode.nvim";
+          rev = "14cad96b80a07e9e92a0dcbe235092ed14113fb2";
+          hash = "sha256-bSkS2IDkRMQCjaePFYtq39Bokgd1Bwoxgu2ceP7Bh5s=";
+        };
+      };
     in
       with pkgs.vimPlugins; [
         rose-pine # theme
+        auto-dark-mode-nvim
         vim-vinegar # better netrw
         autoclose-nvim # auto pairs & closes brackets
         # copilot-vim
         conform-nvim # formatter setup
         gitsigns-nvim
         direnv-vim # better direnv integration
+        plenary-nvim
 
         cmp-nvim-lsp
         cmp-buffer
@@ -57,6 +68,7 @@
             tree-sitter-markdown
             tree-sitter-nix
             tree-sitter-python
+            tree-sitter-ruby
             tree-sitter-rust
             tree-sitter-typescript
             tree-sitter-yaml

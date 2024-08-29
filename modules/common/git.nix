@@ -14,5 +14,6 @@
       ".DS_Store"
       ".idea"
     ];
+    extraConfig.init.defaultBranch = "main";
   };
 }

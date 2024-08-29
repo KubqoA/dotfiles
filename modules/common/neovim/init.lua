@@ -6,17 +6,17 @@ local background = "light"
 
 --- Basic config
 local options = {
-  number = true,          -- show line numbers
-  relativenumber = true,  -- show the line number relative to the line with the cursor in front of each line
-  cursorline = true,      -- highlight the current line
-  tabstop = 2,            -- number of spaces that a <Tab> in the file counts for
-  shiftwidth = 2,         -- number of spaces to use for each step of (auto)indent
-  expandtab = true,       -- use the appropriate number of spaces to insert a <Tab>
-  cmdheight = 2,          -- number of screen lines to use for the command-line
-  fileencoding = "utf-8", -- file-content encoding for the current buffer
-  hlsearch = true,        -- when there is a previous search pattern, highlight all its matches
-  showmatch = true,       -- when a bracket is inserted, briefly jump to the matching one
-  termguicolors = true,   -- enables 24-bit RGB color
+  number = true,           -- show line numbers
+  relativenumber = true,   -- show the line number relative to the line with the cursor in front of each line
+  cursorline = true,       -- highlight the current line
+  tabstop = 2,             -- number of spaces that a <Tab> in the file counts for
+  shiftwidth = 2,          -- number of spaces to use for each step of (auto)indent
+  expandtab = true,        -- use the appropriate number of spaces to insert a <Tab>
+  cmdheight = 2,           -- number of screen lines to use for the command-line
+  fileencoding = "utf-8",  -- file-content encoding for the current buffer
+  hlsearch = true,         -- when there is a previous search pattern, highlight all its matches
+  showmatch = true,        -- when a bracket is inserted, briefly jump to the matching one
+  termguicolors = true,    -- enables 24-bit RGB color
   background = background, -- sets the backround to either 'dark' or 'light'
 }
 
@@ -145,7 +145,7 @@ require("nvim-treesitter.configs").setup({
 require("conform").setup({
   formatters_by_ft = {
     lua = { "stylua" },
-    python = { "isort", "black" },                       -- Runs both formatters
+    python = { "isort", "black" },                         -- Runs both formatters
     javascript = { { "biome", "prettierd", "prettier" } }, -- Runs first available
     nix = { "alejandra" },
   },
@@ -167,11 +167,15 @@ require("conform").setup({
 
 require("gitsigns").setup()
 
+require("auto-dark-mode").setup({
+  update_interval = 2000,
+})
+
 --- Misc
 
 -- Highlight cursor line briefly when neovim regains focus.  This helps to
 -- reorient the user and tell them where they are in the buffer.
--- Stolen from https://developer.ibm.com/tutorials/l-vim-script-5.
+-- Borrowed from https://developer.ibm.com/tutorials/l-vim-script-5.
 autocmd("FocusGained", {
   pattern = "*",
   callback = function()
