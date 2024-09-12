@@ -3,8 +3,9 @@
 Library has two important functions:
 
 1. Moves configuration boilerplate out of the main `flake.nix` by providing
-   `macosHome`, `linuxHome`, `macosSystem` and `nixosSystem` functions to
-   define home-manager and system configurations
+   `macosHome`, `linuxHome-x86`, `linuxHome-arm64`, `macosSystem`,
+   `nixosSystem-x86` and `nixosSystem-arm64` functions to define home-manager
+   and system configurations
 
 2. Autoloads [`config.nix`](../config.nix) for all these configurations
 

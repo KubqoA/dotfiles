@@ -36,9 +36,7 @@
     };
 
     shellAliases = {
-      hm = "home-manager --flake \"$HOME/.config/dotfiles#jakub-macos\"";
       dw = "darwin-rebuild --flake \"$HOME/.config/dotfiles\"";
-      dots = "$EDITOR ~/.config/dotfiles";
 
       # Work
       linear = "git checkout main && git pull && git checkout -b $(pbpaste)";

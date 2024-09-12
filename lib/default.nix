@@ -8,10 +8,12 @@ inputs @ {
   self,
   ...
 }: let
-  linuxSystem = "x86_64-linux";
   macosSystem = "aarch64-darwin";
-  linuxPkgs = makePkgs linuxSystem;
+  linuxSystem-x86 = "x86_64-linux";
+  linuxSystem-arm64 = "aarch64-linux";
   macosPkgs = makePkgs macosSystem;
+  linuxPkgs-x86 = makePkgs linuxSystem-x86;
+  linuxPkgs-arm64 = makePkgs linuxSystem-arm64;
 
   makePkgs = system:
     import nixpkgs {
@@ -34,11 +36,11 @@ inputs @ {
       }
       // extra);
 
-  makeHome = pkgs: path:
+  makeHome = system: pkgs: path:
     home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
       extraSpecialArgs = {
-        inherit inputs;
+        inherit inputs system;
         # Make sure to keep library extensions from home-manager
         lib = makeLib pkgs home-manager.lib;
       };
@@ -57,12 +59,15 @@ inputs @ {
 in {
   formatter = {
     ${macosSystem} = macosPkgs.alejandra;
-    ${linuxSystem} = linuxPkgs.alejandra;
+    ${linuxSystem-x86} = linuxPkgs-x86.alejandra;
+    ${linuxSystem-arm64} = linuxPkgs-arm64.alejandra;
   };
 
-  macosHome = makeHome macosPkgs;
-  linuxHome = makeHome linuxPkgs;
+  macosHome = makeHome macosSystem macosPkgs;
+  linuxHome-x86 = makeHome linuxSystem-x86 linuxPkgs-x86;
+  linuxHome-arm64 = makeHome linuxSystem-arm64 linuxPkgs-arm64;
 
   macosSystem = makeSystem (nix-darwin.lib.darwinSystem) macosSystem macosPkgs;
-  nixosSystem = makeSystem (nixpkgs.lib.nixosSystem) linuxSystem linuxPkgs;
+  nixosSystem-x86 = makeSystem (nixpkgs.lib.nixosSystem) linuxSystem-x86 linuxPkgs-x86;
+  nixosSystem-arm64 = makeSystem (nixpkgs.lib.nixosSystem) linuxSystem-arm64 linuxPkgs-arm64;
 }

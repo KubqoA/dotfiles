@@ -30,15 +30,16 @@
     formatter = lib.formatter;
 
     # home-manager configurations defined in a flake can be enabled by running
-    # $ nix run home-manager/master -- switch --flake dotfiles
-    # or in case of username mismatch, e.g. jakub vs jakub-macos
     # $ nix run home-manager/master -- switch --flake "dotfiles#jakub-macos"
-    homeConfigurations.jakub = lib.linuxHome ./users/jakub-linux;
+    homeConfigurations.jakub-x86 = lib.linuxHome-x86 ./users/jakub-linux;
+    homeConfigurations.jakub-arm64 = lib.linuxHome-arm64 ./users/jakub-linux;
     homeConfigurations.jakub-macos = lib.macosHome ./users/jakub-macos;
 
     # nixos configurations defined in a flake can be enabled by running
-    # $ nixos-rebuild switch --flake dotfiles
-    nixosConfigurations.harmonium = lib.nixosSystem ./hosts/harmonium;
+    # $ nixos-rebuild switch --flake dotfiles#harmonium
+    # $ nixos-rebuild switch --flake dotfiles#organ
+    nixosConfigurations.harmonium = lib.nixosSystem-x86 ./hosts/harmonium;
+    nixosConfigurations.organ = lib.nixosSystem-arm64 ./hosts/organ;
 
     # nix-darwin configurations defined in a flake can be enabled by running
     # $ darwin-rebuild build --flake dotfiles#nyckelharpa
