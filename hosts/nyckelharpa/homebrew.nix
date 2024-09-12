@@ -18,8 +18,11 @@
     brews = [
       "gpg"
       "gpg2"
+      "pass"
+      "pass-otp"
 
       # work specific
+      "awscli"
       "rbenv"
       "ruby-build"
       "nodenv"
