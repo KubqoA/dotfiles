@@ -34,6 +34,9 @@ Refer to the respective host directories for more information.
 - [ ] Dev environments
 - [ ] Full Neovim setup
 - [ ] Full nix-darwin setup with system configuration
+- [ ] Server setup
+  - [ ] Explore [disko](https://github.com/nix-community/disko) for declarative disk management
+  - [ ] Explore [nixos-anywhere](https://github.com/nix-community/nixos-anywhere) for remote installation
 
 ## Useful resources
 - [NixOS & Flakes Book](https://nixos-and-flakes.thiscute.world/)
@@ -42,4 +45,4 @@ Refer to the respective host directories for more information.
 - [Quick Start: NixOS Secure Boot](https://github.com/nix-community/lanzaboote)
 - [Nixpkgs Functions reference](https://nixos.org/manual/nixpkgs/stable/#chap-functions)
 - [Nix Expression Language](https://nixos.org/manual/nix/stable/#ch-expression-language)
-- [hlissner/dotfiles](https://github.com/hlissner/dotfiles), which are a great learning resource
+- [hlissner/dotfiles](https://github.com/hlissner/dotfiles)
