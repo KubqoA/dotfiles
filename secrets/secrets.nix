@@ -3,4 +3,5 @@ let
 in {
   "jakub-organ-password-hash.age".publicKeys = [organ];
   "jakubarbet.me.key.age".publicKeys = [organ];
+  "organ-tailscale-auth-key.age".publicKeys = [organ];
 }

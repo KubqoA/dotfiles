@@ -7,12 +7,15 @@
 }: let
   ipv4 = "116.203.250.61";
   ipv6 = "2a01:4f8:c012:58f4::";
+  tailnet = "ide-vega.ts.net";
+  tailscaleIpv4 = "100.67.2.27";
+  tailscaleIpv6 = "fd7a:115c:a1e0::f101:21b";
 in {
   imports = [
     ./hardware-configuration.nix
   ];
 
-  age.secrets = lib._.defineSecrets ["jakub-organ-password-hash"] {
+  age.secrets = lib._.defineSecrets ["jakub-organ-password-hash" "organ-tailscale-auth-key"] {
     "jakubarbet.me.key" = {owner = "named";};
   };
 
@@ -42,12 +45,12 @@ in {
   };
 
   services = {
+    # Used to define DNS records for jakubarbet.me domain and
+    # replicate them to dns.he.net servers
     bind = {
       enable = true;
-      cacheNetworks = [
-        "127.0.0.0/24"
-        "::1/128"
-      ];
+      listenOn = ["127.0.0.1" "0.0.0.0"];
+      listenOnIpv6 = ["::1" "::"];
       forwarders = config.networking.nameservers;
       extraConfig = ''
         include "${config.age.secrets."jakubarbet.me.key".path}";
@@ -64,16 +67,41 @@ in {
         '';
       };
     };
+    # Used to define DNS override for organ.jakubarbet.me to tailscale IPs
+    # so devices connected to the tailnet can access the site which is behind
+    # an tailscale-auth protection
+    dnsmasq = {
+      enable = true;
+      settings = {
+        bind-interfaces = true;
+        listen-address = "${tailscaleIpv4},${tailscaleIpv6}";
+        address = ["/organ.jakubarbet.me/${tailscaleIpv4}" "/organ.jakubarbet.me/${tailscaleIpv6}"];
+      };
+    };
     nginx = {
       enable = true;
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
-      virtualHosts."syncthing.jakubarbet.me" =  {
+      virtualHosts."organ.jakubarbet.me" = {
         enableACME = true;
         forceSSL = true;
-        locations."/" = {
+        extraConfig = ''
+          proxy_intercept_errors on;
+          error_page 401 /unauthorized.html;
+        '';
+        locations."/unauthorized.html" = {
+          root = "/srv/www/organ.jakubarbet.me";
+          extraConfig = "internal;";
+        };
+        locations."/syncthing/" = {
+          extraConfig = "auth_request /auth;";
           proxyPass = "http://localhost:8384/";
         };
+      };
+      tailscaleAuth = {
+        enable = true;
+        expectedTailnet = tailnet;
+        virtualHosts = ["organ.jakubarbet.me"];
       };
     };
     openssh = {
@@ -91,6 +119,18 @@ in {
       # https://docs.syncthing.net/users/config.html#config-option-gui.insecureskiphostcheck
       settings.gui.insecureSkipHostcheck = true;
     };
+    tailscale = {
+      enable = true;
+      authKeyFile = config.age.secrets.organ-tailscale-auth-key.path;
+      useRoutingFeatures = "server";
+      openFirewall = true;
+      extraUpFlags = ["--advertiseTags tag:ssh"];
+      extraSetFlags = [
+        "--ssh"
+        "--advertise-exit-node" # offer to be exit node internet traffic for tailnet
+        "--advertise-connector" # offer to be app connector for domain specific internet traffic for tailnet
+      ];
+    };
   };
 
   # Bind ports:
@@ -103,6 +143,7 @@ in {
   # source: https://docs.syncthing.net/users/firewall.html
   networking.firewall = {
     enable = true;
+    trustedInterfaces = lib.optionals config.services.tailscale.enable [config.services.tailscale.interfaceName];
     allowedTCPPorts =
       []
       ++ lib.optionals config.services.bind.enable [53]
