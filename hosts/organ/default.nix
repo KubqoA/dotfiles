@@ -36,14 +36,12 @@ in {
 
   programs.zsh.enable = true;
 
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "hostmaster@jakubarbet.me";
+  };
+
   services = {
-    openssh = {
-      enable = true;
-      settings = {
-        PermitRootLogin = "prohibit-password";
-        PasswordAuthentication = false;
-      };
-    };
     bind = {
       enable = true;
       cacheNetworks = [
@@ -59,13 +57,65 @@ in {
         file = ./jakubarbet.me.conf;
         slaves = ["key jakubarbet.me"];
         extraConfig = ''
-               also-notify {
-                 216.218.130.2 key jakubarbet.me;
-          2001:470:100::2 key jakubarbet.me;
-               };
+          also-notify {
+            216.218.130.2 key jakubarbet.me;
+            2001:470:100::2 key jakubarbet.me;
+          };
         '';
       };
     };
+    nginx = {
+      enable = true;
+      recommendedProxySettings = true;
+      recommendedTlsSettings = true;
+      virtualHosts."syncthing.jakubarbet.me" =  {
+        enableACME = true;
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://localhost:8384/";
+        };
+      };
+    };
+    openssh = {
+      enable = true;
+      settings = {
+        PermitRootLogin = "prohibit-password";
+        PasswordAuthentication = false;
+      };
+    };
+    syncthing = {
+      enable = true;
+      relay.enable = true;
+      user = "jakub";
+      dataDir = "/home/jakub/Sync";
+      # https://docs.syncthing.net/users/config.html#config-option-gui.insecureskiphostcheck
+      settings.gui.insecureSkipHostcheck = true;
+    };
+  };
+
+  # Bind ports:
+  # - 53 TCP/UDP for zone transfers
+  # Nginx ports
+  # - 80 and 443 TCP
+  # Syncthing ports:
+  # - 22000 TCP and/or UDP for sync traffic
+  # - 21027/UDP for discovery
+  # source: https://docs.syncthing.net/users/firewall.html
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts =
+      []
+      ++ lib.optionals config.services.bind.enable [53]
+      ++ lib.optionals config.services.nginx.enable [80 443]
+      ++ lib.optionals config.services.syncthing.enable [22000]
+      ++ lib.optionals config.services.syncthing.relay.enable [
+        config.services.syncthing.relay.port
+        config.services.syncthing.relay.statusPort
+      ];
+    allowedUDPPorts =
+      []
+      ++ lib.optionals config.services.bind.enable [53]
+      ++ lib.optionals config.services.syncthing.enable [22000 21027];
   };
 
   nix = {
@@ -96,10 +146,6 @@ in {
     hostName = "organ";
     useDHCP = false;
     nameservers = ["1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001"];
-    firewall.enable = true;
-    # To allow zone transfers
-    firewall.allowedTCPPorts = [53];
-    firewall.allowedUDPPorts = [53];
   };
 
   systemd.network = {
