@@ -1,9 +1,7 @@
 {
   config,
-  inputs,
   lib,
   pkgs,
-  system,
   ...
 }: {
   imports = lib._.moduleImports [
@@ -17,9 +15,7 @@
   home = {
     username = "jakub";
     homeDirectory = "/home/jakub";
-    packages = with pkgs; let
-      python-with-dbus = pkgs.python3.withPackages (p: with p; [dbus-python]);
-    in [
+    packages = with pkgs; [
       home-manager
       chromium
       firefox
@@ -35,9 +31,6 @@
 
       # fonts
       ibm-plex
-
-      # eduroam installler
-      (writeShellScriptBin "install-eduroam-muni" "${python-with-dbus}/bin/python3 ${inputs.eduroam-muni}")
     ];
   };
 

@@ -14,12 +14,6 @@
 
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-
-    # TODO: Split into a separate flake
-    eduroam-muni = {
-      url = "https://cat.eduroam.org/user/API.php?action=downloadInstaller&lang=en&profile=1871&device=linux&generatedfor=user&openroaming=0";
-      flake = false;
-    };
   };
 
   outputs = inputs: let

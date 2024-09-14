@@ -33,18 +33,6 @@
         "type": "github"
       }
     },
-    "eduroam-muni": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-DH6eMFMH4u2svdcDGo0k0WIyYz+qpceHuLhrrsf4cdc=",
-        "type": "file",
-        "url": "https://cat.eduroam.org/user/API.php?action=downloadInstaller&device=linux&generatedfor=user&lang=en&openroaming=0&profile=1871"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://cat.eduroam.org/user/API.php?action=downloadInstaller&device=linux&generatedfor=user&lang=en&openroaming=0&profile=1871"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -269,7 +257,6 @@
     },
     "root": {
       "inputs": {
-        "eduroam-muni": "eduroam-muni",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
         "nix-darwin": "nix-darwin",
