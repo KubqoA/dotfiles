@@ -12,7 +12,9 @@ in {
     ./hardware-configuration.nix
   ];
 
-  age.secrets = lib._.defineSecrets ["jakub-organ-password-hash"];
+  age.secrets = lib._.defineSecrets ["jakub-organ-password-hash"] {
+    "jakubarbet.me.key" = {owner = "named";};
+  };
 
   users.users = {
     root.openssh.authorizedKeys.keys = [config.sshPublicKey];
@@ -31,7 +33,7 @@ in {
     wget
     neovim
   ];
-  
+
   programs.zsh.enable = true;
 
   services = {
@@ -40,6 +42,28 @@ in {
       settings = {
         PermitRootLogin = "prohibit-password";
         PasswordAuthentication = false;
+      };
+    };
+    bind = {
+      enable = true;
+      cacheNetworks = [
+        "127.0.0.0/24"
+        "::1/128"
+      ];
+      forwarders = config.networking.nameservers;
+      extraConfig = ''
+        include "${config.age.secrets."jakubarbet.me.key".path}";
+      '';
+      zones."jakubarbet.me" = {
+        master = true;
+        file = ./jakubarbet.me.conf;
+        slaves = ["key jakubarbet.me"];
+        extraConfig = ''
+               also-notify {
+                 216.218.130.2 key jakubarbet.me;
+          2001:470:100::2 key jakubarbet.me;
+               };
+        '';
       };
     };
   };
@@ -73,6 +97,9 @@ in {
     useDHCP = false;
     nameservers = ["1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001"];
     firewall.enable = true;
+    # To allow zone transfers
+    firewall.allowedTCPPorts = [53];
+    firewall.allowedUDPPorts = [53];
   };
 
   systemd.network = {

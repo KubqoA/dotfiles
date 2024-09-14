@@ -26,8 +26,6 @@ Automatically includes `.nix` suffix for supplied paths, where necessary.
     "common/zsh"
     # ...
   ];
-
-  # ...
 }
 ```
 
@@ -36,9 +34,18 @@ Helper to define agenix secrets in a more concise way.
 
 ```nix
 {lib, ...}: {
-  age.secrets = lib._.defineSecrets ["secret1" "secret2"];
+  age.secrets = lib._.defineSecrets ["secret1" "secret2"] {
+    secret3 = {owner = "foobar";};
+  };
+
   # produces equivalent configuration to
-  # age.secrets.secret1.file = ../secrets/secret1.age;
-  # age.secrets.secret2.file = ../secrets/secret2.age;
+  # age.secrets = {
+  #   secret1.file = ../secrets/secret1.age;
+  #   secret2.file = ../secrets/secret2.age;
+  #   secret3 = {
+  #     file = ../secrets/secret3.age;
+  #     owner = "foobar";
+  #   };
+  # }
 }
 ```
