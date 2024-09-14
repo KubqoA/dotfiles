@@ -49,6 +49,7 @@
       "beekeeper-studio"
       "betterdisplay"
       "figma"
+      "firefox"
       "intellij-idea-ce"
       "iterm2"
       "linearmouse"
