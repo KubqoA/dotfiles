@@ -1,6 +1,7 @@
 {
   config,
   inputs,
+  lib,
   pkgs,
   ...
 }: let
@@ -11,9 +12,18 @@ in {
     ./hardware-configuration.nix
   ];
 
-  time.timeZone = "Europe/Prague";
+  age.secrets = lib._.defineSecrets ["jakub-organ-password-hash"];
 
-  users.users.root.openssh.authorizedKeys.keys = [config.sshPublicKey];
+  users.users = {
+    root.openssh.authorizedKeys.keys = [config.sshPublicKey];
+    jakub = {
+      hashedPasswordFile = config.age.secrets.jakub-organ-password-hash.path;
+      openssh.authorizedKeys.keys = [config.sshPublicKey];
+      isNormalUser = true;
+      extraGroups = ["wheel"];
+      shell = pkgs.zsh;
+    };
+  };
 
   environment.systemPackages = with pkgs; [
     git
@@ -21,6 +31,8 @@ in {
     wget
     neovim
   ];
+  
+  programs.zsh.enable = true;
 
   services = {
     openssh = {
@@ -53,6 +65,8 @@ in {
     # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
     settings.auto-optimise-store = true;
   };
+
+  time.timeZone = "Europe/Prague";
 
   networking = {
     hostName = "organ";

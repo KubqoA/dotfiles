@@ -2,6 +2,7 @@
 # Contains helpers to define home-manager, nix-darwin, and nixos systems
 # and to load custom lib extensions from other .nix files in lib/ directory
 inputs @ {
+  agenix,
   home-manager,
   nixpkgs,
   nix-darwin,
@@ -44,7 +45,7 @@ inputs @ {
         # Make sure to keep library extensions from home-manager
         lib = makeLib pkgs home-manager.lib;
       };
-      modules = [../config.nix path];
+      modules = [../config.nix agenix.homeManagerModules.default path];
     };
 
   makeSystem = systemFn: system: pkgs: path:
@@ -54,7 +55,20 @@ inputs @ {
         inherit inputs pkgs self system;
         lib = makeLib pkgs {};
       };
-      modules = [../config.nix path];
+      modules = let
+        agenixModule =
+          {
+            ${macosSystem} = agenix.darwinModules.default;
+            ${linuxSystem-x86} = agenix.nixosModules.default;
+            ${linuxSystem-arm64} = agenix.nixosModules.default;
+          }
+          .${system};
+      in [
+        ../config.nix
+        agenixModule
+        {environment.systemPackages = [agenix.packages.${system}.default];}
+        path
+      ];
     };
 in {
   formatter = {

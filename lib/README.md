@@ -7,7 +7,8 @@ Library has two important functions:
    `nixosSystem-x86` and `nixosSystem-arm64` functions to define home-manager
    and system configurations
 
-2. Autoloads [`config.nix`](../config.nix) for all these configurations
+2. Autoloads [`config.nix`](../config.nix) and [agenix](https://github.com/ryantm/agenix)
+   for all these configurations
 
 3. Autoloads other `.nix` files in the `lib` directory and makes them available
    as extension to the default `lib` under the `_` namespace
@@ -19,8 +20,7 @@ Helper to make it easier to import modules from the `modules` directory.
 Automatically includes `.nix` suffix for supplied paths, where necessary.
 
 ```nix
-{ lib, ... }:
-{
+{lib, ...}: {
   imports = lib._.moduleImports [
     "common/git"
     "common/zsh"
@@ -28,5 +28,17 @@ Automatically includes `.nix` suffix for supplied paths, where necessary.
   ];
 
   # ...
+}
+```
+
+### `lib._.defineSecrets`
+Helper to define agenix secrets in a more concise way.
+
+```nix
+{lib, ...}: {
+  age.secrets = lib._.defineSecrets ["secret1" "secret2"];
+  # produces equivalent configuration to
+  # age.secrets.secret1.file = ../secrets/secret1.age;
+  # age.secrets.secret2.file = ../secrets/secret2.age;
 }
 ```
