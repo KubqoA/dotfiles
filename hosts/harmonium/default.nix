@@ -4,11 +4,15 @@
   inputs,
   ...
 }: {
-  imports = [
-    inputs.lanzaboote.nixosModules.lanzaboote
-    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen2
-    ./hardware-configuration.nix
-  ];
+  imports =
+    [
+      inputs.lanzaboote.nixosModules.lanzaboote
+      inputs.nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen2
+      ./hardware-configuration.nix
+    ]
+    ++ lib._.moduleImports [
+      "common/nix"
+    ];
 
   hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
@@ -62,26 +66,6 @@
     extraGroups = ["audio" "video" "wheel" "networkmanager"];
     shell = pkgs.zsh;
   };
-
-  # Enable support for nix commands and flakes
-  nix.settings.experimental-features = ["nix-command" "flakes"];
-
-  # Pinning the registry to the system pkgs on NixOS
-  nix.registry.nixpkgs.flake = inputs.nixpkgs;
-
-  # Perform garbage collection weekly to maintain low disk usage
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 1w";
-  };
-
-  # Optimize storage
-  # You can also manually optimize the store via:
-  #    nix-store --optimise
-  # Refer to the following link for more details:
-  # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
-  nix.settings.auto-optimise-store = true;
 
   # Lanzaboote currently replaces the systemd-boot module.
   # This setting is usually set to true in configuration.nix

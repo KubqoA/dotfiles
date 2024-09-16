@@ -1,21 +1,11 @@
 {
+  lib,
   pkgs,
   self,
   system,
   ...
 }: {
-  imports = [./homebrew.nix];
-
-  # Necessary for using flakes on this system.
-  nix = {
-    package = pkgs.nix;
-    settings.experimental-features = "nix-command flakes";
-    extraOptions = ''
-      auto-optimise-store = true
-      experimental-features = nix-command flakes
-      extra-platforms = aarch64-darwin
-    '';
-  };
+  imports = [./homebrew.nix] ++ lib._.moduleImports ["common/nix"];
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
