@@ -15,20 +15,44 @@ in {
     ./hardware-configuration.nix
   ];
 
-  age.secrets = lib._.defineSecrets ["jakub-organ-password-hash" "organ-tailscale-auth-key"] {
-    "jakubarbet.me.key" = {owner = "named";};
+  age.secrets = lib._.defineSecrets ["organ-jakub-password-hash" "organ-tailscale-auth-key"] {
+    "organ-jakubarbetme-tsig" = {owner = "named";};
+    "organ-git-ssh-key" = {owner = "git"; mode="0600";};
   };
 
   users.users = {
-    root.openssh.authorizedKeys.keys = [config.sshPublicKey];
     jakub = {
-      hashedPasswordFile = config.age.secrets.jakub-organ-password-hash.path;
+      hashedPasswordFile = config.age.secrets.organ-jakub-password-hash.path;
       openssh.authorizedKeys.keys = [config.sshPublicKey];
       isNormalUser = true;
       extraGroups = ["wheel"];
       shell = pkgs.zsh;
     };
+    git = {
+      isNormalUser = true;
+      description = "soft-serve proxy user";
+      shell = let
+        soft-serve-proxy = pkgs.writeShellScriptBin "soft-serve-proxy" ''
+          #!/bin/bash
+          if [ "$1" = "-c" ]; then
+            shift
+            exec ${pkgs.openssh}/bin/ssh -p 23231 localhost "$@"
+          else
+            exec ${pkgs.openssh}/bin/ssh -p 23231 localhost "$@"
+          fi
+        '';
+      in "${soft-serve-proxy}/bin/soft-serve-proxy";
+    };
   };
+
+  system.activationScripts.git-ssh-key = let
+    sshDir = "${config.users.users.git.home}/.ssh";
+  in ''
+    mkdir -p ${sshDir}
+    chown -R git:users ${sshDir}
+    chmod 700 ${sshDir}
+    ln -sf ${config.age.secrets.organ-git-ssh-key.path} ${sshDir}/id_ed25519;
+  '';
 
   environment.systemPackages = with pkgs; [
     git
@@ -53,7 +77,7 @@ in {
       listenOnIpv6 = ["::1" "::"];
       forwarders = config.networking.nameservers;
       extraConfig = ''
-        include "${config.age.secrets."jakubarbet.me.key".path}";
+        include "${config.age.secrets.organ-jakubarbetme-tsig.path}";
       '';
       zones."jakubarbet.me" = {
         master = true;
@@ -82,6 +106,13 @@ in {
       enable = true;
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
+      virtualHosts."git.jakubarbet.me" = {
+        enableACME = true;
+	forceSSL = true;
+	locations."/" = {
+	  proxyPass = "http://localhost:23232";
+	};
+      };
       virtualHosts."organ.jakubarbet.me" = {
         enableACME = true;
         forceSSL = true;
@@ -109,6 +140,15 @@ in {
       settings = {
         PermitRootLogin = "prohibit-password";
         PasswordAuthentication = false;
+      };
+    };
+    soft-serve = {
+      enable = true;
+      settings = {
+        name = "Jakub's repos";
+	ssh.public_url = "ssh://git@organ.jakubarbet.me";
+	http.public_url = "https://git.jakubarbet.me";
+	initial_admin_keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICccFGBTx80CNOVaPBGxO9HzuAZ8rKTy7Ua6ZKJBLXev"];
       };
     };
     syncthing = {
