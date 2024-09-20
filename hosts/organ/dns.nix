@@ -14,8 +14,8 @@ in {
   # replicate them to dns.he.net servers
   services.bind = {
     enable = true;
-    listenOn = [ipv4 "127.0.0.1"];
-    listenOnIpv6 = [ipv6 "::1"];
+    listenOn = ["any"];
+    listenOnIpv6 = ["any"];
     extraConfig = ''
       include "${config.age.secrets.organ-jakubarbetme-tsig.path}";
     '';

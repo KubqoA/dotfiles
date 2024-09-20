@@ -10,6 +10,10 @@ in {
   age.secrets = lib._.defineSecrets ["organ-tailscale-auth-key"] {};
 
   services = {
+    bind = {
+      listenOn = ["!${tailscaleIpv4}"];
+      listenOnIpv6 = ["!${tailscaleIpv6}"];
+    };
     # Used to define DNS override for organ.jakubarbet.me to tailscale IPs
     # so devices connected to the tailnet can access the site which is behind
     # an tailscale-auth protection
