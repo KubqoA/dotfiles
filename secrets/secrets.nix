@@ -3,6 +3,7 @@ let
 in {
   "organ-jakub-password-hash.age".publicKeys = [organ];
   "organ-jakubarbetme-tsig.age".publicKeys = [organ];
+  "organ-sasl-passwd.age".publicKeys = [organ];
   "organ-tailscale-auth-key.age".publicKeys = [organ];
   "organ-git-ssh-key.age".publicKeys = [organ];
 }
