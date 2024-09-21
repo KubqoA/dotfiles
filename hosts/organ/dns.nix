@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   ipv4 = "116.203.250.61";
@@ -9,6 +10,12 @@ in {
   age.secrets = lib._.defineSecrets [] {
     "organ-jakubarbetme-tsig" = {owner = "named";};
   };
+
+  system.activationScripts.increment-and-sign-zone.text =
+    builtins.replaceStrings
+    ["cmp" "dnssec-keygen" "dnssec-signzone" "named-checkzone" "sed" "./jakubarbet.me.conf"]
+    ["${pkgs.diffutils}/bin/cmp" "${pkgs.bind}/bin/dnssec-signzone" "${pkgs.bind}/bin/dnssec-keygen" "${pkgs.bind}/bin/named-checkzone" "${pkgs.gnused}/bin/sed" "${./jakubarbet.me.conf}"]
+    (builtins.readFile ./increment-and-sign-zone.sh);
 
   # Used to define DNS records for jakubarbet.me domain and
   # replicate them to dns.he.net servers
@@ -19,9 +26,12 @@ in {
     extraConfig = ''
       include "${config.age.secrets.organ-jakubarbetme-tsig.path}";
     '';
+    extraOptions = ''
+      dnssec-validation yes;
+    '';
     zones."jakubarbet.me" = {
       master = true;
-      file = ./jakubarbet.me.conf;
+      file = "/etc/named/jakubarbet.me.conf.signed";
       slaves = ["key jakubarbet.me"];
       extraConfig = ''
         also-notify {
