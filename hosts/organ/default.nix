@@ -6,7 +6,6 @@
 }: {
   imports =
     [
-      ./dns.nix
       ./git.nix
       ./hardware-configuration.nix
       ./mail.nix
@@ -16,7 +15,10 @@
     ]
     ++ lib._.moduleImports [
       "common/nix"
+      "server/dns"
     ];
+
+  server.dns.zones."jakubarbet.me" = ./jakubarbet.me.zone;
 
   age.secrets = lib._.defineSecrets ["organ-jakub-password-hash"] {};
 
