@@ -1,4 +1,10 @@
-{inputs, ...}: {
+# [nixos/nix-darwin]
+{
+  inputs,
+  lib,
+  system,
+  ...
+}: {
   nix = {
     # Enable support for nix commands and flakes
     settings.experimental-features = ["nix-command" "flakes"];
@@ -9,7 +15,7 @@
     # Perform garbage collection weekly to maintain low disk usage
     gc = {
       automatic = true;
-      dates = "weekly";
+      dates = lib.mkIf (system != "aarch64-darwin") "weekly";
       options = "--delete-older-than 1w";
     };
 

@@ -22,7 +22,6 @@
       "pass-otp"
 
       # work specific
-      "awscli"
       "rbenv"
       "ruby-build"
       "nodenv"
@@ -32,7 +31,7 @@
       "vips"
       "python-setuptools"
       {
-        name = "postgresql";
+        name = "postgresql@17";
         restart_service = "changed";
       }
       {
@@ -48,13 +47,13 @@
       "around"
       "beekeeper-studio"
       "betterdisplay"
+      "cursor"
       "figma"
       "firefox"
       "intellij-idea-ce"
       "iterm2"
       "linearmouse"
       "loom"
-      "logi-options-plus"
       "macmediakeyforwarder"
       "notion"
       "obsidian"
@@ -64,7 +63,7 @@
       "spotify"
       "slack"
       "syncthing"
-      "visual-studio-code"
+      "tailscale"
       "whatsapp"
       "zed"
     ];
