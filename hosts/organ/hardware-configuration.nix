@@ -14,11 +14,20 @@ in {
     (modulesPath + "/profiles/qemu-guest.nix")
   ];
 
-  boot.initrd.availableKernelModules = ["xhci_pci" "virtio_scsi" "sr_mod"];
-  boot.initrd.kernelModules = ["virtio_gpu"];
-  boot.kernelModules = [];
-  boot.extraModulePackages = [];
-  boot.kernelParams = ["console=tty"];
+  boot = {
+    kernelModules = [];
+    extraModulePackages = [];
+    kernelParams = ["console=tty"];
+    initrd = {
+      availableKernelModules = ["xhci_pci" "virtio_scsi" "sr_mod"];
+      kernelModules = ["virtio_gpu"];
+    };
+    loader = {
+      systemd-boot.enable = true;
+      systemd-boot.configurationLimit = 5;
+      efi.canTouchEfiVariables = true;
+    };
+  };
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/b927425d-7b67-4af5-95d5-1598b83e0001";
@@ -60,13 +69,6 @@ in {
   swapDevices = [
     {device = "/dev/disk/by-uuid/289ba3ad-decc-477a-8775-ccb4678e6a49";}
   ];
-
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp1s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 }

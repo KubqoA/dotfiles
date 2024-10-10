@@ -4,13 +4,11 @@
   lib,
   ...
 }: let
-  domain = "jakubarbet.me";
+  domain = config.networking.domain;
 in {
   imports = [inputs.simple-nixos-mailserver.nixosModule];
 
-  age.secrets =
-    lib._.defineSecrets ["organ-sasl-passwd"] {
-    };
+  age.secrets = lib._.defineSecrets ["organ-sasl-passwd"] {};
 
   mailserver = {
     enable = true;
@@ -36,6 +34,7 @@ in {
         proxyPass = "http://localhost:8080/";
       };
     };
+    # Confgiure postfix to use mailgun as relay to improve deliverability
     postfix = {
       mapFiles."sasl_passwd" = config.age.secrets.organ-sasl-passwd.path;
       extraConfig = ''

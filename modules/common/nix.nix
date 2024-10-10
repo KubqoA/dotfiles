@@ -1,4 +1,5 @@
 # [nixos/nix-darwin]
+# nix with sensible defaults
 {
   inputs,
   lib,

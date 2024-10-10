@@ -64,7 +64,7 @@ inputs @ {
           }
           .${system};
       in [
-        ../config.nix
+        ../config.nix # Autoload global config options
         agenixModule
         {environment.systemPackages = [agenix.packages.${system}.default];}
         path

@@ -1,14 +1,14 @@
-{...}: {
+{config, ...}: {
   security.acme = {
     acceptTerms = true;
-    defaults.email = "hostmaster@jakubarbet.me";
+    defaults.email = "hostmaster@${config.networking.domain}";
   };
 
   services.nginx = {
     enable = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
-    virtualHosts."organ.jakubarbet.me" = {
+    virtualHosts.${config.networking.fqdn} = {
       enableACME = true;
       forceSSL = true;
       extraConfig = ''
@@ -16,12 +16,8 @@
         error_page 401 /unauthorized.html;
       '';
       locations."/unauthorized.html" = {
-        root = "/srv/www/organ.jakubarbet.me";
+        root = "/srv/www/${config.networking.fqdn}";
         extraConfig = "internal;";
-      };
-      locations."/syncthing/" = {
-        extraConfig = "auth_request /auth;";
-        proxyPass = "http://localhost:8384/";
       };
     };
   };
