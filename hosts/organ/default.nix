@@ -19,6 +19,7 @@
       "common/nix"
       "common/packages"
       "server/dns"
+      "server/tailscale"
     ];
 
   age.secrets = lib._.defineSecrets ["organ-tailscale-auth-key"] {};
