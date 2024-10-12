@@ -22,6 +22,12 @@
 
     simple-nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/master";
     simple-nixos-mailserver.inputs.nixpkgs.follows = "nixpkgs";
+
+    # nixpkgs with working and cached swift build
+    darwin-nixpkgs.url = "github:nixos/nixpkgs?rev=2e92235aa591abc613504fde2546d6f78b18c0cd";
+
+    rose-pine-kitty.url = "github:rose-pine/kitty";
+    rose-pine-kitty.flake = false;
   };
 
   outputs = inputs: let

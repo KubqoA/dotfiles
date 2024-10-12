@@ -7,8 +7,9 @@ Library has two important functions:
    `nixosSystem-x86` and `nixosSystem-arm64` functions to define home-manager
    and system configurations
 
-2. Autoloads [`config.nix`](../config.nix) and [agenix](https://github.com/ryantm/agenix)
-   for all these configurations
+2. Autoloads [`config.nix`](../config.nix) and [agenix](https://github.com/ryantm/agenix),
+   as well as all `.nix` files in the [`modules/autoload`](../modules/autoload)
+   directory for all home-manager and system configurations
 
 3. Autoloads other `.nix` files in the `lib` directory and makes them available
    as extension to the default `lib` under the `_` namespace

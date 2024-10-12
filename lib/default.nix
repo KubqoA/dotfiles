@@ -37,6 +37,14 @@ inputs @ {
       }
       // extra);
 
+  # Autoload all .nix files from ../modules/autoload
+  autoloadedModules = let
+    optionsDir = ../modules/autoload;
+    isNixFile = file: builtins.match ".*\\.nix$" file != null;
+    nixFiles = builtins.filter isNixFile (builtins.attrNames (builtins.readDir optionsDir));
+  in
+    map (file: optionsDir + "/${file}") nixFiles;
+
   makeHome = system: pkgs: path:
     home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
@@ -45,7 +53,7 @@ inputs @ {
         # Make sure to keep library extensions from home-manager
         lib = makeLib pkgs home-manager.lib;
       };
-      modules = [../config.nix agenix.homeManagerModules.default path];
+      modules = [../config.nix agenix.homeManagerModules.default path] ++ autoloadedModules;
     };
 
   makeSystem = systemFn: system: pkgs: path:
@@ -63,12 +71,14 @@ inputs @ {
             ${linuxSystem-arm64} = agenix.nixosModules.default;
           }
           .${system};
-      in [
-        ../config.nix # Autoload global config options
-        agenixModule
-        {environment.systemPackages = [agenix.packages.${system}.default];}
-        path
-      ];
+      in
+        [
+          ../config.nix # Autoload global config options
+          agenixModule
+          {environment.systemPackages = [agenix.packages.${system}.default];}
+          path
+        ]
+        ++ autoloadedModules;
     };
 in {
   formatter = {

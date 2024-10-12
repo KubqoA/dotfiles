@@ -31,7 +31,7 @@
       "vips"
       "python-setuptools"
       {
-        name = "postgresql@17";
+        name = "postgresql@14";
         restart_service = "changed";
       }
       {
@@ -46,7 +46,6 @@
       "arc"
       "around"
       "beekeeper-studio"
-      "betterdisplay"
       "cursor"
       "figma"
       "firefox"

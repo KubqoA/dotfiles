@@ -10,3 +10,5 @@ source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 eval "$(rbenv init - --no-rehash zsh)"
 
 eval "$(nodenv init - zsh)"
+
+export PATH="$HOME/.yarn/bin:$PATH"

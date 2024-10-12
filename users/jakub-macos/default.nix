@@ -8,9 +8,11 @@
     "common/aliases"
     "common/env"
     "common/git"
+    "common/kitty"
     "common/neovim"
     "common/password-store"
     "common/zsh"
+    "darwin/dark-mode-notify"
   ];
 
   home = {
@@ -28,7 +30,7 @@
       nurl
     ];
 
-    sessionVariables = rec {
+    sessionVariables = {
       # Work
       OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
       DISABLE_SPRING = "true";

@@ -5,12 +5,16 @@
   system,
   ...
 }: {
-  imports = [./homebrew.nix] ++ lib._.moduleImports ["common/nix"];
+  imports = [./homebrew.nix] ++ lib._.moduleImports ["common/nix" "common/packages"];
 
   networking.hostName = "nyckelharpa";
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    monitorcontrol
+  ];
 
   programs = {
     # home-manager doesn't support gpg-agent service, so it needs to be enabled here
@@ -43,7 +47,7 @@
           "/Applications/RubyMine.app"
           "/Applications/Cursor.app"
           "/Applications/Zed.app"
-          "/Applications/iTerm.app"
+          "/Users/jakub/Applications/Home\ Manager\ Apps/kitty.app"
           "/Applications/Notion.app"
           "/Applications/Slack.app"
           "/Applications/Obsidian.app"
