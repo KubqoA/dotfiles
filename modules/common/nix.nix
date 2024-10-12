@@ -27,4 +27,6 @@
     # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
     settings.auto-optimise-store = true;
   };
+
+  nixpkgs.config.allowUnfree = true;
 }

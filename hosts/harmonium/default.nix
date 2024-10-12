@@ -12,10 +12,10 @@
     ]
     ++ lib._.moduleImports [
       "common/nix"
+      "common/packages"
     ];
 
   hardware.enableAllFirmware = true;
-  nixpkgs.config.allowUnfree = true;
 
   networking = {
     hostName = "harmonium"; # Define your hostname.
@@ -44,15 +44,8 @@
   };
 
   environment.systemPackages = with pkgs; [
-    curl
-    wget
-    git
-
     # For debugging and troubleshooting Secure Boot.
     sbctl
-
-    # formatter
-    alejandra
   ];
 
   programs.zsh.enable = true;
