@@ -33,7 +33,7 @@ Refer to the respective host directories for more information.
 - [ ] Docker support
 - [ ] Dev environments
 - [ ] Full Neovim setup
-- [ ] Full nix-darwin setup with system configuration
+- [x] Full nix-darwin setup with system configuration
 - [ ] Server setup
   - [ ] Explore [disko](https://github.com/nix-community/disko) for declarative disk management
   - [ ] Explore [nixos-anywhere](https://github.com/nix-community/nixos-anywhere) for remote installation

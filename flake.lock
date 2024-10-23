@@ -92,6 +92,26 @@
         "type": "github"
       }
     },
+    "disko": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1729588208,
+        "narHash": "sha256-PNONdMd+sG7JWzNIDerX7oVZXL8FTVlSAZ1BmUo2HjE=",
+        "owner": "nix-community",
+        "repo": "disko",
+        "rev": "4be2aadf13b67ffbb993deb73adff77c46b728fc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "disko",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -349,6 +369,7 @@
       "inputs": {
         "agenix": "agenix",
         "darwin-nixpkgs": "darwin-nixpkgs",
+        "disko": "disko",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
         "nix-darwin": "nix-darwin",

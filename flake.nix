@@ -26,31 +26,26 @@
     # nixpkgs with working and cached swift build
     darwin-nixpkgs.url = "github:nixos/nixpkgs?rev=2e92235aa591abc613504fde2546d6f78b18c0cd";
 
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
     rose-pine-kitty.url = "github:rose-pine/kitty";
     rose-pine-kitty.flake = false;
   };
 
-  outputs = inputs: let
-    lib = import ./lib inputs;
-  in {
-    # Sets the default formatter that is used when running
-    # $ nix fmt
-    formatter = lib.formatter;
-
-    # home-manager configurations defined in a flake can be enabled by running
-    # $ nix run home-manager/master -- switch --flake "dotfiles#jakub-macos"
-    homeConfigurations.jakub-x86 = lib.linuxHome-x86 ./users/jakub-linux;
-    homeConfigurations.jakub-arm64 = lib.linuxHome-arm64 ./users/jakub-linux;
-    homeConfigurations.jakub-macos = lib.macosHome ./users/jakub-macos;
-
-    # nixos configurations defined in a flake can be enabled by running
-    # $ nixos-rebuild switch --flake dotfiles#harmonium
-    # $ nixos-rebuild switch --flake dotfiles#organ
-    nixosConfigurations.harmonium = lib.nixosSystem-x86 ./hosts/harmonium;
-    nixosConfigurations.organ = lib.nixosSystem-arm64 ./hosts/organ;
-
-    # nix-darwin configurations defined in a flake can be enabled by running
-    # $ darwin-rebuild build --flake dotfiles#nyckelharpa
-    darwinConfigurations.nyckelharpa = lib.macosSystem ./hosts/nyckelharpa;
-  };
+  outputs = inputs:
+    import ./lib inputs {
+      aarch64-darwin = {
+        homes.jakub-macos = ./users/jakub-macos;
+        hosts.nyckelharpa = ./hosts/nyckelharpa;
+      };
+      x86_64-linux = {
+        homes.jakub-x86 = ./users/jakub-linux;
+        hosts.harmonium = ./hosts/harmonium;
+      };
+      aarch64-linux = {
+        homes.jakub-arm64 = ./users/jakub-linux;
+        hosts.organ = ./hosts/organ;
+      };
+    };
 }

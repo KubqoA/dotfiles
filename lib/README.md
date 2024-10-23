@@ -1,18 +1,26 @@
 # lib
 
-Library has two important functions:
+Library has three important functions:
 
-1. Moves configuration boilerplate out of the main `flake.nix` by providing
-   `macosHome`, `linuxHome-x86`, `linuxHome-arm64`, `macosSystem`,
-   `nixosSystem-x86` and `nixosSystem-arm64` functions to define home-manager
-   and system configurations
+1. Moves configuration boilerplate out of the main `flake.nix` by providing an abstraction to define
+   home-manager and system configurations. For each defined system architecture it configures:
+   - `nix fmt` - Alejandra formatter
+   - `nix develop` - custom shell with `hm` and `os` aliases for activating the configurations
 
-2. Autoloads [`config.nix`](../config.nix) and [agenix](https://github.com/ryantm/agenix),
-   as well as all `.nix` files in the [`modules/autoload`](../modules/autoload)
-   directory for all home-manager and system configurations
+2. Autoloads [`config.nix`](../config.nix), [agenix](https://github.com/ryantm/agenix),
+   and [`autoloaded modules`](../modules/autoload) for all home-manager and system configurations
 
-3. Autoloads other `.nix` files in the `lib` directory and makes them available
-   as extension to the default `lib` under the `_` namespace
+3. Extends the default lib by loading all `.nix` file in the `lib` directory under the `_` namespace
+
+## Configuration abstraction
+```nix
+import ./lib inputs {
+  <architecture> = {
+    homes.<name> = path;
+    systems.<name> = path;
+  };
+}
+```
 
 ## `lib` extensions
 
@@ -29,6 +37,10 @@ Automatically includes `.nix` suffix for supplied paths, where necessary.
   ];
 }
 ```
+
+### `lib._.autoloadedModules`
+Helper to autoload modules from the `modules/autoload` directory.
+Automatically used when creating home-manager and system configurations.
 
 ### `lib._.defineSecrets`
 Helper to define agenix secrets in a more concise way.

@@ -1,97 +1,100 @@
-# Simple lib for moving configuration boilerplate out of the main flake.nix
-# Contains helpers to define home-manager, nix-darwin, and nixos systems
-# and to load custom lib extensions from other .nix files in lib/ directory
 inputs @ {
   agenix,
   home-manager,
-  nixpkgs,
   nix-darwin,
+  nixpkgs,
   self,
   ...
-}: let
-  macosSystem = "aarch64-darwin";
-  linuxSystem-x86 = "x86_64-linux";
-  linuxSystem-arm64 = "aarch64-linux";
-  macosPkgs = makePkgs macosSystem;
-  linuxPkgs-x86 = makePkgs linuxSystem-x86;
-  linuxPkgs-arm64 = makePkgs linuxSystem-arm64;
-
-  makePkgs = system:
-    import nixpkgs {
+}: systems: let
+  mapSystem = system: {
+    homes ? {},
+    hosts ? {},
+  }: let
+    pkgs = import nixpkgs {
       inherit system;
       config.allowUnfree = true;
     };
 
-  # Expose custom lib extensions via `_.` prefix
-  makeLib = pkgs: extra:
-    pkgs.lib.extend (lib: super: let
+    lib = pkgs.lib.extend (lib: super: let
       # Automatically detect all .nix files in lib/ directory, excluding default.nix
       libs =
         builtins.filter
         (path: path != "default.nix" && lib.strings.hasSuffix ".nix" path)
         (builtins.attrNames (builtins.readDir ./.));
-      importLib = path: import ./${path} {inherit inputs lib pkgs;};
-    in
-      {
-        _ = lib.foldr (a: b: a // b) {} (map importLib libs);
+      importLib = path: import ./${path} {inherit inputs lib pkgs system;};
+    in {
+      # Expose custom lib extensions via `_.` prefix
+      _ = lib.foldr (a: b: a // b) {} (map importLib libs);
+      # Make sure to keep library extensions from home-manager
+      hm = home-manager.lib.hm;
+    });
+
+    systemSpecifics =
+      if system == "aarch64-darwin" || system == "x86_64-darwin"
+      then {
+        fn = nix-darwin.lib.darwinSystem;
+        option = "darwinConfigurations";
+        command = "darwin-rebuild";
+        agenixModule = agenix.darwinModules.default;
       }
-      // extra);
-
-  # Autoload all .nix files from ../modules/autoload
-  autoloadedModules = let
-    optionsDir = ../modules/autoload;
-    isNixFile = file: builtins.match ".*\\.nix$" file != null;
-    nixFiles = builtins.filter isNixFile (builtins.attrNames (builtins.readDir optionsDir));
-  in
-    map (file: optionsDir + "/${file}") nixFiles;
-
-  makeHome = system: pkgs: path:
-    home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
-      extraSpecialArgs = {
-        inherit inputs system;
-        # Make sure to keep library extensions from home-manager
-        lib = makeLib pkgs home-manager.lib;
+      else {
+        fn = nixpkgs.lib.nixosSystem;
+        option = "nixosConfigurations";
+        command = "nixos-rebuild";
+        agenixModule = agenix.nixosModules.default;
       };
-      modules = [../config.nix agenix.homeManagerModules.default path] ++ autoloadedModules;
-    };
 
-  makeSystem = systemFn: system: pkgs: path:
-    systemFn {
-      inherit system;
-      specialArgs = {
-        inherit inputs pkgs self system;
-        lib = makeLib pkgs {};
-      };
-      modules = let
-        agenixModule =
-          {
-            ${macosSystem} = agenix.darwinModules.default;
-            ${linuxSystem-x86} = agenix.nixosModules.default;
-            ${linuxSystem-arm64} = agenix.nixosModules.default;
-          }
-          .${system};
-      in
-        [
-          ../config.nix # Autoload global config options
-          agenixModule
-          {environment.systemPackages = [agenix.packages.${system}.default];}
-          path
-        ]
-        ++ autoloadedModules;
+    mapHosts = builtins.mapAttrs (name: path:
+      systemSpecifics.fn {
+        inherit system;
+        specialArgs = {inherit inputs lib pkgs self system;};
+        modules =
+          [
+            ../config.nix
+            systemSpecifics.agenixModule
+            {
+              environment.systemPackages = [agenix.packages.${system}.default];
+              networking.hostName = name;
+            }
+            path
+          ]
+          ++ lib._.autoloadedModules;
+      });
+
+    mapHomes = builtins.mapAttrs (name: path:
+      home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = {inherit inputs lib system;};
+        modules = [../config.nix agenix.homeManagerModules.default path] ++ lib._.autoloadedModules;
+      });
+  in {
+    formatter.${system} = pkgs.alejandra;
+    devShells.${system}.default = pkgs.mkShell {
+      packages = [pkgs.alejandra pkgs.home-manager];
+      shellHook = ''
+        # Set custom prompt colors using ANSI escape codes
+        # \[\e[1;32m\] - Bold Green
+        # \[\e[1;34m\] - Bold Blue
+        # \[\e[0m\] - Reset formatting
+        export PS1='\[\e[1;32m\][${system}:\w]\$\[\e[0m\] '
+        echo
+        echo "‹os›: ${builtins.concatStringsSep ", " (builtins.attrNames hosts)}"
+        echo "‹hm›: ${builtins.concatStringsSep ", " (builtins.attrNames homes)}"
+        echo
+
+        hm() {
+          home-manager switch --flake .#$1
+        }
+
+        os() {
+          ${systemSpecifics.command} switch --flake .#$1
+        }
+      '';
     };
-in {
-  formatter = {
-    ${macosSystem} = macosPkgs.alejandra;
-    ${linuxSystem-x86} = linuxPkgs-x86.alejandra;
-    ${linuxSystem-arm64} = linuxPkgs-arm64.alejandra;
+    ${systemSpecifics.option} = mapHosts hosts;
+    homeConfigurations = mapHomes homes;
   };
-
-  macosHome = makeHome macosSystem macosPkgs;
-  linuxHome-x86 = makeHome linuxSystem-x86 linuxPkgs-x86;
-  linuxHome-arm64 = makeHome linuxSystem-arm64 linuxPkgs-arm64;
-
-  macosSystem = makeSystem (nix-darwin.lib.darwinSystem) macosSystem macosPkgs;
-  nixosSystem-x86 = makeSystem (nixpkgs.lib.nixosSystem) linuxSystem-x86 linuxPkgs-x86;
-  nixosSystem-arm64 = makeSystem (nixpkgs.lib.nixosSystem) linuxSystem-arm64 linuxPkgs-arm64;
-}
+in
+  builtins.zipAttrsWith
+  (name: values: builtins.foldl' (a: b: a // b) {} values)
+  (builtins.map (system: mapSystem system systems.${system}) (builtins.attrNames systems))
