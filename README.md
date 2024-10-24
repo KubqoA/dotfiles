@@ -34,9 +34,9 @@ Refer to the respective host directories for more information.
 - [ ] Dev environments
 - [ ] Full Neovim setup
 - [x] Full nix-darwin setup with system configuration
-- [ ] Server setup
-  - [ ] Explore [disko](https://github.com/nix-community/disko) for declarative disk management
-  - [ ] Explore [nixos-anywhere](https://github.com/nix-community/nixos-anywhere) for remote installation
+- [x] Server setup
+  - [x] Explore [disko](https://github.com/nix-community/disko) for declarative disk management
+  - [x] Explore [nixos-anywhere](https://github.com/nix-community/nixos-anywhere) for remote installation
 
 ## Useful resources
 - [NixOS & Flakes Book](https://nixos-and-flakes.thiscute.world/)

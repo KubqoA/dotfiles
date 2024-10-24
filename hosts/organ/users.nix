@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: {
   age.secrets = lib._.defineSecrets ["organ-jakub-password-hash"] {};

@@ -1,33 +1,44 @@
 {
   config,
   lib,
-  pkgs,
+  modulesPath,
   ...
 }: {
   imports =
     [
-      ./git.nix
-      ./hardware-configuration.nix
-      ./mail.nix
+      (modulesPath + "/profiles/qemu-guest.nix")
+      ./disko.nix
+      # ./git.nix
+      # ./mail.nix
       ./networking.nix
-      ./nginx.nix
+      # ./nginx.nix
       ./ssh.nix
-      ./syncthing.nix
+      # ./syncthing.nix
       ./users.nix
     ]
     ++ lib._.moduleImports [
       "common/nix"
       "common/packages"
-      "server/dns"
+      # "server/dns"
       "server/tailscale"
     ];
 
   age.secrets = lib._.defineSecrets ["organ-tailscale-auth-key"] {};
 
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      systemd-boot.configurationLimit = 5;
+      efi.canTouchEfiVariables = true;
+    };
+    initrd.kernelModules = ["virtio_gpu"];
+    kernelParams = ["console=tty"];
+  };
+
   time.timeZone = "Europe/Prague";
 
   server = {
-    dns.zones."jakubarbet.me" = ./dns/jakubarbet.me.zone;
+    #   dns.zones."jakubarbet.me" = ./dns/jakubarbet.me.zone;
     tailscale = {
       tailnet = "ide-vega.ts.net";
       tailscaleIpv4 = "100.67.2.27";

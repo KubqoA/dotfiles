@@ -20,8 +20,8 @@ with lib; {
     services = {
       # Let dnsmasq handle DNS resolution for the tailscale network
       bind = {
-        listenOn = ["!${config.tailscaleIpv4}"];
-        listenOnIpv6 = ["!${config.tailscaleIpv6}"];
+        listenOn = ["!${config.server.tailscale.tailscaleIpv4}"];
+        listenOnIpv6 = ["!${config.server.tailscale.tailscaleIpv6}"];
       };
 
       # Used to define DNS override for FQDN to tailscale IPs so devices
@@ -29,16 +29,17 @@ with lib; {
       # an tailscale-auth protection
       dnsmasq = {
         enable = true;
+        resolveLocalQueries = false;
         settings = {
           bind-interfaces = true;
-          listen-address = "${config.tailscaleIpv4},${config.tailscaleIpv6}";
-          address = ["/${config.networking.fqdn}/${config.tailscaleIpv4}" "/${config.networking.fqdn}/${config.tailscaleIpv6}"];
+          listen-address = "${config.server.tailscale.tailscaleIpv4},${config.server.tailscale.tailscaleIpv6}";
+          address = ["/${config.networking.fqdn}/${config.server.tailscale.tailscaleIpv4}" "/${config.networking.fqdn}/${config.server.tailscale.tailscaleIpv6}"];
         };
       };
 
       nginx.tailscaleAuth = {
         enable = true;
-        expectedTailnet = config.tailnet;
+        expectedTailnet = config.server.tailscale.tailnet;
         virtualHosts = [config.networking.fqdn];
       };
 
@@ -57,7 +58,7 @@ with lib; {
     };
 
     networking.firewall = {
-      trustedInterfaces = config.services.tailscale.interfaceName;
+      trustedInterfaces = [config.services.tailscale.interfaceName];
     };
   };
 }

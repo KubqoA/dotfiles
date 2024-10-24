@@ -10,6 +10,8 @@
     # Enable support for nix commands and flakes
     settings.experimental-features = ["nix-command" "flakes"];
 
+    settings.trusted-users = ["root" "jakub"];
+
     # Pinning the registry to the system pkgs on NixOS
     registry.nixpkgs.flake = inputs.nixpkgs;
 

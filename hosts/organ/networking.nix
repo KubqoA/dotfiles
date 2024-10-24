@@ -1,9 +1,8 @@
-{config, ...}: let
-  ipv4 = "116.203.250.61";
-  ipv6 = "2a01:4f8:c012:58f4::";
+{...}: let
+  ipv4 = "116.202.110.124";
+  ipv6 = "2a01:4f8:c013:5899::";
 in {
   networking = {
-    hostName = "organ";
     domain = "jakubarbet.me";
     useDHCP = false;
     nameservers = ["1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001"];
@@ -20,8 +19,8 @@ in {
       matchConfig.Name = "enp1s0";
       networkConfig.DHCP = "no";
       address = [
-        "${config.ipv4}/32"
-        "${config.ipv6}/64"
+        "${ipv4}/32"
+        "${ipv6}/64"
       ];
       routes = [
         {
