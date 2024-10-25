@@ -22,30 +22,30 @@ increment_serial() {
   echo $new_serial
 }
 
-if [ -f "/etc/named/$ZONE.zone.orig" ] && $(cmp -s "$ZONE_PATH" "/etc/named/$ZONE.zone.orig"); then
-  echo "[dnssec] Zone $ZONE not changed"
-  exit
+if [ -f "/etc/named/$ZONE_NAME.zone.orig" ] && $(cmp -s "$ZONE_FILE" "/etc/named/$ZONE_NAME.zone.orig"); then
+  echo "[dnssec] Zone $ZONE_NAME not changed"
+else
+  cd /etc/named
+  current_serial="0000000000"
+  if [ -f "/etc/named/$ZONE_NAME.zone" ]; then
+    current_serial=$(named-checkzone "$ZONE_NAME" "/etc/named/$ZONE_NAME.zone" | egrep -ho '[0-9]{10}')
+  fi
+  new_serial=$(increment_serial $current_serial)
+  
+  cp "$ZONE_FILE" "/etc/named/$ZONE_NAME.zone"
+  cp "/etc/named/$ZONE_NAME.zone"{,.orig}
+  sed -i "s/\$SERIAL/$new_serial/" "$ZONE_NAME.zone"
+  echo "[dnssec] Zone $ZONE_NAME with serial $new_serial"
+  
+  for key in `ls K$ZONE_NAME*.key`
+  do
+    echo "\$INCLUDE $key">> "$ZONE_NAME.zone"
+  done
+  
+  echo "[dnssec] Signing zone"
+  dnssec-signzone -A -3 $(head -c 1000 /dev/random | sha1sum | cut -b 1-16) -N INCREMENT -o "$ZONE_NAME" -t "$ZONE_NAME.zone" >/dev/null
+  
+  echo "[dnssec] Please set the following DS records at the registrar"
+  cat "dsset-$ZONE_NAME."
 fi
 
-cd /etc/named
-current_serial="0000000000"
-if [ -f "/etc/named/$ZONE.zone" ]; then
-  current_serial=$(named-checkzone "$ZONE" "/etc/named/$ZONE.zone" | egrep -ho '[0-9]{10}')
-fi
-new_serial=$(increment_serial $current_serial)
-
-cp "$ZONE_PATH" "/etc/named/$ZONE.zone"
-cp "/etc/named/$ZONE.zone"{,.orig}
-sed -i "s/\$SERIAL/$new_serial/" "$ZONE.zone"
-echo "[dnssec] Zone $ZONE with serial $new_serial"
-
-for key in `ls K$ZONE*.key`
-do
-  echo "\$INCLUDE $key">> "$ZONE.zone"
-done
-
-echo "[dnssec] Signing zone"
-dnssec-signzone -A -3 $(head -c 1000 /dev/random | sha1sum | cut -b 1-16) -N INCREMENT -o "$ZONE" -t "$ZONE.zone" >/dev/null
-
-echo "[dnssec] Please set the following DS records at the registrar"
-cat "dsset-$ZONE."

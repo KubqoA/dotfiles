@@ -6,10 +6,11 @@ $TTL 3600
 					1209600		;expire
 					3600	)	;minimum
 
-@	IN	NS	ns2.he.net.
-@	IN	NS	ns3.he.net.
-@	IN	NS	ns4.he.net.
 @	IN	NS	ns5.he.net.
+@	IN	NS	ns4.he.net.
+@	IN	NS	ns3.he.net.
+@	IN	NS	ns2.he.net.
+@	IN	NS	ns1.he.net.
 
 ; Github pages hosting
 @				IN	A	185.199.108.153
@@ -23,19 +24,19 @@ $TTL 3600
 www				IN	CNAME	kubqoa.github.io.
 _github-pages-challenge-kubqoa	IN	TXT	4594a706967b6a5dc0f2924da639ee
 
-organ	IN	A	116.203.250.61
-organ	IN	AAAA	2a01:4f8:c012:58f4::
-git	IN	A	116.203.250.61
-git	IN	AAAA	2a01:4f8:c012:58f4::
-drive	IN	A	116.203.250.61
-drive	IN	AAAA	2a01:4f8:c012:58f4::
+organ	IN	A	116.202.110.124
+organ	IN	AAAA	2a01:4f8:c013:5899::
+git	IN	A	116.202.110.124
+git	IN	AAAA	2a01:4f8:c013:5899::
+drive	IN	A	116.202.110.124
+drive	IN	AAAA	2a01:4f8:c013:5899::
 
 @	IN	CAA	0 iodef mailto:hostmaster@jakubarbet.me
 @	IN	CAA	0 issue letsencrypt.org
 
 ; Mail related settings
-mail		IN	A	116.203.250.61
-mail		IN	AAAA	2a01:4f8:c012:58f4::
+mail		IN	A	116.202.110.124
+mail		IN	AAAA	2a01:4f8:c013:5899::
 email		IN	CNAME	eu.mailgun.org.
 @		IN	MX	10 mail.jakubarbet.me.
 @		IN	TXT	"v=spf1 include:mailgun.org ~all"
@@ -47,10 +48,10 @@ mail._domainkey	IN	TXT	( "v=DKIM1; k=rsa; "
 
 
 ; Mail autoconfig
-autoconfig		IN	A	116.203.250.61
-autoconfig		IN	AAAA	2a01:4f8:c012:58f4::
-autodiscover		IN	A	116.203.250.61
-autodiscover		IN	AAAA	2a01:4f8:c012:58f4::
+autoconfig		IN	A	116.202.110.124
+autoconfig		IN	AAAA	2a01:4f8:c013:5899::
+autodiscover		IN	A	116.202.110.124
+autodiscover		IN	AAAA	2a01:4f8:c013:5899::
 _imap._tcp		IN	SRV	5 0 143 mail.jakubarbet.me.
 _imaps._tcp		IN	SRV	5 0 993 mail.jakubarbet.me.
 _submission._tcp	IN	SRV	5 0 587 mail.jakubarbet.me.

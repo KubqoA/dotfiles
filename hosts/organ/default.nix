@@ -19,7 +19,7 @@
     ++ lib._.moduleImports [
       "common/nix"
       "common/packages"
-      # "server/dns"
+      "server/dns"
       "server/tailscale"
     ];
 
@@ -28,7 +28,7 @@
   boot = {
     loader = {
       systemd-boot.enable = true;
-      systemd-boot.configurationLimit = 5;
+      systemd-boot.configurationLimit = 10;
       efi.canTouchEfiVariables = true;
     };
     initrd.kernelModules = ["virtio_gpu"];
@@ -38,11 +38,11 @@
   time.timeZone = "Europe/Prague";
 
   server = {
-    #   dns.zones."jakubarbet.me" = ./dns/jakubarbet.me.zone;
+    dns.zones."jakubarbet.me" = ./dns/jakubarbet.me.zone;
     tailscale = {
       tailnet = "ide-vega.ts.net";
-      tailscaleIpv4 = "100.67.2.27";
-      tailscaleIpv6 = "fd7a:115c:a1e0::f101:21b";
+      tailscaleIpv4 = "100.71.111.38";
+      tailscaleIpv6 = "fd7a:115c:a1e0::2901:6f29";
       authKeyFile = config.age.secrets.organ-tailscale-auth-key.path;
     };
   };

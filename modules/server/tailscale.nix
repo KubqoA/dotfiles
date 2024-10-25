@@ -48,12 +48,12 @@ with lib; {
         authKeyFile = config.server.tailscale.authKeyFile;
         useRoutingFeatures = "server";
         openFirewall = true;
-        extraUpFlags = ["--advertiseTags tag:ssh"];
         extraSetFlags = [
           "--ssh"
           "--advertise-exit-node" # offer to be exit node internet traffic for tailnet
           "--advertise-connector" # offer to be app connector for domain specific internet traffic for tailnet
         ];
+	extraUpFlags = ["--ssh" "--advertise-exit-node" "--advertise-connector"];
       };
     };
 

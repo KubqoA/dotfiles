@@ -40,7 +40,7 @@
         "dns-dnssec-${zoneName}".text = ''
           mkdir -p /etc/named
           # Generate DNSSEC key if it doesn't exist
-          if ls /etc/named/K${zoneName}*.key >/dev/null 2>/dev/null; then
+          if ! ls /etc/named/K${zoneName}*.key >/dev/null 2>/dev/null; then
             echo "[dns-dnssec] Generating DNSSEC key for ${zoneName}"
             ${pkgs.bind}/bin/dnssec-keygen -a NSEC3RSASHA1 -b 2048 -K /etc/named -n ZONE "${zoneName}" 2>/dev/null
             ${pkgs.bind}/bin/dnssec-keygen -f KSK -a NSEC3RSASHA1 -b 4096 -K /etc/named -n ZONE "${zoneName}"  2>/dev/null
@@ -50,8 +50,8 @@
           deps = ["dns-dnssec-${zoneName}"];
           text =
             builtins.replaceStrings
-            ["cmp" "dnssec-signzone" "named-checkzone" "sed" "$ZONE" "$ZONE_PATH"]
-            ["${pkgs.diffutils}/bin/cmp" "${pkgs.bind}/bin/dnssec-keygen" "${pkgs.bind}/bin/named-checkzone" "${pkgs.gnused}/bin/sed" "${zoneName}" "${zoneFile}"]
+            ["cmp" "dnssec-signzone" "named-checkzone" "sed" "$ZONE_NAME" "$ZONE_FILE"]
+            ["${pkgs.diffutils}/bin/cmp" "${pkgs.bind}/bin/dnssec-signzone" "${pkgs.bind}/bin/named-checkzone" "${pkgs.gnused}/bin/sed" "${zoneName}" "${zoneFile}"]
             (builtins.readFile ./increment-and-sign-zone.sh);
         };
       };
