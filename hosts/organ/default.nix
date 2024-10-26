@@ -20,10 +20,16 @@
       "common/nix"
       "common/packages"
       "server/dns"
+      "server/seafile"
       "server/tailscale"
     ];
 
-  age.secrets = lib._.defineSecrets ["organ-tailscale-auth-key"] {};
+  age.secrets = lib._.defineSecrets ["organ-tailscale-auth-key"] {
+    "organ-seafile-password" = {
+      owner = config.services.seafile.user;
+      mode = "0600";
+    };
+  };
 
   boot = {
     loader = {
@@ -39,6 +45,10 @@
 
   server = {
     dns.zones."jakubarbet.me" = ./dns/jakubarbet.me.zone;
+    seafile = {
+      adminEmail = "hi@jakubarbet.me";
+      adminPasswordFile = config.age.secrets.organ-seafile-password.path;
+    };
     tailscale = {
       tailnet = "ide-vega.ts.net";
       authKeyFile = config.age.secrets.organ-tailscale-auth-key.path;
