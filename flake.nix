@@ -36,15 +36,15 @@
   outputs = inputs:
     import ./lib inputs {
       aarch64-darwin = {
-        homes.jakub-macos = ./users/jakub-macos;
+        homes.jakub-macos = ./homes/jakub-macos;
         hosts.nyckelharpa = ./hosts/nyckelharpa;
       };
       x86_64-linux = {
-        homes.jakub-x86 = ./users/jakub-linux;
+        homes.jakub-x86 = ./homes/jakub-linux;
         hosts.harmonium = ./hosts/harmonium;
       };
       aarch64-linux = {
-        homes.jakub-arm64 = ./users/jakub-linux;
+        homes.jakub-arm64 = ./homes/jakub-linux;
         hosts.organ = ./hosts/organ;
       };
     };
