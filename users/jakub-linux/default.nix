@@ -10,6 +10,7 @@
     "common/git"
     "common/neovim"
     "common/password-store"
+    "common/zsh"
   ];
 
   home = {
@@ -19,7 +20,6 @@
       home-manager
       chromium
       firefox
-      zsh
       obsidian
       fzf
 
@@ -107,9 +107,6 @@
     size = 32;
   };
 
-  # Shell
-  # ZSH configured manually - move into dotfiles
-
   # Terminal
   programs.foot = {
     enable = true;
@@ -156,9 +153,10 @@
   # Services
   services.kanshi = {
     enable = true;
-    profiles = {
-      home = {
-        outputs = [
+    settings = [
+      {
+        profile.name = "home";
+        profile.outputs = [
           {
             criteria = "DP-2";
             mode = "3840x2160";
@@ -173,10 +171,11 @@
             scale = 1.0;
           }
         ];
-        exec = "${pkgs.gnugrep}/bin/grep closed /proc/acpi/button/lid/LID/state && ${pkgs.kanshi}/bin/kanshictl switch home-only-external";
-      };
-      home-only-external = {
-        outputs = [
+        profile.exec = "${pkgs.gnugrep}/bin/grep closed /proc/acpi/button/lid/LID/state && ${pkgs.kanshi}/bin/kanshictl switch home-only-external";
+      }
+      {
+        profile.name = "home-only-external";
+        profile.outputs = [
           {
             criteria = "DP-2";
             mode = "3840x2160";
@@ -188,9 +187,10 @@
             status = "disable";
           }
         ];
-      };
-      laptop = {
-        outputs = [
+      }
+      {
+        profile.name = "laptop";
+        profile.outputs = [
           {
             criteria = "eDP-1";
             status = "enable";
@@ -198,8 +198,8 @@
             scale = 1.0;
           }
         ];
-      };
-    };
+      }
+    ];
   };
 
   programs.gpg.enable = true;

@@ -66,7 +66,7 @@
   # generated at installation time. So we force it to false
   # for now.
   boot.loader.systemd-boot.enable = lib.mkForce false;
-  boot.loader.systemd-boot.configurationLimit = 5;
+  boot.loader.systemd-boot.configurationLimit = 3;
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Enables support for secureboot, see:
@@ -82,7 +82,7 @@
     # > sudo systemd-cryptenroll /dev/nvme0n1p6 --tpm2-device=auto --tpm2-pcrs=0+2+7
     # PCRs are important to guarantee tamper-proofing
     # Refer also to ./enable-tpm.sh
-    enableTpm2 = true;
+    tpm2.enable = true;
   };
 
   # Disables showing the generations menu, it can be still accessed when holding ‹spacebar› while booting
@@ -172,5 +172,5 @@
 
   security.pam.services.hyprlock = {};
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 }

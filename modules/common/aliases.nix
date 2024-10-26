@@ -10,8 +10,8 @@
   home.shellAliases = let
     osCommand =
       {
-        "x86_64-linux" = "nixos-rebuild";
-        "aarch64-linux" = "nixos-rebuild";
+        "x86_64-linux" = "sudo nixos-rebuild";
+        "aarch64-linux" = "sudo nixos-rebuild";
         "aarch64-darwin" = "darwin-rebuild";
       }
       .${system};
