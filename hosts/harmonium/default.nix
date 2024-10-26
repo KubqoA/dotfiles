@@ -1,7 +1,8 @@
 {
-  pkgs,
-  lib,
+  config,
   inputs,
+  lib,
+  pkgs,
   ...
 }: {
   imports =
@@ -52,7 +53,7 @@
   programs.sway.enable = true;
   programs.light.enable = true;
 
-  users.users.jakub = {
+  users.users.${config.username} = {
     # TODO: Research secret managers and use them to store the pass
     hashedPassword = "$6$rounds=500000$0rEHES1LTcVCJYz3$9MnsxPUjY2fcMKIHdlzZB0KW/52gPIpe9ENWcfpUlAIzG75rC3hDotfr44k7MwVVc6Ri0ePZB.q7G3xNbSvCx.";
     isNormalUser = true;

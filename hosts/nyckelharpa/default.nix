@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   self,
@@ -27,7 +28,7 @@
     zsh.enable = true;
   };
 
-  users.users.jakub.home = "/Users/jakub";
+  users.users.${config.username}.home = "/Users/${config.username}";
 
   security = {
     # Add ability to use Touch ID for sudo
@@ -47,7 +48,7 @@
           "/Applications/RubyMine.app"
           "/Applications/Cursor.app"
           "/Applications/Zed.app"
-          "/Users/jakub/Applications/Home\ Manager\ Apps/kitty.app"
+          "${config.users.users.${config.username}.home}/Applications/Home\ Manager\ Apps/kitty.app"
           "/Applications/Notion.app"
           "/Applications/Slack.app"
           "/Applications/Obsidian.app"

@@ -1,6 +1,4 @@
-{config, ...}: let
-  user = "jakub";
-in {
+{config, ...}: {
   services = {
     nginx.virtualHosts.${config.networking.fqdn}.locations."/syncthing/" = {
       extraConfig = "auth_request /auth;";
@@ -8,8 +6,8 @@ in {
     };
     syncthing = {
       enable = true;
-      user = user;
-      dataDir = "${config.users.users.${user}.home}/Sync";
+      user = config.username;
+      dataDir = "${config.users.users.${config.username}.home}/Sync";
 
       # https://docs.syncthing.net/users/config.html#config-option-gui.insecureskiphostcheck
       settings.gui.insecureSkipHostcheck = true;

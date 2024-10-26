@@ -1,6 +1,7 @@
 # [nixos/nix-darwin]
 # nix with sensible defaults
 {
+  config,
   inputs,
   lib,
   system,
@@ -10,10 +11,14 @@
     # Enable support for nix commands and flakes
     settings.experimental-features = ["nix-command" "flakes"];
 
-    settings.trusted-users = ["root" "jakub"];
+    settings.trusted-users = ["root" config.username];
 
     # Pinning the registry to the system pkgs on NixOS
     registry.nixpkgs.flake = inputs.nixpkgs;
+    # Binding `<nixpkgs>` to the flake input, and similar for other flake inputs
+    nixPath =
+      lib.mapAttrsToList (name: value: "${name}=${value}")
+      (lib.filterAttrs (_: value: value ? _type && value._type == "flake") inputs);
 
     # Perform garbage collection weekly to maintain low disk usage
     gc = {

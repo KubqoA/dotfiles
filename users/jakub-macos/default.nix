@@ -16,8 +16,8 @@
   ];
 
   home = {
-    username = "jakub";
-    homeDirectory = "/Users/jakub";
+    username = config.username;
+    homeDirectory = "/Users/${config.username}";
 
     packages = with pkgs; [
       home-manager
@@ -38,8 +38,6 @@
     };
 
     shellAliases = {
-      dw = "darwin-rebuild --flake \"$HOME/.config/dotfiles\"";
-
       # Work
       linear = "git checkout main && git pull && git checkout -b $(pbpaste)";
       swarm = "RBENV_VERSION=$(cat $IAC_PATH/.ruby-version) $IAC_PATH/exe/swarm";

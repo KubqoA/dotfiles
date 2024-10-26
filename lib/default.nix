@@ -34,7 +34,7 @@ inputs @ {
       then {
         fn = nix-darwin.lib.darwinSystem;
         option = "darwinConfigurations";
-        command = "darwin-rebuild";
+        command = "nix run nix-darwin --";
         agenixModule = agenix.darwinModules.default;
       }
       else {
@@ -44,27 +44,24 @@ inputs @ {
         agenixModule = agenix.nixosModules.default;
       };
 
-    mapHosts = builtins.mapAttrs (name: path:
+    mapHosts = builtins.mapAttrs (osName: path:
       systemSpecifics.fn {
         inherit system;
-        specialArgs = {inherit inputs lib pkgs self system;};
+        specialArgs = {inherit inputs lib pkgs self system osName;};
         modules =
           [
             ../config.nix
             systemSpecifics.agenixModule
-            {
-              environment.systemPackages = [agenix.packages.${system}.default];
-              networking.hostName = name;
-            }
+            {networking.hostName = lib.mkDefault osName;}
             path
           ]
           ++ lib._.autoloadedModules;
       });
 
-    mapHomes = builtins.mapAttrs (name: path:
+    mapHomes = builtins.mapAttrs (homeName: path:
       home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = {inherit inputs lib system;};
+        extraSpecialArgs = {inherit inputs lib system homeName;};
         modules = [../config.nix agenix.homeManagerModules.default path] ++ lib._.autoloadedModules;
       });
   in {

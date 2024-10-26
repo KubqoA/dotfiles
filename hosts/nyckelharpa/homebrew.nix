@@ -30,6 +30,7 @@
       "libsodium"
       "vips"
       "python-setuptools"
+      "php"
       {
         name = "postgresql@14";
         restart_service = "changed";

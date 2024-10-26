@@ -2,24 +2,17 @@
 # common aliases shared across all systems
 {
   config,
+  homeName,
   lib,
   system,
   ...
 }: {
   home.shellAliases = let
-    username = config.home.username;
-    dotfiles =
+    osCommand =
       {
-        "x86_64-linux" = "/persist/dotfiles";
-        "aarch64-linux" = "/persist/dotfiles";
-        "aarch64-darwin" = "$HOME/.config/dotfiles";
-      }
-      .${system};
-    homeConfig =
-      {
-        "x86_64-linux" = "${username}-x86";
-        "aarch64-linux" = "${username}-arm64";
-        "aarch64-darwin" = "${username}-macos";
+        "x86_64-linux" = "nixos-rebuild";
+        "aarch64-linux" = "nixos-rebuild";
+        "aarch64-darwin" = "darwin-rebuild";
       }
       .${system};
   in {
@@ -47,8 +40,9 @@
 
     # Utils
     benchzsh = "hyperfine 'zsh -i -c exit' --warmup 1";
-    hm = "home-manager --flake \"${dotfiles}#${homeConfig}\"";
-    dots = "$EDITOR \"${dotfiles}\"";
-    zd = "cd \"${dotfiles}\"";
+    hm = "home-manager --flake \"${config.dotfilesPath}#${homeName}\"";
+    os = "${osCommand} --flake \"${config.dotfilesPath}\"";
+    dots = "$EDITOR \"${config.dotfilesPath}\"";
+    zd = "cd \"${config.dotfilesPath}\"";
   };
 }

@@ -14,14 +14,16 @@ curl -L https://nixos.org/nix/install | sh
 git clone git@github.com:KubqoA/dotfiles.git ~/.config/dotfiles
 ```
 
-3. Install [`nix-darwin`](https://github.com/LnL7/nix-darwin?tab=readme-ov-file#flakes) and `home-manager`
+3. Enter the dev shell and initialize the configs
 ```sh
-nix run nix-darwin -- switch --flake ~/.config/dotfiles
-nix run home-manager/master -- switch --flake "~/.config/dotfiles#jakub-macos"
+nix develop
+# Runs nix-darwin and home-manager
+os nyckelharpa
+hm jakub-macos
 ```
 
 4. To apply further updates, run
 ```sh
-dw switch # for darwin-rebuild switch
-hm switch # for home-manager switch
+os switch
+hm switch
 ```

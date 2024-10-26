@@ -13,8 +13,8 @@
   ];
 
   home = {
-    username = "jakub";
-    homeDirectory = "/home/jakub";
+    username = config.username;
+    homeDirectory = "/home/${config.username}";
     packages = with pkgs; [
       home-manager
       chromium
