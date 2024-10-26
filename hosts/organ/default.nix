@@ -9,7 +9,7 @@
       (modulesPath + "/profiles/qemu-guest.nix")
       ./disko.nix
       # ./git.nix
-      # ./mail.nix
+      ./mail.nix
       ./networking.nix
       ./nginx.nix
       ./ssh.nix
