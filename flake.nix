@@ -40,11 +40,11 @@
         hosts.nyckelharpa = ./hosts/nyckelharpa;
       };
       x86_64-linux = {
-        homes.jakub-x86 = ./homes/jakub-linux;
+        homes.jakub-nixos = ./homes/jakub-nixos;
         hosts.harmonium = ./hosts/harmonium;
       };
       aarch64-linux = {
-        homes.jakub-arm64 = ./homes/jakub-linux;
+        homes.jakub-server = ./homes/jakub-server;
         hosts.organ = ./hosts/organ;
       };
     };

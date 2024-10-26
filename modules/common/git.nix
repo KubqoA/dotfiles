@@ -1,6 +1,10 @@
 # [home-manager]
 # git setup with gpg signing, assuming the gpg key is shared between machines
-{config, ...}: {
+{
+  config,
+  lib,
+  ...
+}: {
   programs.git = {
     enable = true;
     lfs.enable = true;
@@ -8,7 +12,7 @@
     userEmail = "hi@jakubarbet.me";
     signing = {
       key = config.gitSigningKey;
-      signByDefault = true;
+      signByDefault = lib.mkDefault true;
     };
     ignores = [
       ".DS_Store"

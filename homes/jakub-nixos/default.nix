@@ -8,31 +8,27 @@
     "common/aliases"
     "common/env"
     "common/git"
+    "common/home"
     "common/neovim"
     "common/password-store"
     "common/zsh"
   ];
 
-  home = {
-    username = config.username;
-    homeDirectory = "/home/${config.username}";
-    packages = with pkgs; [
-      home-manager
-      chromium
-      firefox
-      obsidian
-      fzf
+  home.packages = with pkgs; [
+    chromium
+    firefox
+    obsidian
+    fzf
 
-      # compositor utils
-      glib # provides gsettings command
-      swaybg
-      hyprlock
-      wl-clipboard
+    # compositor utils
+    glib # provides gsettings command
+    swaybg
+    hyprlock
+    wl-clipboard
 
-      # fonts
-      ibm-plex
-    ];
-  };
+    # fonts
+    ibm-plex
+  ];
 
   programs.direnv = {
     enable = true;

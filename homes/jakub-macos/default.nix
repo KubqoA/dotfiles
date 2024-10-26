@@ -16,18 +16,11 @@
   ];
 
   home = {
-    username = config.username;
-    homeDirectory = "/Users/${config.username}";
-
     packages = with pkgs; [
-      home-manager
       hyperfine
-      curl
-      wget
       git-crypt
       pinentry_mac
       bun
-      nurl
     ];
 
     sessionVariables = {
@@ -60,14 +53,14 @@
     };
   };
 
-  programs.gpg.enable = true;
-
-  programs.zoxide = {
-    enable = true;
-    enableZshIntegration = true;
+  programs = {
+    gpg.enable = true;
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+    zsh.profileExtra = builtins.readFile ./profile;
   };
-
-  programs.zsh.profileExtra = builtins.readFile ./profile;
 
   home.stateVersion = "24.05";
 }
