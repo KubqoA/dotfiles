@@ -63,7 +63,7 @@
     services.bind = {
       enable = true;
       listenOn = ["any"];
-      listenOnIpv6 = ["any"];
+      listenOnIpv6 = ["!fe80::/64" "any"];
       extraConfig = lib.concatMapStrings (zoneName: ''
         include "/etc/named/${zoneName}.tsig";
       '') (builtins.attrNames config.server.dns.zones);
@@ -85,6 +85,8 @@
       in
         lib.mapAttrs mkZoneConfig config.server.dns.zones;
     };
+
+    networking.resolvconf.useLocalResolver = false;
 
     # Bind ports:
     # - 53 TCP/UDP for zone transfers

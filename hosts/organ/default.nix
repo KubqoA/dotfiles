@@ -11,9 +11,9 @@
       # ./git.nix
       # ./mail.nix
       ./networking.nix
-      # ./nginx.nix
+      ./nginx.nix
       ./ssh.nix
-      # ./syncthing.nix
+      ./syncthing.nix
       ./users.nix
     ]
     ++ lib._.moduleImports [
@@ -41,8 +41,6 @@
     dns.zones."jakubarbet.me" = ./dns/jakubarbet.me.zone;
     tailscale = {
       tailnet = "ide-vega.ts.net";
-      tailscaleIpv4 = "100.71.111.38";
-      tailscaleIpv6 = "fd7a:115c:a1e0::2901:6f29";
       authKeyFile = config.age.secrets.organ-tailscale-auth-key.path;
     };
   };

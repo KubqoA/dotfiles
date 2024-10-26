@@ -6,22 +6,61 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib; {
   options.server.tailscale = {
     tailnet = mkOption {type = types.str;};
-    tailscaleIpv4 = mkOption {type = types.str;};
-    tailscaleIpv6 = mkOption {type = types.str;};
     authKeyFile = mkOption {type = types.path;};
   };
 
   config = {
+    # Create runtime directory for dnsmasq dynamic config
+    systemd.tmpfiles.rules = [
+      "d /run/dnsmasq 0755 root root -"
+    ];
+
+    # Service to generate FQDN to tailscale IP mappings
+    systemd.services.update-dnsmasq-config = {
+      description = "Update dnsmasq configuration with Tailscale IPs";
+      wantedBy = ["multi-user.target"];
+      before = ["dnsmasq.service"];
+      after = ["tailscaled.service"];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = pkgs.writeShellScript "update-dnsmasq-config" ''
+          set -euo pipefail
+
+          # Get Tailscale IPs
+          IPS=$(${pkgs.tailscale}/bin/tailscale ip)
+          IPV4=$(echo "$IPS" | sed -n '1p')
+          IPV6=$(echo "$IPS" | sed -n '2p')
+
+          if [ -z "$IPV4" ] || [ -z "$IPV6" ]; then
+            echo "Failed to get Tailscale IPs"
+            exit 1
+          fi
+
+          # Create dnsmasq config
+          echo "address=/${config.networking.fqdn}/$IPV4" >/run/dnsmasq/tailscale-addresses.conf
+          echo "address=/${config.networking.fqdn}/$IPV6" >>/run/dnsmasq/tailscale-addresses.conf
+        '';
+      };
+    };
+
     services = {
       # Let dnsmasq handle DNS resolution for the tailscale network
       bind = {
-        listenOn = ["!${config.server.tailscale.tailscaleIpv4}"];
-        listenOnIpv6 = ["!${config.server.tailscale.tailscaleIpv6}"];
+        extraConfig = ''
+          acl tailscale {
+            100.64.0.0/10;
+            fd7a:115c:a1e0::/48;
+          };
+        '';
+        listenOn = ["!tailscale"];
+        listenOnIpv6 = ["!tailscale"];
       };
 
       # Used to define DNS override for FQDN to tailscale IPs so devices
@@ -31,9 +70,12 @@ with lib; {
         enable = true;
         resolveLocalQueries = false;
         settings = {
-          bind-interfaces = true;
-          listen-address = "${config.server.tailscale.tailscaleIpv4},${config.server.tailscale.tailscaleIpv6}";
-          address = ["/${config.networking.fqdn}/${config.server.tailscale.tailscaleIpv4}" "/${config.networking.fqdn}/${config.server.tailscale.tailscaleIpv6}"];
+          no-hosts = true;
+          bind-dynamic = true;
+          interface = config.services.tailscale.interfaceName;
+          no-dhcp-interface = config.services.tailscale.interfaceName;
+          except-interface = "lo";
+          conf-dir = "/run/dnsmasq";
         };
       };
 
@@ -53,7 +95,7 @@ with lib; {
           "--advertise-exit-node" # offer to be exit node internet traffic for tailnet
           "--advertise-connector" # offer to be app connector for domain specific internet traffic for tailnet
         ];
-	extraUpFlags = ["--ssh" "--advertise-exit-node" "--advertise-connector"];
+        extraUpFlags = ["--ssh" "--advertise-exit-node" "--advertise-connector"];
       };
     };
 
