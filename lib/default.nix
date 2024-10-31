@@ -6,6 +6,8 @@ inputs @ {
   self,
   ...
 }: systems: let
+  inherit ((import nixpkgs {system = "x86_64-linux";}).lib) foldl mapAttrsToList recursiveUpdate;
+
   mapSystem = system: {
     homes ? {},
     hosts ? {},
@@ -91,7 +93,16 @@ inputs @ {
     ${systemSpecifics.option} = mapHosts hosts;
     homeConfigurations = mapHomes homes;
   };
+
+  mappedSystems = foldl recursiveUpdate {} (mapAttrsToList mapSystem systems);
+
+  # Merge all options into one attribute set for use with nixd
+  options = let
+    getOptions = configs: foldl recursiveUpdate {} (mapAttrsToList (_: value: value.options) configs);
+  in {
+    nixos = getOptions mappedSystems.nixosConfigurations;
+    darwin = getOptions mappedSystems.darwinConfigurations;
+    home-manager = getOptions mappedSystems.homeConfigurations;
+  };
 in
-  builtins.zipAttrsWith
-  (name: values: builtins.foldl' (a: b: a // b) {} values)
-  (builtins.map (system: mapSystem system systems.${system}) (builtins.attrNames systems))
+  mappedSystems // {inherit options;}

@@ -20,9 +20,9 @@ Further the dotfiles include:
 
 ## Usage
 The dotfiles contain configuration for:
-- [harmonium](./hosts/harmonium) - Personal NixOS laptop setup
+- [harmonium](./hosts/harmonium) - Personal NixOS laptop
 - [organ](./hosts/organ) - ARM-based server
-- [nyckelharpa](./hosts/nyckelharpa) - Work MacOS setup
+- [nyckelharpa](./hosts/nyckelharpa) - Work Macbook
 - home-manager configurations for both systems
 
 Refer to the respective host directories for more information.

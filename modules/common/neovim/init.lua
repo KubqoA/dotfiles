@@ -84,14 +84,17 @@ require("lspconfig").nixd.setup({
 	settings = {
 		nixd = {
 			nixpkgs = {
-				expr = 'import (builtins.getFlake "/persist/dotfiles").inputs.nixpkgs { }',
+				expr = 'import (builtins.getFlake "/Users/jakub/.config/dotfiles").inputs.nixpkgs { }',
 			},
 			options = {
 				nixos = {
-					expr = '(builtins.getFlake "/persist/dotfiles").nixosConfigurations.harmonium.options',
+					expr = '(builtins.getFlake "/Users/jakub/.config/dotfiles").options.nixos',
+				},
+				darwin = {
+					expr = '(builtins.getFlake "/Users/jakub/.config/dotfiles").options.darwin',
 				},
 				home_manager = {
-					expr = '(builtins.getFlake "/persist/dotfiles").homeConfigurations.jakub.options',
+					expr = '(builtins.getFlake "/Users/jakub/.config/dotfiles").options.home-manager',
 				},
 			},
 		},
