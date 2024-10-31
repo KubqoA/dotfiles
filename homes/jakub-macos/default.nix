@@ -8,6 +8,7 @@
     "common/aliases"
     "common/env"
     "common/git"
+    "common/home"
     "common/kitty"
     "common/neovim"
     "common/password-store"
