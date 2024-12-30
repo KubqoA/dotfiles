@@ -17,8 +17,7 @@
 
     brews = [
       "coreutils"
-      "gpg"
-      "gpg2"
+      "fileicon"
 
       # ruby building
       "autoconf"
@@ -57,6 +56,7 @@
       "linearmouse"
       "loom"
       "macmediakeyforwarder"
+      "monitorcontrol"
       "notion"
       "obsidian"
       "orbstack"

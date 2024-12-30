@@ -1,24 +1,35 @@
 {
   config,
   lib,
-  pkgs,
-  self,
   system,
   ...
 }: {
-  imports = [./homebrew.nix] ++ lib._.moduleImports ["common/nix" "common/packages"];
+  imports =
+    [
+      ./homebrew.nix
+      ./system.nix
+    ]
+    ++ lib._.moduleImports [
+      "common/nix"
+      "common/packages"
+      "darwin/icons"
+    ];
 
-  networking.hostName = "nyckelharpa";
-
-  # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    monitorcontrol
-  ];
+  desktop.icons = {
+    "/Applications/Beekeeper Studio.app" = ./icons/beekeeper-studio.icns;
+    "/Applications/Firefox Developer Edition.app" = ./icons/firefox-developer-edition.icns;
+    "/Applications/Logi Options.app" = ./icons/logi-options.icns;
+    "/Applications/Loom.app" = ./icons/loom.icns;
+    "/Applications/MacMediaKeyForwarder.app" = ./icons/mac-media-key-forwarder.icns;
+    "/Applications/Notion.app" = ./icons/notion.icns;
+    "${config.homePath}/Applications/Home Manager Apps/pinentry-mac.app" = ./icons/pinentry-mac.icns;
+    "/Applications/Seadrive.app" = ./icons/seadrive.icns;
+    "/Applications/Spotify.app" = ./icons/spotify.icns;
+    "/Applications/Steam.app" = ./icons/steam.icns;
+  };
 
   programs = {
-    # home-manager doesn't support gpg-agent service, so it needs to be enabled here
+    # home-manager on darwin doesn't support gpg-agent service, so it needs to be enabled here
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
@@ -28,8 +39,6 @@
     zsh.enable = true;
   };
 
-  users.users.${config.username}.home = "/Users/${config.username}";
-
   security = {
     # Add ability to use Touch ID for sudo
     pam.enableSudoTouchIdAuth = true;
@@ -38,57 +47,15 @@
     '';
   };
 
-  launchd.daemons.tildeRemap = {
-    serviceConfig = {
-      Label = "tilde-remap";
-      KeepAlive = false;
-      RunAtLoad = true;
-    };
-    script = ''
-      /usr/bin/hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000064,"HIDKeyboardModifierMappingDst":0x700000035}]}'
-    '';
-  };
+  # Auto upgrade nix package and the daemon service.
+  services.nix-daemon.enable = true;
 
-  system = {
-    defaults = {
-      dock = {
-        autohide-delay = 0.2;
-        mineffect = "scale";
-        persistent-apps = [
-          "/Applications/Arc.app"
-          "/Applications/Ghostty.app"
-          "/Applications/RubyMine.app"
-          "/Applications/Cursor.app"
-          "/Applications/Notion.app"
-          "/Applications/Slack.app"
-          "/Applications/Obsidian.app"
-          "/Applications/Spotify.app"
-          "/Applications/WhatsApp.app"
-        ];
-        show-recents = false;
-      };
-      loginwindow = {
-        DisableConsoleAccess = true;
-        GuestEnabled = false;
-      };
-      menuExtraClock = {
-        Show24Hour = true;
-        ShowDate = 0;
-        ShowDayOfWeek = true;
-      };
-      screensaver = {
-        askForPassword = true;
-        askForPasswordDelay = 60;
-      };
-    };
+  system.activationScripts.postUserActivation.text = ''
+    # Following line should allow us to avoid a logout/login cycle
+    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+  '';
 
-    # Set Git commit hash for darwin-version.
-    configurationRevision = self.rev or self.dirtyRev or null;
-
-    # Used for backwards compatibility, please read the changelog before changing.
-    # $ os changelog
-    stateVersion = 4;
-  };
+  users.users.${config.username}.home = config.homePath;
 
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = system;
