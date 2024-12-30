@@ -12,25 +12,28 @@
 
     taps = [
       "homebrew/services"
-      "puma/puma" # for brews -> puma-dev
+      "puma/puma"
     ];
 
     brews = [
+      "coreutils"
       "gpg"
       "gpg2"
-      "pass"
-      "pass-otp"
 
-      # work specific
-      "rbenv"
-      "ruby-build"
-      "nodenv"
-      "puma/puma/puma-dev"
-      "libyaml"
+      # ruby building
+      "autoconf"
+      "gmp"
+      "jemalloc"
       "libsodium"
-      "vips"
+      "libyaml"
+      "openssl@3"
       "python-setuptools"
-      "php"
+      "readline"
+      "vips"
+
+      "puma/puma/puma-dev"
+
+      # services
       {
         name = "postgresql@14";
         restart_service = "changed";
@@ -42,16 +45,15 @@
     ];
 
     casks = [
-      "bruno"
       "1password"
       "arc"
       "around"
       "beekeeper-studio"
       "cursor"
       "figma"
-      "firefox"
+      "firefox@developer-edition"
+      "ghostty"
       "intellij-idea-ce"
-      "iterm2"
       "linearmouse"
       "loom"
       "macmediakeyforwarder"
@@ -67,6 +69,7 @@
       "tailscale"
       "whatsapp"
       "zed"
+      "zoom"
     ];
   };
 }

@@ -27,12 +27,11 @@
       options = "--delete-older-than 1w";
     };
 
-    # Optimize storage
+    # Periodically optimize storage
+    # https://nixos.wiki/wiki/Storage_optimization#Automatic
     # You can also manually optimize the store via:
     #    nix-store --optimise
-    # Refer to the following link for more details:
-    # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
-    settings.auto-optimise-store = true;
+    optimise.automatic = true;
   };
 
   nixpkgs.config.allowUnfree = true;

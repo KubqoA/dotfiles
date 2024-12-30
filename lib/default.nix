@@ -64,7 +64,13 @@ inputs @ {
       home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = {inherit inputs lib system homeName;};
-        modules = [../config.nix agenix.homeManagerModules.default path] ++ lib._.autoloadedModules;
+        modules =
+          [
+            ../config.nix
+            agenix.homeManagerModules.default
+            path
+          ]
+          ++ lib._.autoloadedModules;
       });
   in {
     formatter.${system} = pkgs.alejandra;
@@ -96,7 +102,7 @@ inputs @ {
 
   mappedSystems = foldl recursiveUpdate {} (mapAttrsToList mapSystem systems);
 
-  # Merge all options into one attribute set for use with nixd
+  # Merge all options into one attribute set for use with ‹nixd›
   options = let
     getOptions = configs: foldl recursiveUpdate {} (mapAttrsToList (_: value: value.options) configs);
   in {

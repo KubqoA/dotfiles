@@ -1,3 +1,4 @@
+# [home-manager]
 {
   config,
   pkgs,

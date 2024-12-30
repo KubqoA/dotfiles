@@ -1,25 +1,19 @@
 {
   config,
   lib,
-  inputs,
-  system,
+  pkgs,
   ...
-}: let
-  pkgs = import inputs.darwin-nixpkgs {
-    inherit system;
-    config.allowUnfree = true;
-  };
-in {
+}: {
   launchd = let
     script = pkgs.writeShellApplication {
       name = "dark-mode-onswitch";
       text = ''
         case "$DARKMODE" in
           0)
-            ${config.theme.dark.onSwitch}
+            ${config.theme.light.onSwitch}
             ;;
           1)
-            ${config.theme.light.onSwitch}
+            ${config.theme.dark.onSwitch}
             ;;
         esac
       '';

@@ -38,6 +38,17 @@
     '';
   };
 
+  launchd.daemons.tildeRemap = {
+    serviceConfig = {
+      Label = "tilde-remap";
+      KeepAlive = false;
+      RunAtLoad = true;
+    };
+    script = ''
+      /usr/bin/hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000064,"HIDKeyboardModifierMappingDst":0x700000035}]}'
+    '';
+  };
+
   system = {
     defaults = {
       dock = {
@@ -45,10 +56,9 @@
         mineffect = "scale";
         persistent-apps = [
           "/Applications/Arc.app"
+          "/Applications/Ghostty.app"
           "/Applications/RubyMine.app"
           "/Applications/Cursor.app"
-          "/Applications/Zed.app"
-          "${config.users.users.${config.username}.home}/Applications/Home\ Manager\ Apps/kitty.app"
           "/Applications/Notion.app"
           "/Applications/Slack.app"
           "/Applications/Obsidian.app"
@@ -72,16 +82,11 @@
       };
     };
 
-    keyboard = {
-      enableKeyMapping = true;
-      nonUS.remapTilde = true;
-    };
-
     # Set Git commit hash for darwin-version.
     configurationRevision = self.rev or self.dirtyRev or null;
 
     # Used for backwards compatibility, please read the changelog before changing.
-    # $ darwin-rebuild changelog
+    # $ os changelog
     stateVersion = 4;
   };
 
