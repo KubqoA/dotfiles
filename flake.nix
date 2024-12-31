@@ -25,9 +25,6 @@
 
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
-
-    ghostty.url = "github:ghostty-org/ghostty";
-    ghostty.inputs.nixpkgs-unstable.follows = "nixpkgs";
   };
 
   outputs = inputs:
