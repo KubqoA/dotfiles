@@ -42,6 +42,12 @@
         askForPassword = true;
         askForPasswordDelay = 60;
       };
+      CustomUserPreferences = {
+        "org.gpgtools.common" = {
+          UseKeychain = true;
+          DisableKeychain = true;
+        };
+      };
     };
 
     # Set Git commit hash for darwin-version.

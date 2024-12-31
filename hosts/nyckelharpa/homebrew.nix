@@ -13,11 +13,13 @@
     taps = [
       "homebrew/services"
       "puma/puma"
+      "jorgelbg/tap"
     ];
 
     brews = [
       "coreutils"
       "fileicon"
+      "jorgelbg/tap/pinentry-touchid"
 
       # ruby building
       "autoconf"

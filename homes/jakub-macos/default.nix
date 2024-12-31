@@ -28,7 +28,6 @@
     in [
       hyperfine
       git-crypt
-      pinentry_mac
       nerdfetch
       oath-toolkit # fix pass support in Raycast
 
@@ -81,7 +80,7 @@
         max-cache-ttl 172800
         default-cache-ttl-ssh 172800
         max-cache-ttl-ssh 172800
-        pinentry-program ${pkgs.pinentry_mac}/bin/pinentry-mac
+        pinentry-program /opt/homebrew/bin/pinentry-touchid
       '';
     };
   };
