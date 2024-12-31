@@ -1,25 +1,48 @@
 # [home-manager]
-{...}: {
-  xdg.enable = true;
+{config, ...}: let
+  inherit (config.xdg) dataHome configHome cacheHome stateHome;
+in {
+  xdg = {
+    enable = true;
+    configFile = {
+      "irb/irbrc".text = ''
+        IRB.conf[:SAVE_HISTORY] ||= 1000
+        IRB.conf[:HISTORY_FILE] ||= File.join(ENV["XDG_DATA_HOME"], "irb_history")
+        IRB.conf[:PROMPT_MODE] = :SIMPLE
+        IRB.conf[:AUTO_INDENT_MODE] = false
+      '';
+      "npm/npmrc".text = ''
+        prefix=''${XDG_DATA_HOME}/npm
+        cache=''${XDG_CACHE_HOME}/npm
+        init-module=''${XDG_CONFIG_HOME}/npm/config/npm-init.js
+        logs-dir=''${XDG_STATE_HOME}/npm/logs
+      '';
+    };
+  };
 
   home.sessionVariables = {
-    CARGO_HOME = "$XDG_DATA_HOME/cargo";
-    DOCKER_CONFIG = "$XDG_CONFIG_HOME/docker";
-    BUNDLE_USER_CACHE = "$XDG_CACHE_HOME/bundle";
-    BUNDLE_USER_CONFIG = "$XDG_CONFIG_HOME/bundle/config";
-    BUNDLE_USER_PLUGIN = "$XDG_DATA_HOME/bundle";
-    MAVEN_OPTS = ''-Dmaven.repo.local="$XDG_DATA_HOME"/maven/repository'';
-    NODE_REPL_HISTORY = "$XDG_DATA_HOME/node_repl_history";
-    SOLARGRAPH_CACHE = "$XDG_CACHE_HOME/solargraph";
-    REDISCLI_HISTFILE = "$XDG_DATA_HOME/redis/rediscli_history";
-    RUSTUP_HOME = "$XDG_DATA_HOME/rustup";
-    SQLITE_HISTORY = "$XDG_DATA_HOME/sqlite_history";
-    TERMINFO = "$XDG_DATA_HOME/terminfo";
-    TERMINFO_DIRS = "$XDG_DATA_HOME/terminfo:/usr/share/terminfo";
+    CARGO_HOME = "${dataHome}/cargo";
+    DOCKER_CONFIG = "${configHome}/docker";
+    BUNDLE_USER_CACHE = "${cacheHome}/bundle";
+    BUNDLE_USER_CONFIG = "${configHome}/bundle/config";
+    BUNDLE_USER_PLUGIN = "${dataHome}/bundle";
+    IRBRC = "${configHome}/irb/irbrc";
+    MAVEN_OPTS = "-Dmaven.repo.local=${dataHome}/maven/repository";
+    NODE_REPL_HISTORY = "${dataHome}/node_repl_history";
+    NPM_CONFIG_USERCONFIG = "${configHome}/npm/npmrc";
+    PSQL_HISTORY = "${stateHome}/psql_history";
+    PYTHON_HISTORY = "${dataHome}/python_history";
+    SOLARGRAPH_CACHE = "${cacheHome}/solargraph";
+    REDISCLI_HISTFILE = "${dataHome}/rediscli_history";
+    RUBY_DEBUG_HISTORY_FILE = "${dataHome}/rdbg_history";
+    RUSTUP_HOME = "${dataHome}/rustup";
+    SQLITE_HISTORY = "${dataHome}/sqlite_history";
+    TERMINFO = "${dataHome}/terminfo";
+    TERMINFO_DIRS = "${dataHome}/terminfo:/usr/share/terminfo";
   };
 
   home.shellAliases = {
-    wget = ''wget --hsts-file="$XDG_CACHE_HOME/wget-hsts"'';
-    yarn = ''yarn --use-yarnrc "$XDG_CONFIG_HOME/yarn/config"'';
+    wget = ''wget --hsts-file="${dataHome}/wget-hsts"'';
+    yarn = ''yarn --use-yarnrc "${configHome}/yarn/config"'';
   };
 }
