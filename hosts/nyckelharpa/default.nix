@@ -17,6 +17,7 @@
 
   desktop.icons = {
     "/Applications/Beekeeper Studio.app" = ./icons/beekeeper-studio.icns;
+    "/Applications/Capture One.app" = ./icons/capture-one.icns;
     "/Applications/Firefox Developer Edition.app" = ./icons/firefox-developer-edition.icns;
     "/Applications/Logi Options.app" = ./icons/logi-options.icns;
     "/Applications/Loom.app" = ./icons/loom.icns;
