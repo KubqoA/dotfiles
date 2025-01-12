@@ -55,6 +55,7 @@
       "firefox@developer-edition"
       "ghostty"
       "intellij-idea-ce"
+      "keyboardcleantool"
       "linearmouse"
       "loom"
       "macmediakeyforwarder"

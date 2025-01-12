@@ -23,7 +23,6 @@
     "/Applications/Loom.app" = ./icons/loom.icns;
     "/Applications/MacMediaKeyForwarder.app" = ./icons/mac-media-key-forwarder.icns;
     "/Applications/Notion.app" = ./icons/notion.icns;
-    "${config.homePath}/Applications/Home Manager Apps/pinentry-mac.app" = ./icons/pinentry-mac.icns;
     "/Applications/Seadrive.app" = ./icons/seadrive.icns;
     "/Applications/Spotify.app" = ./icons/spotify.icns;
     "/Applications/Steam.app" = ./icons/steam.icns;
