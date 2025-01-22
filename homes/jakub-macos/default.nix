@@ -9,6 +9,7 @@
     "common/env"
     "common/git"
     "common/home"
+    "common/mise"
     "common/neovim"
     "common/password-store"
     "common/xdg"
@@ -30,6 +31,8 @@
       git-crypt
       nerdfetch
       oath-toolkit # fix pass support in Raycast
+      tldr
+      bat
 
       # dev env managed by mise, but here are some exceptions
       phpEnv
@@ -87,17 +90,6 @@
 
   programs = {
     gpg.enable = true;
-    mise = {
-      enable = true;
-      globalConfig.tools = {
-        bun = "latest";
-        deno = "latest";
-        node = ["latest" "20.3.0"];
-        python = "latest";
-        ruby = ["latest" "3.3.4" "3.1.1"];
-        rust = "latest";
-      };
-    };
     zoxide = {
       enable = true;
       enableZshIntegration = true;

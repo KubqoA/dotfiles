@@ -17,6 +17,7 @@
     ignores = [
       ".DS_Store"
       ".idea"
+      ".vscode"
     ];
     extraConfig.init.defaultBranch = "main";
   };
