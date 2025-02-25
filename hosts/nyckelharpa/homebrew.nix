@@ -18,8 +18,12 @@
 
     brews = [
       "coreutils"
+      "cmake"
       "fileicon"
       "jorgelbg/tap/pinentry-touchid"
+      "ripgrep"
+      "gh"
+      "mise"
 
       # ruby building
       "autoconf"
@@ -47,6 +51,7 @@
 
     casks = [
       "1password"
+      "1password-cli"
       "arc"
       "around"
       "beekeeper-studio"
@@ -54,6 +59,7 @@
       "figma"
       "firefox@developer-edition"
       "ghostty"
+      "httpie"
       "intellij-idea-ce"
       "keyboardcleantool"
       "linearmouse"

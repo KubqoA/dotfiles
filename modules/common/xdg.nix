@@ -6,10 +6,7 @@ in {
     enable = true;
     configFile = {
       "irb/irbrc".text = ''
-        IRB.conf[:SAVE_HISTORY] ||= 1000
         IRB.conf[:HISTORY_FILE] ||= File.join(ENV["XDG_DATA_HOME"], "irb_history")
-        IRB.conf[:PROMPT_MODE] = :SIMPLE
-        IRB.conf[:AUTO_INDENT_MODE] = false
       '';
       "npm/npmrc".text = ''
         prefix=''${XDG_DATA_HOME}/npm

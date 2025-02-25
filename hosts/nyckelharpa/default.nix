@@ -41,14 +41,14 @@
 
   security = {
     # Add ability to use Touch ID for sudo
-    pam.enableSudoTouchIdAuth = true;
+    pam.services.sudo_local = {
+      reattach = true;
+      touchIdAuth = true;
+    };
     sudo.extraConfig = ''
       Defaults timestamp_timeout=5
     '';
   };
-
-  # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
 
   system.activationScripts.postUserActivation.text = ''
     # Following line should allow us to avoid a logout/login cycle

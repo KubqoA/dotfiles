@@ -7,6 +7,7 @@
   imports = lib._.moduleImports [
     "common/aliases"
     "common/env"
+    "common/ghostty"
     "common/git"
     "common/home"
     "common/mise"
@@ -15,38 +16,26 @@
     "common/xdg"
     "common/zsh"
     "darwin/dark-mode-notify"
+    "dev/php"
+    "dev/ruby"
+    "dev/work"
   ];
 
   home = {
-    packages = with pkgs; let
-      phpEnv = php84.buildEnv {
-        extensions = {
-          enabled,
-          all,
-        }:
-          enabled ++ (with all; [ctype curl dom fileinfo mbstring openssl pdo session tokenizer]);
-      };
-    in [
+    packages = with pkgs; [
       hyperfine
       git-crypt
       nerdfetch
       oath-toolkit # fix pass support in Raycast
       tldr
       bat
+      httpie
 
       # dev env managed by mise, but here are some exceptions
-      phpEnv
-      phpEnv.packages.composer
       shellcheck
     ];
 
     sessionVariables = {
-      # Ruby
-      OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
-      DISABLE_SPRING = "true";
-      RUBY_YJIT_ENABLE = 1;
-      RUBY_CONFIGURE_OPTS = "--enable-yjit --with-jemalloc";
-
       # Inlined from eval "$(/opt/homebrew/bin/brew shellenv)"
       HOMEBREW_PREFIX = "/opt/homebrew";
       HOMEBREW_CELLAR = "/opt/homebrew/Cellar";
@@ -59,17 +48,6 @@
       # Fix Homebrew libs
       LDFLAGS = "-L/opt/homebrew/lib";
       CPPFLAGS = "-I/opt/homebrew/include";
-
-      # Work
-      IAC_PATH = "$HOME/Documents/betterstack/infrastructure-as-code";
-    };
-
-    shellAliases = {
-      # Work
-      linear = "git checkout main && git pull && git checkout -b $(pbpaste)";
-      swarm = "mise x ruby@$(cat $IAC_PATH/.ruby-version) -- $IAC_PATH/exe/swarm";
-      prod-deploy = "git checkout main && git pull && swarm production deploy";
-      staging-deploy = "git checkout main && git pull && swarm staging deploy";
     };
 
     file = {
