@@ -27,12 +27,6 @@
         askForPassword = true;
         askForPasswordDelay = 60;
       };
-      CustomUserPreferences = {
-        "org.gpgtools.common" = {
-          UseKeychain = true;
-          DisableKeychain = true;
-        };
-      };
     };
 
     keyboard = {

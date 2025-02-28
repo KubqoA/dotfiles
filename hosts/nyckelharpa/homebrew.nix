@@ -13,14 +13,12 @@
     taps = [
       "homebrew/services"
       "puma/puma"
-      "jorgelbg/tap"
     ];
 
     brews = [
       "coreutils"
       "cmake"
       "fileicon"
-      "jorgelbg/tap/pinentry-touchid"
       "ripgrep"
       "gh"
       "mise"

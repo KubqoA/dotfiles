@@ -30,6 +30,7 @@
       tldr
       bat
       httpie
+      pinentry_mac
 
       # dev env managed by mise, but here are some exceptions
       shellcheck
@@ -61,7 +62,7 @@
         max-cache-ttl 172800
         default-cache-ttl-ssh 172800
         max-cache-ttl-ssh 172800
-        pinentry-program /opt/homebrew/bin/pinentry-touchid
+        pinentry-program ${pkgs.pinentry_mac}/bin/pinentry-mac
       '';
     };
   };
