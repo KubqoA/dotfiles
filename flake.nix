@@ -28,7 +28,7 @@
   };
 
   outputs = inputs:
-    import ./lib inputs {
+    import ./bootstrap.nix inputs {
       aarch64-darwin = {
         homes.jakub-macos = ./homes/jakub-macos;
         hosts.nyckelharpa = ./hosts/nyckelharpa;

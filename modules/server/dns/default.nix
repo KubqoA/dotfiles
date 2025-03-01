@@ -3,7 +3,7 @@
 #
 # Usage:
 #
-# imports = lib._.moduleImports ["server/dns"]
+# imports = lib.moduleImports ["server/dns"]
 # server.dns.zones."jakubarbet.me" = ./jakubarbet.me.zone;
 {
   config,

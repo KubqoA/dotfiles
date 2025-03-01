@@ -2,6 +2,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   inherit (config.xdg) configHome;
@@ -26,7 +27,7 @@ in {
   programs.mise = {
     enable = true;
     # On macOS manage mise by homebrew - more frequent updates
-    package = lib._.brew-alias "mise";
+    package = lib.brew-alias pkgs "mise";
     globalConfig = {
       tools = {
         bun = "latest";

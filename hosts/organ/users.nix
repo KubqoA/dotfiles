@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  age.secrets = lib._.defineSecrets ["organ-jakub-password-hash"] {};
+  age.secrets = lib.defineSecrets {organ-jakub-password-hash = {};};
 
   users.users = {
     ${config.username} = {

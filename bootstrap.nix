@@ -1,12 +1,31 @@
+# Turns the abstract per system configuration in ‹flake.nix› to individual
+# nixos, darwin and home-manager configs. Additionally for each system architecture
+# defines formatting with ‹nix fmt› and a custom ‹nix develop› shell with helpers
+# for activating configurations on new machines. Also defines a custom lib with
+# extensions defined in ‹lib.nix›.
+#
+# For all nixos, darwin, and home-manager config autoloads ‹config.nix›, agenix, and
+# all autoloaded modules.
+#
+# Usage:
+# ```
+# import ./bootstrap.nix inputs {
+#   <architecture> = {
+#     homes.<name> = path;
+#     systems.<name> = path;
+#   };
+# }
+# ```
 inputs @ {
   agenix,
-  home-manager,
-  nix-darwin,
   nixpkgs,
   self,
   ...
 }: systems: let
-  inherit ((import nixpkgs {system = "x86_64-linux";}).lib) foldl mapAttrsToList recursiveUpdate;
+  # system agnostic lib with custom extensions
+  lib = nixpkgs.lib.extend (import ./lib.nix inputs);
+
+  inherit (lib) foldl recursiveUpdate mapAttrsToList;
 
   mapSystem = system: {
     homes ? {},
@@ -17,30 +36,16 @@ inputs @ {
       config.allowUnfree = true;
     };
 
-    lib = pkgs.lib.extend (lib: super: let
-      # Automatically detect all .nix files in lib/ directory, excluding default.nix
-      libs =
-        builtins.filter
-        (path: path != "default.nix" && lib.strings.hasSuffix ".nix" path)
-        (builtins.attrNames (builtins.readDir ./.));
-      importLib = path: import ./${path} {inherit inputs lib pkgs system;};
-    in {
-      # Expose custom lib extensions via `_.` prefix
-      _ = lib.foldr (a: b: a // b) {} (map importLib libs);
-      # Make sure to keep library extensions from home-manager
-      hm = home-manager.lib.hm;
-    });
-
     systemSpecifics =
-      if system == "aarch64-darwin" || system == "x86_64-darwin"
+      if pkgs.stdenv.isDarwin
       then {
-        fn = nix-darwin.lib.darwinSystem;
+        fn = lib.darwinSystem;
         option = "darwinConfigurations";
         command = "nix run nix-darwin --";
         agenixModule = agenix.darwinModules.default;
       }
       else {
-        fn = nixpkgs.lib.nixosSystem;
+        fn = lib.nixosSystem;
         option = "nixosConfigurations";
         command = "nixos-rebuild";
         agenixModule = agenix.nixosModules.default;
@@ -52,35 +57,31 @@ inputs @ {
         specialArgs = {inherit inputs lib pkgs self system osName;};
         modules =
           [
-            ../config.nix
+            ./config.nix
             systemSpecifics.agenixModule
             {networking.hostName = lib.mkDefault osName;}
             path
           ]
-          ++ lib._.autoloadedModules;
+          ++ lib.autoloadedModules;
       });
 
     mapHomes = builtins.mapAttrs (homeName: path:
-      home-manager.lib.homeManagerConfiguration {
+      lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = {inherit inputs lib system homeName;};
         modules =
           [
-            ../config.nix
+            ./config.nix
             agenix.homeManagerModules.default
             path
           ]
-          ++ lib._.autoloadedModules;
+          ++ lib.autoloadedModules;
       });
   in {
     formatter.${system} = pkgs.alejandra;
     devShells.${system}.default = pkgs.mkShell {
       packages = [pkgs.alejandra pkgs.home-manager];
       shellHook = ''
-        # Set custom prompt colors using ANSI escape codes
-        # \[\e[1;32m\] - Bold Green
-        # \[\e[1;34m\] - Bold Blue
-        # \[\e[0m\] - Reset formatting
         export PS1='\[\e[1;32m\][${system}:\w]\$\[\e[0m\] '
         echo
         echo "‹os›: ${builtins.concatStringsSep ", " (builtins.attrNames hosts)}"
@@ -100,15 +101,18 @@ inputs @ {
     homeConfigurations = mapHomes homes;
   };
 
-  mappedSystems = foldl recursiveUpdate {} (mapAttrsToList mapSystem systems);
+  configuration = foldl recursiveUpdate {} (mapAttrsToList mapSystem systems);
 
-  # Merge all options into one attribute set for use with ‹nixd›
-  options = let
-    getOptions = configs: foldl recursiveUpdate {} (mapAttrsToList (_: value: value.options) configs);
-  in {
-    nixos = getOptions mappedSystems.nixosConfigurations;
-    darwin = getOptions mappedSystems.darwinConfigurations;
-    home-manager = getOptions mappedSystems.homeConfigurations;
-  };
+  getOptions = configs: foldl recursiveUpdate {} (mapAttrsToList (_: value: value.options) configs);
 in
-  mappedSystems // {inherit options;}
+  configuration
+  // {
+    inherit lib;
+
+    # Merge all options into one attribute set for use with ‹nixd›
+    options = {
+      nixos = getOptions self.nixosConfigurations;
+      darwin = getOptions self.darwinConfigurations;
+      home-manager = getOptions self.homeConfigurations;
+    };
+  }

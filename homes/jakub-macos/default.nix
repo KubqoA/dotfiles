@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  imports = lib._.moduleImports [
+  imports = lib.moduleImports [
     "common/aliases"
     "common/env"
     "common/ghostty"

@@ -9,7 +9,7 @@
       ./homebrew.nix
       ./system.nix
     ]
-    ++ lib._.moduleImports [
+    ++ lib.moduleImports [
       "common/nix"
       "common/packages"
       "darwin/icons"

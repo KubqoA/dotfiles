@@ -8,7 +8,7 @@
 in {
   imports = [inputs.simple-nixos-mailserver.nixosModule];
 
-  age.secrets = lib._.defineSecrets ["organ-sasl-passwd"] {};
+  age.secrets = lib.defineSecrets {organ-sasl-passwd = {};};
 
   mailserver = {
     enable = true;
