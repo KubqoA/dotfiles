@@ -4,16 +4,13 @@
   system,
   ...
 }: {
-  imports =
-    [
-      ./homebrew.nix
-      ./system.nix
-    ]
-    ++ lib.moduleImports [
-      "common/nix"
-      "common/packages"
-      "darwin/icons"
-    ];
+  imports = lib.imports [
+    ./homebrew.nix
+    ./system.nix
+    "common/nix"
+    "common/packages"
+    "darwin/icons"
+  ];
 
   desktop.icons = {
     "/Applications/Beekeeper Studio.app" = ./icons/beekeeper-studio.icns;

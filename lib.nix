@@ -7,9 +7,11 @@ inputs: lib: _:
     map (file: optionsDir + "/${file}") (builtins.attrNames nixFiles);
 
   # Helper to easily import modules in home/system configs
-  moduleImports = let
+  imports = let
     modulePath = path:
-      if builtins.pathExists ./modules/${path}
+      if builtins.isPath path
+      then path
+      else if builtins.pathExists ./modules/${path}
       then ./modules/${path}
       else ./modules/${path}.nix;
   in

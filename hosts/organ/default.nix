@@ -4,25 +4,22 @@
   modulesPath,
   ...
 }: {
-  imports =
-    [
-      (modulesPath + "/profiles/qemu-guest.nix")
-      ./disko.nix
-      # ./git.nix
-      ./mail.nix
-      ./networking.nix
-      ./nginx.nix
-      ./ssh.nix
-      ./syncthing.nix
-      ./users.nix
-    ]
-    ++ lib.moduleImports [
-      "common/nix"
-      "common/packages"
-      "server/dns"
-      "server/seafile"
-      "server/tailscale"
-    ];
+  imports = lib.imports [
+    (modulesPath + "/profiles/qemu-guest.nix")
+    ./disko.nix
+    # ./git.nix
+    ./mail.nix
+    ./networking.nix
+    ./nginx.nix
+    ./ssh.nix
+    ./syncthing.nix
+    ./users.nix
+    "common/nix"
+    "common/packages"
+    "server/dns"
+    "server/seafile"
+    "server/tailscale"
+  ];
 
   age.secrets = lib.defineSecrets {
     organ-tailscale-auth-key = {};

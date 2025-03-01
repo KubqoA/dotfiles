@@ -5,16 +5,13 @@
   pkgs,
   ...
 }: {
-  imports =
-    [
-      inputs.lanzaboote.nixosModules.lanzaboote
-      inputs.nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen2
-      ./hardware-configuration.nix
-    ]
-    ++ lib.moduleImports [
-      "common/nix"
-      "common/packages"
-    ];
+  imports = lib.imports [
+    inputs.lanzaboote.nixosModules.lanzaboote
+    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen2
+    ./hardware-configuration.nix
+    "common/nix"
+    "common/packages"
+  ];
 
   hardware.enableAllFirmware = true;
 
