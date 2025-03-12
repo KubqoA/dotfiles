@@ -1,5 +1,7 @@
 # [home-manager]
 {config, ...}: {
+  imports = [./mise.nix];
+
   home.sessionVariables = {
     # Ruby
     OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
@@ -22,8 +24,9 @@
     '';
   };
 
+  # pin versions for better reproducibility
   programs.mise.globalConfig = {
-    tools.ruby = "latest";
+    tools.ruby = "3.4.2";
     settings.ruby.default_packages_file = "${config.xdg.configHome}/mise/default-gems";
   };
 }

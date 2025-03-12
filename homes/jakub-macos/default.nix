@@ -10,14 +10,16 @@
     "common/ghostty"
     "common/git"
     "common/home"
-    "common/mise"
     "common/neovim"
     "common/password-store"
     "common/xdg"
     "common/zsh"
     "darwin/dark-mode-notify"
+    "dev/js"
     "dev/php"
+    "dev/python"
     "dev/ruby"
+    "dev/rust"
     "dev/work"
   ];
 

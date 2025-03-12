@@ -11,5 +11,6 @@
   in [
     phpEnv
     phpEnv.packages.composer
+    phpactor
   ];
 }
