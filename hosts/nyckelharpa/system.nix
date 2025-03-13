@@ -1,4 +1,16 @@
 {self, ...}: {
+  # More reliable than using system.keyboard.nonUS.remapTilde option
+  launchd.daemons.tildeRemap = {
+    serviceConfig = {
+      Label = "tilde-remap";
+      KeepAlive = false;
+      RunAtLoad = true;
+    };
+    script = ''
+      /usr/bin/hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000064,"HIDKeyboardModifierMappingDst":0x700000035}]}'
+    '';
+  };
+
   system = {
     defaults = {
       dock = {
@@ -27,11 +39,6 @@
         askForPassword = true;
         askForPasswordDelay = 60;
       };
-    };
-
-    keyboard = {
-      enableKeyMapping = true;
-      nonUS.remapTilde = true;
     };
 
     # Set Git commit hash for darwin-version.
