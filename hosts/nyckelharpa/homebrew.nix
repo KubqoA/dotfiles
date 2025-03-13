@@ -69,7 +69,6 @@
       "orbstack"
       "raycast"
       "rubymine"
-      "seadrive"
       "slack"
       "spotify"
       "syncthing"

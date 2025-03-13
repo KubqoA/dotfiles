@@ -7,6 +7,7 @@
   imports = lib.imports [
     "common/aliases"
     "common/env"
+    "common/fish"
     "common/ghostty"
     "common/git"
     "common/home"

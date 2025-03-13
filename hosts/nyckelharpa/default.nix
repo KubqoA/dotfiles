@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   system,
   ...
 }: {
@@ -33,6 +34,7 @@
     };
 
     # Necessary here to set correct PATH, configuration managed by home-manager
+    fish.enable = true;
     zsh.enable = true;
   };
 
@@ -52,7 +54,14 @@
     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
   '';
 
-  users.users.${config.username}.home = config.homePath;
+  # Set the knownUsers so that the default shell works
+  # https://github.com/LnL7/nix-darwin/issues/1237#issuecomment-2562230471
+  users.knownUsers = [config.username];
+  users.users.${config.username} = {
+    home = config.homePath;
+    shell = pkgs.fish;
+    uid = 501;
+  };
 
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = system;
