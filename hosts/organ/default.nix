@@ -16,7 +16,6 @@
     ./users.nix
     "common/nix"
     "common/packages"
-    "server/dns"
     "server/seafile"
     "server/tailscale"
   ];
@@ -42,7 +41,6 @@
   time.timeZone = "Europe/Prague";
 
   server = {
-    dns.zones."jakubarbet.me" = ./dns/jakubarbet.me.zone;
     seafile = {
       adminEmail = "hi@jakubarbet.me";
       adminPasswordFile = config.age.secrets.organ-seafile-password.path;
