@@ -6,6 +6,7 @@
 }: {
   age.secrets = lib.defineSecrets {organ-jakub-password-hash = {};};
 
+  users.mutableUsers = false;
   users.users = {
     ${config.username} = {
       hashedPasswordFile = config.age.secrets.organ-jakub-password-hash.path;
