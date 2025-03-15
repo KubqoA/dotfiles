@@ -7,7 +7,7 @@
   imports = lib.imports [
     (modulesPath + "/profiles/qemu-guest.nix")
     ./disko.nix
-    # ./git.nix
+    ./docker.nix
     ./mail.nix
     ./networking.nix
     ./nginx.nix
