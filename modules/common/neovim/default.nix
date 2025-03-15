@@ -1,63 +1,46 @@
 # [home-manager]
-{pkgs, ...}: {
-  home.packages = with pkgs; [
-    # formatters
-    stylua
-    isort
-    black
-
-    # language servers - move to direnv per project
-    nixd
-    lua-language-server
-  ];
+# inspired by https://nixalted.com/
+{
+  config,
+  pkgs,
+  ...
+}: {
+  xdg.configFile."nvim/lua".source = ./lua;
 
   # Editor
   programs.neovim = {
     enable = true;
     vimAlias = true;
-    extraLuaConfig = builtins.readFile ./init.lua;
-    plugins = let
-      vim-bind = pkgs.vimUtils.buildVimPlugin {
-        name = "vim-bind";
-        src = pkgs.fetchFromGitHub {
-          owner = "Absolight";
-          repo = "vim-bind";
-          rev = "4967dc658b50d71568f9f80fce2d27e6a4698fc5";
-          sha256 = "0hif1r329i5mylgkcb24dl1xcn287fvy7hpfln3whv8bwmphfc77";
-        };
-      };
-      auto-dark-mode-nvim = pkgs.vimUtils.buildVimPlugin {
-        name = "auto-dark-mode.nvim";
-        src = pkgs.fetchFromGitHub {
-          owner = "f-person";
-          repo = "auto-dark-mode.nvim";
-          rev = "14cad96b80a07e9e92a0dcbe235092ed14113fb2";
-          hash = "sha256-bSkS2IDkRMQCjaePFYtq39Bokgd1Bwoxgu2ceP7Bh5s=";
-        };
-      };
-    in
-      with pkgs.vimPlugins; [
-        rose-pine # theme
-        auto-dark-mode-nvim
-        vim-vinegar # better netrw
-        autoclose-nvim # auto pairs & closes brackets
-        # copilot-vim
-        conform-nvim # formatter setup
-        gitsigns-nvim
-        direnv-vim # better direnv integration
-        plenary-nvim
 
-        cmp-nvim-lsp
-        cmp-buffer
-        cmp-cmdline
-        cmp-path
-        luasnip
-        nvim-snippy
-        cmp-snippy
-        nvim-cmp
+    # Add missing formatters, and language server packages
+    # Most of these are managed in `modules/dev` for the respective languages
+    extraPackages = with pkgs; [
+      # formatters
+      alejandra
+      stylua
 
-        vim-bind # better bind zone higlighting
-        (nvim-treesitter.withPlugins (plugins:
+      # Telescope
+      ripgrep
+
+      # language servers
+      lua-language-server
+      nixd
+      harper
+    ];
+
+    plugins = with pkgs.vimPlugins; [
+      blink-cmp
+      conform-nvim
+      friendly-snippets
+      lazy-nvim
+      lazydev-nvim
+      nvim-lspconfig
+      rose-pine
+      telescope-nvim
+      vim-vinegar
+
+      (nvim-treesitter.withPlugins
+        (plugins:
           with plugins; [
             tree-sitter-bash
             tree-sitter-c
@@ -67,15 +50,45 @@
             tree-sitter-json
             tree-sitter-lua
             tree-sitter-markdown
+            tree-sitter-markdown_inline
             tree-sitter-nix
             tree-sitter-python
+            tree-sitter-query
             tree-sitter-ruby
             tree-sitter-rust
             tree-sitter-typescript
+            tree-sitter-vim
+            tree-sitter-vimdoc
             tree-sitter-yaml
           ]))
+    ];
 
-        nvim-lspconfig
-      ];
+    extraLuaConfig = ''
+      vim.loader.enable()
+      vim.g.mapleader = " " -- Need to set leader before lazy for correct keybindings
+      require("lazy").setup({
+        spec = {
+          -- Import plugins from lua/plugins
+          { import = "plugins" },
+        },
+        performance = {
+          reset_packpath = false,
+          rtp = {
+            reset = false,
+          },
+        },
+        dev = {
+          path = "${pkgs.vimUtils.packDir config.programs.neovim.finalPackage.passthru.packpathDirs}/pack/myNeovimPackages/start",
+          patterns = {""}, -- Empty string = wildcard, all plugins will use dev dir
+        },
+        install = {
+          -- Safeguard in case we forget to install a plugin with Nix
+          missing = false,
+        },
+      })
+
+      require("config.opt")
+      require("config.keymap")
+    '';
   };
 }
