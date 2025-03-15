@@ -22,6 +22,7 @@
       "ripgrep"
       "gh"
       "mise"
+      "pinentry-mac"
 
       # ruby building
       "autoconf"
