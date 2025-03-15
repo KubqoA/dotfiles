@@ -6,6 +6,7 @@
 {
   config,
   lib,
+  osName,
   pkgs,
   ...
 }:
@@ -24,12 +25,11 @@ with lib; {
     # Service to generate FQDN to tailscale IP mappings
     systemd.services.update-dnsmasq-config = {
       description = "Update dnsmasq configuration with Tailscale IPs";
-      wantedBy = ["multi-user.target"];
-      before = ["dnsmasq.service"];
       after = ["tailscaled.service"];
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
+        ExecCondition = "${pkgs.bash}/bin/bash -c '${pkgs.tailscale}/bin/tailscale status | grep -q \"${osName}\"'";
         ExecStart = pkgs.writeShellScript "update-dnsmasq-config" ''
           set -euo pipefail
 
@@ -46,7 +46,21 @@ with lib; {
           # Create dnsmasq config
           echo "address=/${config.networking.fqdn}/$IPV4" >/run/dnsmasq/tailscale-addresses.conf
           echo "address=/${config.networking.fqdn}/$IPV6" >>/run/dnsmasq/tailscale-addresses.conf
+
+          # Restart dnsmasq to apply changes
+          systemctl restart dnsmasq.service
         '';
+      };
+    };
+
+    # Add a timer to retry the service
+    systemd.timers.update-dnsmasq-config = {
+      description = "Timer for updating dnsmasq configuration";
+      wantedBy = ["multi-user.target"];
+      timerConfig = {
+        OnBootSec = "10s";
+        OnUnitActiveSec = "30s";
+        Unit = "update-dnsmasq-config.service";
       };
     };
 
@@ -65,7 +79,7 @@ with lib; {
 
       # Used to define DNS override for FQDN to tailscale IPs so devices
       # connected to the tailnet can access the site which is behind
-      # an tailscale-auth protection
+      # the tailscale-auth protection
       dnsmasq = {
         enable = true;
         resolveLocalQueries = false;
