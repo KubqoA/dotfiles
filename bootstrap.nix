@@ -31,10 +31,7 @@ inputs @ {
     homes ? {},
     hosts ? {},
   }: let
-    pkgs = import nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
-    };
+    pkgs = nixpkgs.legacyPackages.${system};
 
     systemSpecifics =
       if pkgs.stdenv.isDarwin
@@ -54,12 +51,12 @@ inputs @ {
     mapHosts = builtins.mapAttrs (osName: path:
       systemSpecifics.fn {
         inherit system;
-        specialArgs = {inherit inputs lib pkgs self system osName;};
+        specialArgs = {inherit inputs lib self system osName;};
         modules =
           [
+            {networking.hostName = lib.mkDefault osName;}
             ./config.nix
             systemSpecifics.agenixModule
-            {networking.hostName = lib.mkDefault osName;}
             path
           ]
           ++ lib.autoloadedModules;

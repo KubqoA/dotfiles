@@ -33,6 +33,4 @@
     #    nix-store --optimise
     optimise.automatic = true;
   };
-
-  nixpkgs.config.allowUnfree = true;
 }

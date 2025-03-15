@@ -10,10 +10,20 @@ inputs: lib: _:
   imports = let
     modulePath = path:
       if builtins.isPath path
-      then path
+      then
+        # Handle explicit paths
+        path
+      else if builtins.substring 0 1 (toString path) == "/"
+      then
+        # Handle absolute paths, including concatenated ones
+        path
       else if builtins.pathExists ./modules/${path}
-      then ./modules/${path}
-      else ./modules/${path}.nix;
+      then
+        # Handle directory modules
+        ./modules/${path}
+      else
+        # Otherwise assume it's a .nix module
+        ./modules/${path}.nix;
   in
     builtins.map modulePath;
 
@@ -35,7 +45,7 @@ inputs: lib: _:
       };
     });
 
-  defineSecrets = secrets: lib.mapAttrs (name: options: {file = ../secrets + "/${name}.age";} // options) secrets;
+  defineSecrets = secrets: lib.mapAttrs (name: options: {file = ./secrets + "/${name}.age";} // options) secrets;
 }
 # Make sure to add lib extensions from inputs
 // inputs.home-manager.lib
