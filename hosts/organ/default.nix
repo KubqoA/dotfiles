@@ -7,14 +7,14 @@
   imports = lib.imports [
     (modulesPath + "/profiles/qemu-guest.nix")
     ./disko.nix
-    ./docker.nix
-    ./mail.nix
     ./networking.nix
-    ./nginx.nix
-    ./ssh.nix
     ./storage.nix
-    ./syncthing.nix
     ./users.nix
+    ./services/docker.nix
+    ./services/mail.nix
+    ./services/nginx.nix
+    ./services/ssh.nix
+    ./services/syncthing.nix
     "common/nix"
     "common/packages"
     "server/seafile"

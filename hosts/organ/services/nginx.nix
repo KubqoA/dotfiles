@@ -20,6 +20,11 @@
         extraConfig = "internal;";
       };
     };
+    virtualHosts."yoga.jakubarbet.me" = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/".proxyPass = "http://127.0.0.1:8080";
+    };
   };
 
   networking.firewall.allowedTCPPorts = [80 443];
