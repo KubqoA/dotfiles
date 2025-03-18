@@ -12,6 +12,7 @@
     ./networking.nix
     ./nginx.nix
     ./ssh.nix
+    ./storage.nix
     ./syncthing.nix
     ./users.nix
     "common/nix"
@@ -48,6 +49,7 @@
     seafile = {
       adminEmail = "hi@jakubarbet.me";
       adminPasswordFile = config.sops.secrets.seafile-password.path;
+      dataDir = "/mnt/seafile/data";
     };
     tailscale = {
       tailnet = "ide-vega.ts.net";

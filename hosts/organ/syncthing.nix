@@ -11,6 +11,9 @@
 
       # https://docs.syncthing.net/users/config.html#config-option-gui.insecureskiphostcheck
       settings.gui.insecureSkipHostcheck = true;
+
+      overrideFolders = false;
+      overrideDevices = false;
     };
   };
 

@@ -4,18 +4,22 @@
   pkgs,
   ...
 }:
-with lib; {
+with lib; let
+  host = "drive.${config.networking.domain}";
+  cfg = config.services.seafile;
+  seafRoot = "/var/lib/seafile";
+  seahubDir = "${seafRoot}/seahub";
+in {
   options.server.seafile = {
     adminEmail = mkOption {type = types.str;};
     adminPasswordFile = mkOption {type = types.path;};
+    dataDir = mkOption {
+      type = types.path;
+      default = "${seafRoot}/data";
+    };
   };
 
-  config = let
-    host = "drive.${config.networking.domain}";
-    cfg = config.services.seafile;
-    seafRoot = "/var/lib/seafile";
-    seahubDir = "${seafRoot}/seahub";
-  in {
+  config = {
     services = {
       nginx.virtualHosts.${host} = {
         enableACME = true;
@@ -44,6 +48,7 @@ with lib; {
         seahubExtraConf = ''
           CSRF_TRUSTED_ORIGINS = ["https://${host}"]
         '';
+        dataDir = config.server.seafile.dataDir;
       };
     };
 

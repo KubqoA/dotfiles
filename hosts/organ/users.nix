@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: {
-  sops.secrets.jakub-password = {};
+  sops.secrets.jakub-password.neededForUsers = true;
 
   users.mutableUsers = false;
   users.users = {
