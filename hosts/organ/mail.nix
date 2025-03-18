@@ -8,7 +8,12 @@
 in {
   imports = [inputs.simple-nixos-mailserver.nixosModule];
 
-  age.secrets = lib.defineSecrets {organ-sasl-passwd = {};};
+  sops = {
+    secrets.mailgun-credentials = {};
+    templates."sasl_passwd".content = ''
+      sasl-password: smtp.eu.mailgun.org ${config.sops.placeholder.mailgun-credentials}
+    '';
+  };
 
   mailserver = {
     enable = true;
@@ -36,7 +41,7 @@ in {
     };
     # Confgiure postfix to use mailgun as relay to improve deliverability
     postfix = {
-      mapFiles."sasl_passwd" = config.age.secrets.organ-sasl-passwd.path;
+      mapFiles."sasl_passwd" = config.sops.templates."sasl_passwd".path;
       extraConfig = ''
         smtp_sasl_auth_enable = yes
         smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd

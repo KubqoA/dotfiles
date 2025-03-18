@@ -7,11 +7,12 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
-    inputs.agenix.packages.${system}.default
     alejandra
     git
     curl
     wget
     neovim
+    age
+    sops
   ];
 }

@@ -45,7 +45,8 @@ inputs: lib: _:
       };
     });
 
-  defineSecrets = secrets: lib.mapAttrs (name: options: {file = ./secrets + "/${name}.age";} // options) secrets;
+  # mkIfHome = {homeName ? null, ...}: config: lib.mkIf (homeName != null) config;
+  # mkIfHost = {hostName ? null, ...}: config: lib.mkIf (hostName != null) config;
 }
 # Make sure to add lib extensions from inputs
 // inputs.home-manager.lib

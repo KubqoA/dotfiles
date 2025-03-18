@@ -1,0 +1,11 @@
+keys:
+  - &admin_jakub age1mweq7c3fq28ezr28fvhkula3fhhyzq0hpmyjgzsvvhh2vr5y33psr9hv83
+  - &server_organ age1u7gwzuqwlrwz4hrtv5mfral8y3wj9jcsq63huvzhsq9g0etrggcsctz6ah
+
+creation_rules:
+  - path_regex: hosts/organ/secrets.yaml$
+    key_groups:
+    - age:
+      - *admin_jakub
+      - *server_organ
+

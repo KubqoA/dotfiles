@@ -20,11 +20,15 @@
     "server/tailscale"
   ];
 
-  age.secrets = lib.defineSecrets {
-    organ-tailscale-auth-key = {};
-    organ-seafile-password = {
-      owner = config.services.seafile.user;
-      mode = "0600";
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+    secrets = {
+      seafile-password = {
+        owner = config.services.seafile.user;
+        mode = "0600";
+      };
+      tailscale-auth-key = {};
     };
   };
 
@@ -43,11 +47,11 @@
   server = {
     seafile = {
       adminEmail = "hi@jakubarbet.me";
-      adminPasswordFile = config.age.secrets.organ-seafile-password.path;
+      adminPasswordFile = config.sops.secrets.seafile-password.path;
     };
     tailscale = {
       tailnet = "ide-vega.ts.net";
-      authKeyFile = config.age.secrets.organ-tailscale-auth-key.path;
+      authKeyFile = config.sops.secrets.tailscale-auth-key.path;
     };
   };
 

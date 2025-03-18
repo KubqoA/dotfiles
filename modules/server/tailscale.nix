@@ -6,7 +6,7 @@
 {
   config,
   lib,
-  osName,
+  hostName,
   pkgs,
   ...
 }:
@@ -29,7 +29,7 @@ with lib; {
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
-        ExecCondition = "${pkgs.bash}/bin/bash -c '${pkgs.tailscale}/bin/tailscale status | grep -q \"${osName}\"'";
+        ExecCondition = "${pkgs.bash}/bin/bash -c '${pkgs.tailscale}/bin/tailscale status | grep -q \"${hostName}\"'";
         ExecStart = pkgs.writeShellScript "update-dnsmasq-config" ''
           set -euo pipefail
 

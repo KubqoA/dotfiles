@@ -1,11 +1,13 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   system,
   ...
 }: {
   imports = lib.imports [
+    inputs.sops-nix.darwinModules.sops
     ./homebrew.nix
     ./system.nix
     "common/nix"

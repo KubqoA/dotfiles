@@ -17,9 +17,9 @@
 # }
 # ```
 inputs @ {
-  agenix,
   nixpkgs,
   self,
+  sops-nix,
   ...
 }: systems: let
   # system agnostic lib with custom extensions
@@ -39,40 +39,27 @@ inputs @ {
         fn = lib.darwinSystem;
         option = "darwinConfigurations";
         command = "nix run nix-darwin --";
-        agenixModule = agenix.darwinModules.default;
+        sopsModule = sops-nix.darwinModules.sops;
       }
       else {
         fn = lib.nixosSystem;
         option = "nixosConfigurations";
         command = "nixos-rebuild";
-        agenixModule = agenix.nixosModules.default;
+        sopsModule = sops-nix.nixosModules.sops;
       };
 
-    mapHosts = builtins.mapAttrs (osName: path:
+    mapHosts = builtins.mapAttrs (hostName: path:
       systemSpecifics.fn {
         inherit system;
-        specialArgs = {inherit inputs lib self system osName;};
-        modules =
-          [
-            {networking.hostName = lib.mkDefault osName;}
-            ./config.nix
-            systemSpecifics.agenixModule
-            path
-          ]
-          ++ lib.autoloadedModules;
+        specialArgs = {inherit inputs lib self system hostName;};
+        modules = [path systemSpecifics.sopsModule] ++ lib.autoloadedModules;
       });
 
     mapHomes = builtins.mapAttrs (homeName: path:
       lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = {inherit inputs lib system homeName;};
-        modules =
-          [
-            ./config.nix
-            agenix.homeManagerModules.default
-            path
-          ]
-          ++ lib.autoloadedModules;
+        modules = [path sops-nix.homeManagerModules.sops] ++ lib.autoloadedModules;
       });
   in {
     formatter.${system} = pkgs.alejandra;
