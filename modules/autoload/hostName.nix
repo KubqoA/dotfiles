@@ -1,7 +1,4 @@
-{
-  hostName ? null,
-  lib,
-  ...
-}: {
-  networking.hostName = lib.mkIf (hostName != null) hostName;
+{lib, ...} @ args:
+lib.optionalAttrs (args ? hostName) {
+  networking.hostName = args.hostName;
 }

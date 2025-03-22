@@ -23,6 +23,7 @@
       "gh"
       "mise"
       "pinentry-mac"
+      "less" # update the default one shipped with macOS
 
       # ruby building
       "autoconf"

@@ -1,4 +1,5 @@
-{...}: {
+{pkgs, ...}: {
+  nix.package = pkgs.nix;
   nixpkgs.config.allowUnfree = true;
   nixpkgs.overlays = [
     (final: prev: {
