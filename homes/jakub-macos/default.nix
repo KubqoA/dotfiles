@@ -75,13 +75,6 @@
       enable = true;
       enableZshIntegration = true;
     };
-    zsh.initExtraBeforeCompInit = ''
-      # Inlined from ‹eval "$(/opt/homebrew/bin/brew shellenv)"›
-      fpath+="/opt/homebrew/share/zsh/site-functions"
-
-      # Inlined from ‹~/.orbstack/shell/init.zsh›
-      fpath+="/Applications/OrbStack.app/Contents/MacOS/../Resources/completions/zsh"
-    '';
   };
 
   home.stateVersion = "24.05";

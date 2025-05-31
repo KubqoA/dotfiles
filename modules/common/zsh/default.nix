@@ -27,7 +27,7 @@
     '';
     envExtra = builtins.readFile ./zshenv;
     loginExtra = builtins.readFile ./zlogin;
-    initExtra = builtins.readFile ./zshrc;
+    initContent = builtins.readFile ./zshrc;
 
     autosuggestion.enable = true;
     historySubstringSearch.enable = true;

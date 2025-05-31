@@ -9,9 +9,8 @@
     # pin versions for better reproducibility
     tools = {
       rust = {
-        version = "1.85";
-        # TODO: Figure out why this fails
-        # postinstall = "rustup component add rust-analyzer";
+        version = "1.87";
+        components = "rust-analyzer";
       };
     };
     settings = {

@@ -16,8 +16,20 @@ return {
 			local lspconfig = require("lspconfig")
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
+			-- spellcheck
+			lspconfig.harper_ls.setup({
+				settings = {
+					["harper-ls"] = {
+						linters = {
+							SentenceCapitalization = false,
+							SpellCheck = false,
+						},
+					},
+				},
+				capabilities = capabilities,
+			})
+
 			lspconfig.astro.setup({ capabilities = capabilities })
-			lspconfig.harper_ls.setup({ capabilities = capabilities }) -- spell checker
 			lspconfig.lua_ls.setup({ capabilities = capabilities })
 			lspconfig.nixd.setup({
 				cmd = { "nixd" },
@@ -45,8 +57,10 @@ return {
 			lspconfig.ruby_lsp.setup({ capabilities = capabilities })
 			lspconfig.ruff.setup({ capabilities = capabilities }) -- python
 			lspconfig.rust_analyzer.setup({ capabilities = capabilities })
-			lspconfig.stimulus_ls.setup({ capabilities = capabilities })
 			lspconfig.tailwindcss.setup({ capabilities = capabilities })
+
+			-- disabled LSPs
+			-- lspconfig.stimulus_ls.setup({ capabilities = capabilities })
 			-- lspconfig.turbo_ls.setup({ capabilities = capabilities }) -- currently not in nixpkgs nvim-lspconfig
 		end,
 	},

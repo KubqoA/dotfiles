@@ -22,7 +22,7 @@ in {
   };
 
   config = mkIf (cfg != {}) {
-    system.activationScripts.postUserActivation.text = let
+    system.activationScripts.postActivation.text = let
       iconsList =
         mapAttrsToList (path: icon: {
           inherit path icon;

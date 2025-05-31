@@ -1,4 +1,8 @@
-{self, ...}: {
+{
+  config,
+  self,
+  ...
+}: {
   # More reliable than using system.keyboard.nonUS.remapTilde option
   launchd.daemons.tildeRemap = {
     serviceConfig = {
@@ -17,12 +21,11 @@
         autohide-delay = 0.2;
         mineffect = "scale";
         persistent-apps = [
-          "/Applications/Arc.app"
+          "/Applications/Zen.app"
           "/Applications/Ghostty.app"
           "/Applications/Cursor.app"
           "/Applications/Spotify.app"
           "/Applications/Slack.app"
-          "/Applications/WhatsApp.app"
         ];
         show-recents = false;
       };
@@ -44,14 +47,16 @@
     # Set Git commit hash for darwin-version.
     configurationRevision = self.rev or self.dirtyRev or null;
 
+    primaryUser = config.username;
+
     # Used for backwards compatibility, please read the changelog before changing.
     # $ os changelog
     stateVersion = 4;
 
     # https://medium.com/@zmre/nix-darwin-quick-tip-activate-your-preferences-f69942a93236
-    activationScripts.postUserActivation.text = ''
+    activationScripts.postActivation.text = ''
       echo "activating settings..."
-      /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+      sudo -u ${config.username} /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
     '';
   };
 }

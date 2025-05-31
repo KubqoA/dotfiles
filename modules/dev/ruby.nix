@@ -37,6 +37,7 @@
   # pin versions for better reproducibility
   programs.mise.globalConfig = {
     tools.ruby = "3.4.2";
+    settings.idiomatic_version_file_enable_tools = ["ruby"];
     settings.ruby.default_packages_file = "${config.xdg.configHome}/mise/default-gems";
   };
 }

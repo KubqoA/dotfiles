@@ -12,7 +12,7 @@
       {
         "x86_64-linux" = "sudo nixos-rebuild";
         "aarch64-linux" = "sudo nixos-rebuild";
-        "aarch64-darwin" = "darwin-rebuild";
+        "aarch64-darwin" = "sudo darwin-rebuild";
       }
       .${system};
   in {

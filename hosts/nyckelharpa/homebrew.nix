@@ -36,11 +36,10 @@
       "readline"
       "vips"
 
-      "puma/puma/puma-dev"
-
       # services
+      "puma/puma/puma-dev"
       {
-        name = "postgresql@14";
+        name = "postgresql@17";
         restart_service = "changed";
       }
       {
@@ -53,16 +52,12 @@
       "1password"
       "1password-cli"
       "arc"
-      "around"
-      "beekeeper-studio"
       "cursor"
       "figma"
-      "firefox@developer-edition"
       "ghostty"
       "httpie"
-      "intellij-idea-ce"
+      "imaging-edge-webcam"
       "keyboardcleantool"
-      "linearmouse"
       "loom"
       "macmediakeyforwarder"
       "monitorcontrol"

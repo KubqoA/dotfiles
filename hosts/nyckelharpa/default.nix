@@ -1,13 +1,11 @@
 {
   config,
-  inputs,
   lib,
   pkgs,
   system,
   ...
 }: {
   imports = lib.imports [
-    inputs.sops-nix.darwinModules.sops
     ./homebrew.nix
     ./system.nix
     "common/nix"
@@ -16,14 +14,11 @@
   ];
 
   desktop.icons = {
-    "/Applications/Beekeeper Studio.app" = ./icons/beekeeper-studio.icns;
     "/Applications/Capture One.app" = ./icons/capture-one.icns;
-    "/Applications/Firefox Developer Edition.app" = ./icons/firefox-developer-edition.icns;
     "/Applications/Logi Options.app" = ./icons/logi-options.icns;
     "/Applications/Loom.app" = ./icons/loom.icns;
     "/Applications/MacMediaKeyForwarder.app" = ./icons/mac-media-key-forwarder.icns;
     "/Applications/Notion.app" = ./icons/notion.icns;
-    "/Applications/Seadrive.app" = ./icons/seadrive.icns;
     "/Applications/Spotify.app" = ./icons/spotify.icns;
     "/Applications/Steam.app" = ./icons/steam.icns;
   };
@@ -50,11 +45,6 @@
       Defaults timestamp_timeout=5
     '';
   };
-
-  system.activationScripts.postUserActivation.text = ''
-    # Following line should allow us to avoid a logout/login cycle
-    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-  '';
 
   # Set the knownUsers so that the default shell works
   # https://github.com/LnL7/nix-darwin/issues/1237#issuecomment-2562230471
