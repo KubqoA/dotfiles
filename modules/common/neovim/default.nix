@@ -38,6 +38,7 @@
       rose-pine
       telescope-nvim
       vim-vinegar
+      gitsigns-nvim
 
       (nvim-treesitter.withPlugins
         (plugins:
