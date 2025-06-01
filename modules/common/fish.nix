@@ -1,3 +1,4 @@
+# [home-manager]
 {pkgs, ...}: {
   programs.fish = let
     art = builtins.replaceStrings ["\\"] ["\\\\"] ''

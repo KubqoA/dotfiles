@@ -1,3 +1,4 @@
+# [home-manager]
 {...}: {
   imports = [./mise.nix];
 

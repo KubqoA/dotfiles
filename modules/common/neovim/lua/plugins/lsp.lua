@@ -23,6 +23,7 @@ return {
 						linters = {
 							SentenceCapitalization = false,
 							SpellCheck = false,
+							ToDoHyphen = false,
 						},
 					},
 				},

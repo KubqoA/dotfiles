@@ -1,4 +1,7 @@
+# [home-manager]
 # To support dark/light mode switching
+# Currently used by dark-mode-notify in macOS home-manager configs
+# TODO: Add support for NixOS
 {lib, ...}:
 with lib; {
   options = {

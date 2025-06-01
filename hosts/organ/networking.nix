@@ -1,15 +1,11 @@
 {...}: let
-  ipv4 = "116.202.110.124";
-  ipv6 = "2a01:4f8:c013:5899::";
+  ipv4 = "49.13.218.47";
+  ipv6 = "2a01:4f8:c013:d116::";
 in {
   networking = {
     domain = "jakubarbet.me";
-    useDHCP = false;
     nameservers = ["1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001"];
-    firewall.enable = true;
   };
-
-  services.resolved.enable = false;
 
   # static ip configuration for hetzner cloud
   # https://docs.hetzner.com/cloud/servers/static-configuration/

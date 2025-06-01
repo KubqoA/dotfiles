@@ -1,3 +1,4 @@
+# [home-manager/nixos/nix-darwin]
 # Global configuration options that can be referenced by all modules
 {
   config,
@@ -24,7 +25,9 @@ with lib; {
         "aarch64-linux" = "/persist/dotfiles";
         "aarch64-darwin" = "/Users/${config.username}/.config/dotfiles";
       }
-      .${system};
+      .${
+        system
+      };
     homePath =
       lib.mkDefault
       {
@@ -32,7 +35,9 @@ with lib; {
         aarch64-linux = "/home/${config.username}";
         aarch64-darwin = "/Users/${config.username}";
       }
-      .${system};
+      .${
+        system
+      };
     # gpg --list-secret-keys --keyid-format=long --with-keygrip
     gitSigningKey = "3F6BC2C89D644E2A";
     gpgSshControl = ''

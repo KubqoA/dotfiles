@@ -15,7 +15,7 @@
           priority = 1;
           name = "ESP";
           start = "1M";
-          end = "128M";
+          end = "512M";
           type = "EF00";
           content = {
             type = "filesystem";
@@ -25,12 +25,20 @@
           };
         };
         root = {
-          end = "-2G";
+          end = "-4G";
           content = {
             type = "btrfs";
             extraArgs = ["-f"]; # Override existing partition
+            postCreateHook = ''
+              MNT_POINT=$(mktemp -d)
+              mount /dev/disk/by-partlabel/disk-main-root "$MNT_POINT"
+              btrfs subvolume snapshot -r $MNT_POINT/root $MNT_POINT/root-blank
+              umount "$MNT_POINT"
+              rm -rf "$MNT_POINT"
+            '';
             subvolumes = {
               "/root" = {
+                mountOptions = ["compress=zstd" "noatime"];
                 mountpoint = "/";
               };
               "/home" = {
@@ -61,4 +69,5 @@
   };
 
   fileSystems."/var/log".neededForBoot = true;
+  fileSystems."/persist".neededForBoot = true;
 }
