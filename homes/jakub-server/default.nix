@@ -2,11 +2,11 @@
   imports = lib.imports [
     "common/aliases"
     "common/env"
+    "common/fish"
     "common/git"
     "common/home"
     "common/neovim"
     "common/password-store"
-    "common/zsh"
   ];
 
   programs = {

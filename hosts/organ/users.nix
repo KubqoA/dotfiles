@@ -12,9 +12,9 @@
       openssh.authorizedKeys.keys = [config.sshPublicKey];
       isNormalUser = true;
       extraGroups = ["wheel"];
-      shell = pkgs.zsh;
+      shell = pkgs.fish;
     };
   };
 
-  programs.zsh.enable = true;
+  programs.fish.enable = true;
 }

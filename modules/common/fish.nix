@@ -19,12 +19,13 @@
         src = pkgs.fishPlugins.async-prompt;
       }
       {
+        # Using a fork of hydro that shows username@hostname on SSH connections
         name = "hydro";
         src = pkgs.fetchFromGitHub {
-          owner = "jorgebucaran";
+          owner = "thenktor";
           repo = "hydro";
-          rev = "75ab7168a35358b3d08eeefad4ff0dd306bd80d4";
-          hash = "sha256-QYq4sU41/iKvDUczWLYRGqDQpVASF/+6brJJ8IxypjE=";
+          rev = "6714689d10b7173fe8d7afa9cba21d5839d31451";
+          hash = "sha256-LknEQ1wMDRIJ8JcsPVK/LrJC0sgVWyR08pIEoNLnHPQ=";
         };
       }
       {
@@ -32,19 +33,23 @@
         src = pkgs.fishPlugins.sponge;
       }
     ];
+    functions = {
+      fish_greeting = "echo $fish_greeting";
+    };
     interactiveShellInit = ''
-      set --global hydro_symbol_start "\n"
-      set --global hydro_symbol_prompt "❯"
-      set --global hydro_symbol_git_dirty "*"
-      set --global hydro_symbol_git_ahead "⇡"
-      set --global hydro_symbol_git_behind "⇣"
-      set --global hydro_color_pwd blue
-      set --global hydro_color_git brblack
-      set --global hydro_color_prompt magenta
-      set --global hydro_color_duration yellow
-      set --global hydro_multiline true
-      set --global hydro_cmd_duration_threshold 10000
-      set -g fish_greeting "${art}"
+      set -U fish_greeting "${art}"
+      set -U fish_prompt_pwd_dir_length 10
+      set -g hydro_symbol_start "\n"
+      set -g hydro_symbol_prompt "❯"
+      set -g hydro_symbol_git_dirty "*"
+      set -g hydro_symbol_git_ahead "⇡"
+      set -g hydro_symbol_git_behind "⇣"
+      set -g hydro_color_pwd blue
+      set -g hydro_color_git brblack
+      set -g hydro_color_prompt magenta
+      set -g hydro_color_duration yellow
+      set -g hydro_multiline true
+      set -g hydro_cmd_duration_threshold 10000
     '';
   };
 
