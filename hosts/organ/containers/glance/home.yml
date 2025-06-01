@@ -1,0 +1,59 @@
+- name: Home
+  columns:
+  - size: small
+    widgets:
+    - type: calendar
+
+    - type: clock
+      hour-format: 24h
+      timezones:
+      - label: Jadan
+        timezone: Asia/Kolkata
+
+  - size: full
+    widgets:
+    - type: search
+      search-engine: duckduckgo
+
+    - type: group
+      widgets:
+      - type: lobsters
+      - type: hacker-news
+      - type: reddit
+        subreddit: selfhosted
+      - type: reddit
+        subreddit: NixOS
+      - type: reddit
+        subreddit: neovim
+      - type: reddit
+        subreddit: ruby
+      - type: reddit
+        subreddit: unixporn
+
+    - type: videos
+      style: grid-cards
+      limit: 12
+      channels:
+        - UCODHrzPMGbNv67e84WDZhQQ
+        - UCkVfrGwV-iG9bSsgCbrNPxQ
+        - UCmor-2SRB1E9dHMbcr397_Q
+        - UCuCkxoKLYO_EQ2GeFtbM_bw
+        - UC_gSotrFVZ_PiAxo3fTQVuQ
+
+  - size: small
+    widgets:
+    - type: weather
+      hour-format: 24h
+      location: Tromsø
+      units: metric
+
+    - type: markets
+      markets:
+      - name: Bitcoin
+        symbol: BTC-EUR
+      - name: Ripple
+        symbol: XRP-EUR
+      - name: Ethereum
+        symbol: ETH-EUR
+      - name: Cardano
+        symbol: ADA-EUR

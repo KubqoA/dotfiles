@@ -1,0 +1,65 @@
+- name: Server
+  columns:
+  - size: full
+    widgets:
+    - type: server-stats
+      servers:
+      - hide-mountpoints-by-default: true
+        mountpoints:
+          "/":
+            hide: false
+        name: organ
+        type: local
+
+    - type: monitor
+      title: Services
+      cache: 1m
+      sites:
+      - icon: si:seafile
+        title: Seafile
+        url: https://drive.jakubarbet.me
+      - icon: si:immich
+        title: Immich
+        url: https://photos.jakubarbet.me
+      - icon: si:jellyfin
+        title: Jellyfin
+        url: https://jellyfin.jakubarbet.me
+
+  - size: small
+    widgets:
+    - type: custom-api
+      title: Immich stats
+      cache: 1d
+      url: https://photos.jakubarbet.me/api/server/statistics
+      headers:
+        x-api-key: ${secret:immich-api-key}
+        Accept: application/json
+      template: |
+        <div class="flex justify-between text-center">
+          <div>
+              <div class="color-highlight size-h3">{{ .JSON.Int "photos" | formatNumber }}</div>
+              <div class="size-h6">PHOTOS</div>
+          </div>
+          <div>
+              <div class="color-highlight size-h3">{{ .JSON.Int "videos" | formatNumber }}</div>
+              <div class="size-h6">VIDEOS</div>
+          </div>
+          <div>
+              <div class="color-highlight size-h3">{{ div (.JSON.Int "usage" | toFloat) 1073741824 | toInt | formatNumber }}GB</div>
+              <div class="size-h6">USAGE</div>
+          </div>
+        </div>
+
+    - type: repository
+      commits-limit: 2
+      repository: kubqoa/dotfiles
+
+    - type: releases
+      show-source-icon: true
+      repositories:
+        - immich-app/immich
+        - jellyfin/jellyfin
+        - glanceapp/glance
+        - syncthing/syncthing
+        - dockerhub:seafileltd/seafile-mc
+

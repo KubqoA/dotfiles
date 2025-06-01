@@ -1,0 +1,6 @@
+branding:
+  hide-footer: true
+
+pages:
+  !include: home.yml
+  !include: server.yml
