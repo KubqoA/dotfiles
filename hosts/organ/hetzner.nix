@@ -1,7 +1,6 @@
 # Some good defaults for Hetzner Cloud ARM VPS
 # Inspired by https://github.com/nix-community/srvos/blob/main/nixos/hardware/hetzner-cloud/arm.nix
 {
-  lib,
   modulesPath,
   pkgs,
   ...
@@ -26,25 +25,10 @@
   networking = {
     useNetworkd = true;
     useDHCP = false;
-
-    # Delegate the hostname setting to cloud-init by default
-    hostName = lib.mkOverride 1337 ""; # lower prio than lib.mkDefault
   };
 
-  services = {
-    cloud-init = {
-      enable = lib.mkDefault true;
-      btrfs.enable = lib.mkDefault true;
-      network.enable = lib.mkDefault true;
-
-      # Never flush the host's SSH keys. See #148. Since we build the images
-      # using NixOS, that kind of issue shouldn't happen to us.
-      settings.ssh_deletekeys = lib.mkDefault false;
-    };
-
-    # Needed by the Hetzner Cloud password reset feature.
-    qemuGuest.enable = lib.mkDefault true;
-  };
+  # Needed by the Hetzner Cloud password reset feature.
+  services.qemuGuest.enable = true;
 
   # https://discourse.nixos.org/t/qemu-guest-agent-on-hetzner-cloud-doesnt-work/8864/2
   systemd.services.qemu-guest-agent.path = [pkgs.shadow];
