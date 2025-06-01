@@ -1,3 +1,4 @@
+# Custom lib extensions
 inputs: lib: _:
 {
   autoloadedModules = let
@@ -22,7 +23,7 @@ inputs: lib: _:
         # Handle directory modules
         ./modules/${path}
       else
-        # Otherwise assume it's a .nix module
+        # Otherwise assume it's a nix file
         ./modules/${path}.nix;
   in
     builtins.map modulePath;
@@ -44,9 +45,6 @@ inputs: lib: _:
         platforms = platforms.darwin;
       };
     });
-
-  # mkIfHome = {homeName ? null, ...}: config: lib.mkIf (homeName != null) config;
-  # mkIfHost = {hostName ? null, ...}: config: lib.mkIf (hostName != null) config;
 }
 # Make sure to add lib extensions from inputs
 // inputs.home-manager.lib
