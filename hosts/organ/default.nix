@@ -5,7 +5,7 @@
     ./hetzner.nix
     ./impermanence.nix
     ./networking.nix
-    # ./storage.nix
+    ./storagebox.nix
     ./users.nix
     # ./services/docker.nix
     # ./services/mail.nix

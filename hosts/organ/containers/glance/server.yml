@@ -8,6 +8,8 @@
         mountpoints:
           "/":
             hide: false
+          "/mnt/storagebox":
+            hide: false
         name: organ
         type: local
 

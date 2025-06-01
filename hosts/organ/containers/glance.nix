@@ -14,6 +14,7 @@
       volumes = [
         "${./glance}:/app/config"
         "${config.sops.secrets.immich-api-key.path}:/run/secrets/immich-api-key:ro"
+        "/mnt/storagebox:/mnt/storagebox"
       ];
       publishPorts = ["80:8080"];
     };
