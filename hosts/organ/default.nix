@@ -2,6 +2,7 @@
   imports = lib.imports [
     ./disko.nix
     ./hetzner.nix
+    ./impermanence.nix
     ./networking.nix
     # ./storage.nix
     ./users.nix
