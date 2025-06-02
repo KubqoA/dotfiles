@@ -1,6 +1,14 @@
 branding:
   hide-footer: true
 
+theme:
+  background-color: 249 22 11.6
+  primary-color: 2.45 55.1 82.5
+  negative-color: 343 75.6 67.8
+  contrast-multiplier: 1.0
+  disable-picker: true
+
 pages:
   !include: home.yml
   !include: server.yml
+
