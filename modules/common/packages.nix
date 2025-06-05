@@ -1,11 +1,6 @@
 # [nixos/nix-darwin]
 # common packages shared across all systems
-{
-  inputs,
-  pkgs,
-  system,
-  ...
-}: {
+{pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     alejandra
     git
