@@ -12,5 +12,6 @@
     phpEnv
     phpEnv.packages.composer
     phpactor
+    mago
   ];
 }

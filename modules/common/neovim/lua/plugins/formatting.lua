@@ -24,6 +24,7 @@ return {
 			nix = { "alejandra" },
 			python = { "ruff" },
 			ruby = { "rubocop" },
+			php = { "mago" },
 		},
 		-- Set default options
 		default_format_opts = {
