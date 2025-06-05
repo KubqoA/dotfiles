@@ -9,6 +9,7 @@
   xdg.configFile = {
     "mise/default-python-packages".text = ''
       ruff
+      setuptools
     '';
   };
 
