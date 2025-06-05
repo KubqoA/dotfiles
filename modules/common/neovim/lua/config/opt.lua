@@ -7,5 +7,4 @@ set.tabstop = 2
 set.expandtab = true
 set.smartindent = true
 set.clipboard = "unnamedplus"
-set.laststatus = 2
-set.statusline = " %f %m %= %l:%c ♥ "
+set.laststatus = 0
