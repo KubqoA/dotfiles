@@ -28,7 +28,7 @@
           end = "-4G";
           content = {
             type = "btrfs";
-            extraArgs = ["-f"]; # Override existing partition
+            # Create blank root volume snapshot for impermanence
             postCreateHook = ''
               MNT_POINT=$(mktemp -d)
               mount /dev/disk/by-partlabel/disk-main-root "$MNT_POINT"

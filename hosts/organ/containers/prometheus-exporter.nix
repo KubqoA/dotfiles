@@ -1,4 +1,6 @@
-{...}: {
+{...}: let
+  servicePort = 9000;
+in {
   imports = [./quadlet.nix];
 
   virtualisation.quadlet.containers.prometheus-podman-exporter = {
@@ -13,7 +15,7 @@
         "/run/podman/podman.sock:/run/podman/podman.sock"
       ];
       user = "root";
-      publishPorts = ["127.0.0.1:9882:9882/tcp"];
+      publishPorts = ["127.0.0.1:${toString servicePort}:9882/tcp"];
       securityLabelDisable = true;
       autoUpdate = "registry";
     };
@@ -26,7 +28,7 @@
   services.vector.settings = {
     sources.podman_metrics = {
       type = "prometheus_scrape";
-      endpoints = ["http://localhost:9882/metrics"];
+      endpoints = ["http://localhost:${toString servicePort}/metrics"];
     };
 
     sinks.better_stack_http_metrics_sink.inputs = ["podman_metrics"];

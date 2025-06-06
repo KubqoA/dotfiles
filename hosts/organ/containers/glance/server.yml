@@ -56,6 +56,13 @@
       commits-limit: 2
       repository: kubqoa/dotfiles
 
+    - type: bookmarks
+      groups:
+      - links:
+        - title: Better Stack Dashboard
+          url: https://telemetry.betterstack.com/team/272099/dashboards/490622
+          icon: si:betterstack
+
     - type: releases
       show-source-icon: true
       repositories:
