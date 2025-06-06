@@ -12,10 +12,7 @@
   programs = {
     bat.enable = true;
     git.signing.signByDefault = false;
-    zoxide = {
-      enable = true;
-      enableZshIntegration = true;
-    };
+    zoxide.enable = true;
   };
 
   home.stateVersion = "24.11";

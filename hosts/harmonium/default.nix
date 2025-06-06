@@ -46,7 +46,7 @@
     sbctl
   ];
 
-  programs.zsh.enable = true;
+  programs.fish.enable = true;
   programs.sway.enable = true;
   programs.light.enable = true;
 
@@ -55,7 +55,7 @@
     hashedPassword = "$6$rounds=500000$0rEHES1LTcVCJYz3$9MnsxPUjY2fcMKIHdlzZB0KW/52gPIpe9ENWcfpUlAIzG75rC3hDotfr44k7MwVVc6Ri0ePZB.q7G3xNbSvCx.";
     isNormalUser = true;
     extraGroups = ["audio" "video" "wheel" "networkmanager"];
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
   };
 
   # Lanzaboote currently replaces the systemd-boot module.

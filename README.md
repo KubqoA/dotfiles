@@ -18,6 +18,15 @@
 - Custom app icons support [→](./modules/darwin/icons.nix)
 
 
+### NixOS server setup:
+[system](./hosts/organ) · [home](./homes/jakub-server)
+
+- Declarative disk management using [disko](https://github.com/nix-community/disko) [→](./hosts/organ/disko.nix)
+- Remote installation support using [nixos-anywhere](https://github.com/nix-community/nixos-anywhere) [→](https://github.com/KubqoA/dotfiles/blob/main/hosts/organ/README.md#setup)
+- Darling erasure based on BTRFS snapshots and [impermanence](https://github.com/nix-community/impermanence) [→](./hosts/organ/system/impermanence.nix)
+- Containerized services using [quadlet-nix](https://github.com/SEIAROTg/quadlet-nix) [→](./hosts/organ/containers)
+
+
 ### NixOS laptop setup:
 [system](./hosts/harmonium) · [home](./homes/jakub-linux)
 
@@ -26,13 +35,6 @@
 - LUKS encryption with TPM unlocking
 - Flicker-free boot with Plymouth
 - Work in progress Wayland setup
-
-### NixOS server setup:
-[system](./hosts/organ) · [home](./homes/jakub-server)
-
-- Declarative disk management using [disko](https://github.com/nix-community/disko) [→](./hosts/organ/disko.nix)
-- Remote installation support using [nixos-anywhere](https://github.com/nix-community/nixos-anywhere) [→](https://github.com/KubqoA/dotfiles/blob/main/hosts/organ/README.md#setup)
-- Web server, mail server, Seafile, self-hosted DNS, Tailscale, Syncthing, ...
 
 
 ## Principles
@@ -43,8 +45,6 @@
 
 
 ## To-Do
-- [ ] Fix ZSH setup - improve startup performance, proper cache busting
-- [ ] Full Neovim setup
 - [ ] Custom Sway/Hyperland based setup for personal laptop
 - [ ] Better split NixOS laptop config
 

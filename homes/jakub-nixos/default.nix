@@ -7,11 +7,11 @@
   imports = lib.imports [
     "common/aliases"
     "common/env"
+    "common/fish"
     "common/git"
     "common/home"
     "common/neovim"
     "common/password-store"
-    "common/zsh"
   ];
 
   home.packages = with pkgs; [
@@ -141,10 +141,7 @@
 
   # Utilities
   programs.bat.enable = true;
-  programs.zoxide = {
-    enable = true;
-    enableZshIntegration = true;
-  };
+  programs.zoxide.enable = true;
 
   # Services
   services.kanshi = {

@@ -8,7 +8,6 @@
     enable = true;
     # On macOS the nix build of ghostty is broken
     package = lib.brew-alias pkgs "ghostty";
-    enableZshIntegration = true;
     settings = {
       theme = "dark:kanso-zen,light:kanso-pearl";
       macos-titlebar-style = "tabs";

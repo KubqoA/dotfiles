@@ -32,7 +32,6 @@
 
     # Necessary here to set correct PATH, configuration managed by home-manager
     fish.enable = true;
-    zsh.enable = true;
   };
 
   security = {

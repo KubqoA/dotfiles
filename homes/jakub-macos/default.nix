@@ -71,10 +71,7 @@
 
   programs = {
     gpg.enable = true;
-    zoxide = {
-      enable = true;
-      enableZshIntegration = true;
-    };
+    zoxide.enable = true;
   };
 
   home.stateVersion = "24.05";
