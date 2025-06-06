@@ -4,28 +4,25 @@
     defaults.email = "hostmaster@${config.networking.domain}";
   };
 
+  environment.persistence."/persist".directories = ["/var/lib/acme"];
+
+  networking.firewall.allowedTCPPorts = [80 443];
+
   services.nginx = {
     enable = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
-    virtualHosts.${config.networking.fqdn} = {
-      enableACME = true;
-      forceSSL = true;
-      extraConfig = ''
-        proxy_intercept_errors on;
-        error_page 401 /unauthorized.html;
-      '';
-      locations."/unauthorized.html" = {
-        root = "/srv/www/${config.networking.fqdn}";
-        extraConfig = "internal;";
-      };
-    };
-    virtualHosts."yoga.jakubarbet.me" = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/".proxyPass = "http://127.0.0.1:8080";
-    };
+    statusPage = true;
   };
 
-  networking.firewall.allowedTCPPorts = [80 443];
+  services.vector.settings = {
+    # TODO: Nginx logs forwarding
+
+    sources.nginx_metrics = {
+      type = "nginx_metrics";
+      endpoints = ["http://localhost/nginx_status"];
+    };
+
+    sinks.better_stack_http_metrics_sink.inputs = ["nginx_metrics"];
+  };
 }

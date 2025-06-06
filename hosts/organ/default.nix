@@ -3,6 +3,7 @@
     ./containers/glance.nix
     ./containers/prometheus-exporter.nix
     ./services/betterstack.nix
+    ./services/nginx.nix
     ./system/disko.nix
     ./system/hetzner.nix
     ./system/impermanence.nix

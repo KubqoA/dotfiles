@@ -3,10 +3,6 @@
 
   sops.secrets.glance-env = {};
 
-  # TODO: Remove - just temporary for testing things out
-  #       Replace with proper reverse proxy setup
-  networking.firewall.allowedTCPPorts = [80];
-
   virtualisation.quadlet.containers.glance = {
     containerConfig = {
       image = "glanceapp/glance:latest";
@@ -16,11 +12,17 @@
         "/mnt/storagebox:/mnt/storagebox"
       ];
       environmentFiles = [config.sops.secrets.glance-env.path];
-      publishPorts = ["80:8080"];
+      publishPorts = ["127.0.0.1:8080:8080"];
     };
     serviceConfig = {
       Restart = "on-failure";
       RestartSec = "30s";
     };
+  };
+
+  services.nginx.virtualHosts.${config.networking.fqdn} = {
+    enableACME = true;
+    forceSSL = true;
+    locations."/".proxyPass = "http://localhost:8080/";
   };
 }
