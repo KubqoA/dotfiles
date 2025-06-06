@@ -4,29 +4,26 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    lanzaboote.url = "github:nix-community/lanzaboote/v0.3.0";
-    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
-
-    nixos-hardware.url = "github:nixos/nixos-hardware";
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    impermanence.url = "github:nix-community/impermanence";
+
+    lanzaboote.url = "github:nix-community/lanzaboote/v0.3.0";
+    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
+
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    sops-nix.url = "github:Mic92/sops-nix";
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-
-    simple-nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/master";
-    simple-nixos-mailserver.inputs.nixpkgs.follows = "nixpkgs";
-
-    disko.url = "github:nix-community/disko";
-    disko.inputs.nixpkgs.follows = "nixpkgs";
-
-    impermanence.url = "github:nix-community/impermanence";
+    nixos-hardware.url = "github:nixos/nixos-hardware";
 
     quadlet-nix.url = "github:SEIAROTg/quadlet-nix";
+
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs:
