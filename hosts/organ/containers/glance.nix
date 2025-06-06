@@ -1,9 +1,5 @@
-{
-  config,
-  inputs,
-  ...
-}: {
-  imports = [inputs.quadlet-nix.nixosModules.quadlet];
+{config, ...}: {
+  imports = [./quadlet.nix];
 
   sops.secrets.glance-env = {};
 

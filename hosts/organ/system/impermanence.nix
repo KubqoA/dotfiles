@@ -53,7 +53,6 @@
   environment.persistence."/persist" = {
     directories = [
       "/var/lib/nixos" # needed to persist dynamically assigned uids/gids
-      "/var/lib/containers"
     ];
     files = [
       "/etc/machine-id"

@@ -2,17 +2,13 @@
   imports = lib.imports [
     ./containers/glance.nix
     ./containers/prometheus-exporter.nix
-    ./betterstack.nix
-    ./disko.nix
-    ./hetzner.nix
-    ./impermanence.nix
-    ./networking.nix
-    ./storagebox.nix
-    ./users.nix
-    # ./services/docker.nix
-    # ./services/mail.nix
-    # ./services/nginx.nix
-    # ./services/syncthing.nix
+    ./services/betterstack.nix
+    ./system/disko.nix
+    ./system/hetzner.nix
+    ./system/impermanence.nix
+    ./system/networking.nix
+    ./system/storagebox.nix
+    ./system/users.nix
     "common/packages"
     "server/defaults"
   ];

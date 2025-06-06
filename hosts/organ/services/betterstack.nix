@@ -17,10 +17,6 @@
           collectors = ["cpu" "disk" "filesystem" "load" "host" "memory" "network"];
           filesystem.mountpoints.includes = ["/" "/boot" "/mnt/storagebox"];
         };
-        podman_metrics = {
-          type = "prometheus_scrape";
-          endpoints = ["http://localhost:9882/metrics"];
-        };
         journald = {
           type = "journald";
         };
@@ -52,7 +48,7 @@
             strategy = "bearer";
             token = "\${SOURCE_TOKEN}";
           };
-          inputs = ["host_metrics" "podman_metrics"];
+          inputs = ["host_metrics"];
         };
       };
     };

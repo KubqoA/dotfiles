@@ -1,5 +1,5 @@
-{inputs, ...}: {
-  imports = [inputs.quadlet-nix.nixosModules.quadlet];
+{...}: {
+  imports = [./quadlet.nix];
 
   virtualisation.quadlet.containers.prometheus-podman-exporter = {
     containerConfig = {
@@ -21,5 +21,14 @@
       Restart = "on-failure";
       RestartSec = "30s";
     };
+  };
+
+  services.vector.settings = {
+    sources.podman_metrics = {
+      type = "prometheus_scrape";
+      endpoints = ["http://localhost:9882/metrics"];
+    };
+
+    sinks.better_stack_http_metrics_sink.inputs = ["podman_metrics"];
   };
 }
