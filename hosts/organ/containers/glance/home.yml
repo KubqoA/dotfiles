@@ -21,24 +21,47 @@
       - type: hacker-news
       - type: reddit
         subreddit: selfhosted
+        app-auth:
+          name: ${REDDIT_APP_NAME}
+          id: ${REDDIT_APP_CLIENT_ID}
+          secret: ${REDDIT_APP_SECRET}
       - type: reddit
         subreddit: NixOS
+        app-auth:
+          name: ${REDDIT_APP_NAME}
+          id: ${REDDIT_APP_CLIENT_ID}
+          secret: ${REDDIT_APP_SECRET}
       - type: reddit
         subreddit: neovim
+        app-auth:
+          name: ${REDDIT_APP_NAME}
+          id: ${REDDIT_APP_CLIENT_ID}
+          secret: ${REDDIT_APP_SECRET}
       - type: reddit
         subreddit: ruby
+        app-auth:
+          name: ${REDDIT_APP_NAME}
+          id: ${REDDIT_APP_CLIENT_ID}
+          secret: ${REDDIT_APP_SECRET}
       - type: reddit
         subreddit: unixporn
+        show-thumbnails: true
+        app-auth:
+          name: ${REDDIT_APP_NAME}
+          id: ${REDDIT_APP_CLIENT_ID}
+          secret: ${REDDIT_APP_SECRET}
 
     - type: videos
       style: grid-cards
       limit: 12
       channels:
-        - UCODHrzPMGbNv67e84WDZhQQ
-        - UCkVfrGwV-iG9bSsgCbrNPxQ
-        - UCmor-2SRB1E9dHMbcr397_Q
-        - UCuCkxoKLYO_EQ2GeFtbM_bw
-        - UC_gSotrFVZ_PiAxo3fTQVuQ
+        - UCkVfrGwV-iG9bSsgCbrNPxQ # Better Stack
+        - UCsBjURrPoezykLs9EqgamOA # Fireship
+        - UCODHrzPMGbNv67e84WDZhQQ # fern
+        - UCmor-2SRB1E9dHMbcr397_Q # MyLifeOutdoors
+        - UCuCkxoKLYO_EQ2GeFtbM_bw # Half as Interesting
+        - UC_gSotrFVZ_PiAxo3fTQVuQ # Magnus Midtbø
+        - UC3XTzVzaHQEd30rQbuvCtTQ # LastWeekTonight
 
   - size: small
     widgets:

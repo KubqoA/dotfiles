@@ -20,9 +20,5 @@
     age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
   };
 
-  # TODO: Remove - just temporary for testing things out
-  #       Replace with proper reverse proxy setup
-  networking.firewall.allowedTCPPorts = [80];
-
   system.stateVersion = "25.05";
 }

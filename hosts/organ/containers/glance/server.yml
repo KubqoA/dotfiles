@@ -34,7 +34,7 @@
       cache: 1d
       url: https://photos.jakubarbet.me/api/server/statistics
       headers:
-        x-api-key: ${secret:immich-api-key}
+        x-api-key: ${IMMICH_API_KEY}
         Accept: application/json
       template: |
         <div class="flex justify-between text-center">

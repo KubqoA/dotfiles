@@ -5,7 +5,11 @@
 }: {
   imports = [inputs.quadlet-nix.nixosModules.quadlet];
 
-  sops.secrets.immich-api-key = {};
+  sops.secrets.glance-env = {};
+
+  # TODO: Remove - just temporary for testing things out
+  #       Replace with proper reverse proxy setup
+  networking.firewall.allowedTCPPorts = [80];
 
   virtualisation.quadlet.containers.glance = {
     containerConfig = {
@@ -13,14 +17,14 @@
       name = "glance";
       volumes = [
         "${./glance}:/app/config"
-        "${config.sops.secrets.immich-api-key.path}:/run/secrets/immich-api-key:ro"
         "/mnt/storagebox:/mnt/storagebox"
       ];
+      environmentFiles = [config.sops.secrets.glance-env.path];
       publishPorts = ["80:8080"];
     };
     serviceConfig = {
-      Restart = "always";
-      RestartSec = "10s";
+      Restart = "on-failure";
+      RestartSec = "30s";
     };
   };
 }
