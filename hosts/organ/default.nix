@@ -1,6 +1,8 @@
 {lib, ...}: {
   imports = lib.imports [
     ./containers/glance.nix
+    ./containers/prometheus-exporter.nix
+    ./betterstack.nix
     ./disko.nix
     ./hetzner.nix
     ./impermanence.nix
