@@ -37,6 +37,7 @@
       "vips"
 
       # services
+      "mkcert" # local cert authority
       "puma/puma/puma-dev"
       {
         name = "postgresql@17";
@@ -44,6 +45,10 @@
       }
       {
         name = "redis";
+        restart_service = "changed";
+      }
+      {
+        name = "caddy";
         restart_service = "changed";
       }
     ];
@@ -72,6 +77,7 @@
       "tailscale"
       "whatsapp"
       "zed"
+      "zen"
       "zoom"
     ];
   };

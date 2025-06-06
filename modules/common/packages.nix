@@ -9,5 +9,6 @@
     neovim
     age
     sops
+    ripgrep
   ];
 }

@@ -23,6 +23,7 @@
         persistent-apps = [
           "/Applications/Zen.app"
           "/Applications/Ghostty.app"
+          "/Applications/RubyMine.app"
           "/Applications/Cursor.app"
           "/Applications/Spotify.app"
           "/Applications/Slack.app"
