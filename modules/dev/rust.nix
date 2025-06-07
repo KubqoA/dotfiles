@@ -7,12 +7,10 @@
   imports = [./mise.nix];
 
   programs.mise.globalConfig = {
-    # pin versions for better reproducibility
-    tools = {
-      rust = {
-        version = "1.87";
-        components = "rust-analyzer";
-      };
+    tools.rust = {
+      # pin versions for better reproducibility
+      version = "1.87";
+      components = "rust-analyzer";
     };
     settings = {
       rust = lib.mkIf config.xdg.enable {

@@ -6,9 +6,9 @@
     MISE_NODE_COREPACK = "true";
   };
 
-  # pin versions for better reproducibility
   programs.mise.globalConfig = {
     # env._.path = ["{{config_root}}/node_modules/.bin"];
+    # pin versions for better reproducibility
     tools = {
       bun = "1.2.15";
       deno = "2.3.5";

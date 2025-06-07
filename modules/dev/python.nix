@@ -14,7 +14,5 @@
   };
 
   # pin versions for better reproducibility
-  programs.mise.globalConfig.tools = {
-    python = "3.13";
-  };
+  programs.mise.globalConfig.tools.python = "3.13";
 }

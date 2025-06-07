@@ -14,7 +14,9 @@
         "aarch64-linux" = "sudo nixos-rebuild";
         "aarch64-darwin" = "sudo darwin-rebuild";
       }
-      .${system};
+      .${
+        system
+      };
   in {
     cd = lib.mkIf config.programs.zoxide.enable "z";
     ls = "ls --color=tty";
@@ -51,5 +53,6 @@
     os = "${osCommand} --flake \"${config.dotfilesPath}\"";
     dots = "$EDITOR \"${config.dotfilesPath}\"";
     zd = "cd \"${config.dotfilesPath}\"";
+    nix-gc = "nix-store --gc && hm expire-generations '-3 days' && nix-collect-garbage --delete-older-than 3d";
   };
 }
