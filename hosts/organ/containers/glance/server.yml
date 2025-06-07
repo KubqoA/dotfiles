@@ -26,6 +26,15 @@
       - icon: si:jellyfin
         title: Jellyfin
         url: https://jellyfin.jakubarbet.me
+        check-url: http://jellyfin:8096
+      - icon: di:stalwart
+        title: Stalwart
+        url: https://mail.jakubarbet.me
+        check-url: http://stalwart:8080
+      - icon: si:syncthing
+        title: Syncthing
+        url: https://organ.jakubarbet.me/syncthing
+        check-url: http://syncthing:8384
 
   - size: small
     widgets:
@@ -62,6 +71,15 @@
         - title: Better Stack Dashboard
           url: https://telemetry.betterstack.com/team/272099/dashboards/490622
           icon: si:betterstack
+        - title: Cloudflare DNS
+          url: https://dash.cloudflare.com/ba4c5274761a9991f3af507c028e7f88/jakubarbet.me/dns/records
+          icon: si:cloudflare
+        - title: Hetzner Console
+          url: https://console.hetzner.cloud/projects/3496313/servers/65078908/overview
+          icon: si:hetzner
+        - title: Mailgun
+          url: https://app.eu.mailgun.com/mg/sending/domains
+          icon: si:mailgun
 
     - type: releases
       show-source-icon: true

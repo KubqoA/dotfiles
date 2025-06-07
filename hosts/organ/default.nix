@@ -3,6 +3,7 @@
     ./containers/glance.nix
     ./containers/jellyfin.nix
     ./containers/stalwart.nix
+    ./containers/syncthing.nix
     ./containers/prometheus-exporter.nix
     ./services/betterstack.nix
     ./services/nginx.nix

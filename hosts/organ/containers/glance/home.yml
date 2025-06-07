@@ -3,6 +3,9 @@
   - size: small
     widgets:
     - type: calendar
+      hide-header: true
+
+    - type: to-do
 
     - type: clock
       hour-format: 24h
@@ -13,6 +16,7 @@
   - size: full
     widgets:
     - type: search
+      hide-header: true
       search-engine: duckduckgo
 
     - type: group

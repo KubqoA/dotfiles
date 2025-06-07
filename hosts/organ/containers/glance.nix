@@ -1,5 +1,6 @@
 {config, ...}: let
   servicePort = 9001;
+  inherit (config.virtualisation.quadlet) networks;
 in {
   imports = [./quadlet.nix];
 
@@ -14,6 +15,7 @@ in {
         "/mnt/storagebox:/mnt/storagebox"
       ];
       environmentFiles = [config.sops.secrets.glance-env.path];
+      networks = [networks.internal.ref];
       publishPorts = ["127.0.0.1:${toString servicePort}:8080"];
       autoUpdate = "registry";
     };

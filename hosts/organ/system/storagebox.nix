@@ -7,7 +7,6 @@
     options = [
       # BASIC CONNECTION
       "allow_other" # Allow other users to access mount
-      "default_permissions" # Use standard file permissions
       "reconnect" # Auto-reconnect on connection loss
       "ServerAliveInterval=15" # Send keepalive every 15 seconds
       "ServerAliveCountMax=3" # Drop connection after 3 failed keepalives
@@ -32,7 +31,6 @@
       # SYMLINK HANDLING
       "follow_symlinks" # Follow symlinks on remote side
       "transform_symlinks" # Convert absolute symlinks to relative
-      "idmap=user" # Map remote UID/GID to local user
 
       # SYSTEMD INTEGRATION
       "_netdev" # Mark as network filesystem

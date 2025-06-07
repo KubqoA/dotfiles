@@ -28,6 +28,7 @@ in {
   services.vector.settings = {
     sources.podman_metrics = {
       type = "prometheus_scrape";
+      scrape_interval_secs = 5;
       endpoints = ["http://localhost:${toString servicePort}/metrics"];
     };
 

@@ -1,5 +1,6 @@
 {config, ...}: let
   servicePort = 9002;
+  inherit (config.virtualisation.quadlet) networks;
 in {
   imports = [./quadlet.nix];
 
@@ -12,10 +13,13 @@ in {
         "jellyfin-config:/config:Z"
         "/mnt/storagebox/jellyfin:/media"
       ];
+      networks = [networks.internal.ref];
       publishPorts = ["127.0.0.1:${toString servicePort}:8096/tcp"];
       autoUpdate = "registry";
       healthStartupCmd = "sleep 15";
       podmanArgs = ["--cpus=2"];
+      user = toString config.users.users.quadlet.uid;
+      group = toString config.users.groups.quadlet.gid;
     };
     serviceConfig = {
       Restart = "on-failure";
