@@ -13,7 +13,7 @@
       sources = {
         host_metrics = {
           type = "host_metrics";
-          scrape_interval_secs = 5;
+          scrape_interval_secs = 15;
           collectors = ["cpu" "disk" "filesystem" "load" "host" "memory" "network"];
           filesystem.mountpoints.includes = ["/" "/boot" "/mnt/storagebox"];
         };
