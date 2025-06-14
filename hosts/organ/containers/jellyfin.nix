@@ -1,8 +1,17 @@
 {config, ...}: let
-  servicePort = 9002;
+  internalPort = toString 8096;
+  servicePort = toString 9002;
   inherit (config.virtualisation.quadlet) networks;
 in {
   imports = [./quadlet.nix];
+
+  server.glance = {
+    services.jellyfin = {
+      url = "https://jellyfin.${config.networking.domain}";
+      check-url = "http://jellyfin:${internalPort}";
+    };
+    releases = ["jellyfin/jellyfin"];
+  };
 
   virtualisation.quadlet.containers.jellyfin = {
     containerConfig = {
@@ -14,7 +23,7 @@ in {
         "/mnt/storagebox/jellyfin:/media"
       ];
       networks = [networks.internal.ref];
-      publishPorts = ["127.0.0.1:${toString servicePort}:8096/tcp"];
+      publishPorts = ["127.0.0.1:${servicePort}:${internalPort}/tcp"];
       autoUpdate = "registry";
       healthStartupCmd = "sleep 15";
       podmanArgs = ["--cpus=2"];
@@ -45,7 +54,7 @@ in {
       add_header Content-Security-Policy "default-src https: data: blob: ; img-src 'self' https://* ; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://www.youtube.com blob:; worker-src 'self' blob:; connect-src 'self'; object-src 'none'; frame-ancestors 'self'; font-src 'self'";
     '';
     locations."/" = {
-      proxyPass = "http://localhost:${toString servicePort}";
+      proxyPass = "http://localhost:${servicePort}";
       recommendedProxySettings = true;
       extraConfig = ''
         # Disable buffering when the nginx proxy gets very resource heavy upon streaming
@@ -53,7 +62,7 @@ in {
       '';
     };
     locations."/socket" = {
-      proxyPass = "http://localhost:${toString servicePort}";
+      proxyPass = "http://localhost:${servicePort}";
       proxyWebsockets = true;
       recommendedProxySettings = true;
     };

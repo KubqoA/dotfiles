@@ -1,8 +1,18 @@
 {config, ...}: let
-  servicePort = 9003;
+  servicePort = toString 9003;
+  internalPort = toString 8080;
   inherit (config.virtualisation.quadlet) networks;
 in {
   imports = [./quadlet.nix];
+
+  server.glance = {
+    services.stalwart = {
+      url = "https://mail.${config.networking.domain}";
+      check-url = "http://stalwart:${internalPort}";
+      icon = "di:stalwart";
+    };
+    releases = ["stalwartlabs/stalwart"];
+  };
 
   networking.firewall.allowedTCPPorts = [25 465 993 4190];
 
@@ -17,15 +27,16 @@ in {
       ];
       networks = [networks.internal.ref];
       publishPorts = [
-        "127.0.0.1:${toString servicePort}:8080/tcp"
+        "127.0.0.1:${servicePort}:${internalPort}/tcp"
         "25:25" # smtp
         "465:465" # smtps, recommended over starttls
         "993:993" # imaps
         "4190:4190" # managesieve
       ];
       autoUpdate = "registry";
-      # user = toString config.users.users.quadlet.uid;
-      # group = toString config.users.groups.quadlet.gid;
+      user = toString config.users.users.quadlet.uid;
+      group = toString config.users.groups.quadlet.gid;
+      addCapabilities = ["NET_BIND_SERVICE"]; # Needed to bind to privileged ports (<1000)
     };
     serviceConfig = {
       Restart = "on-failure";
@@ -41,6 +52,6 @@ in {
     ];
     enableACME = true;
     forceSSL = true;
-    locations."/".proxyPass = "http://localhost:${toString servicePort}/";
+    locations."/".proxyPass = "http://localhost:${servicePort}/";
   };
 }

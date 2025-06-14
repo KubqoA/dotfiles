@@ -45,6 +45,8 @@ inputs: lib: _:
         platforms = platforms.darwin;
       };
     });
+
+  capitalize = str: lib.toUpper (builtins.substring 0 1 str) + builtins.substring 1 (builtins.stringLength str) str;
 }
 # Make sure to add lib extensions from inputs
 // inputs.home-manager.lib

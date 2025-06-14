@@ -1,8 +1,17 @@
 {config, ...}: let
-  servicePort = 9004;
+  servicePort = toString 9004;
+  internalPort = toString 8384;
   inherit (config.virtualisation.quadlet) networks;
 in {
   imports = [./quadlet.nix];
+
+  server.glance = {
+    services.syncthing = {
+      url = "https://${config.networking.fqdn}/syncthing";
+      check-url = "http://syncthing:${internalPort}";
+    };
+    releases = ["syncthing/syncthing"];
+  };
 
   virtualisation.quadlet.containers.syncthing = {
     containerConfig = {
@@ -19,7 +28,7 @@ in {
       };
       networks = [networks.internal.ref];
       publishPorts = [
-        "127.0.0.1:${toString servicePort}:8384"
+        "127.0.0.1:${servicePort}:${internalPort}"
         "22000:22000/tcp"
         "22000:22000/udp"
         "21027:21027/udp"
@@ -37,7 +46,7 @@ in {
   services.nginx.virtualHosts.${config.networking.fqdn} = {
     enableACME = true;
     forceSSL = true;
-    locations."/syncthing/".proxyPass = "http://localhost:${toString servicePort}/";
+    locations."/syncthing/".proxyPass = "http://localhost:${servicePort}/";
   };
 
   # Syncthing ports:

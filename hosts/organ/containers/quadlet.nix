@@ -2,7 +2,6 @@
 {
   config,
   inputs,
-  lib,
   ...
 }: {
   imports = [inputs.quadlet-nix.nixosModules.quadlet];
