@@ -1,6 +1,22 @@
 {
   description = "My NixOS, macOS and home-manager configurations";
 
+  outputs = inputs:
+    import ./bootstrap.nix inputs {
+      aarch64-darwin = {
+        homes.jakub-macos = ./homes/jakub-macos;
+        hosts.nyckelharpa = ./hosts/nyckelharpa;
+      };
+      x86_64-linux = {
+        homes.jakub-nixos = ./homes/jakub-nixos;
+        hosts.harmonium = ./hosts/harmonium;
+      };
+      aarch64-linux = {
+        homes.jakub-server = ./homes/jakub-server;
+        hosts.organ = ./hosts/organ;
+      };
+    };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
@@ -25,20 +41,4 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
-
-  outputs = inputs:
-    import ./bootstrap.nix inputs {
-      aarch64-darwin = {
-        homes.jakub-macos = ./homes/jakub-macos;
-        hosts.nyckelharpa = ./hosts/nyckelharpa;
-      };
-      x86_64-linux = {
-        homes.jakub-nixos = ./homes/jakub-nixos;
-        hosts.harmonium = ./hosts/harmonium;
-      };
-      aarch64-linux = {
-        homes.jakub-server = ./homes/jakub-server;
-        hosts.organ = ./hosts/organ;
-      };
-    };
 }
