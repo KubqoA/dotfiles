@@ -6,6 +6,7 @@
     ./containers/syncthing.nix
     ./containers/prometheus-exporter.nix
     ./services/betterstack.nix
+    ./services/docker.nix
     ./services/nginx.nix
     ./system/disko.nix
     ./system/hetzner.nix
