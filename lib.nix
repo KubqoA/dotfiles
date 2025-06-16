@@ -46,7 +46,8 @@ inputs: lib: _:
       };
     });
 
-  capitalize = str: lib.toUpper (builtins.substring 0 1 str) + builtins.substring 1 (builtins.stringLength str) str;
+  capitalize = str: lib.toUpper (lib.substring 0 1 str) + lib.substring 1 (-1) str;
+  compactAttrs = lib.filterAttrs (_: value: value != null);
 }
 # Make sure to add lib extensions from inputs
 // inputs.home-manager.lib

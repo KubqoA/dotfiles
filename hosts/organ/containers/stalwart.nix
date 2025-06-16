@@ -3,7 +3,7 @@
   internalPort = toString 8080;
   inherit (config.virtualisation.quadlet) networks;
 in {
-  imports = [./quadlet.nix];
+  imports = [./base.nix];
 
   server.glance = {
     services.stalwart = {

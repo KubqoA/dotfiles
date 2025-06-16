@@ -3,7 +3,7 @@
   servicePort = toString 9002;
   inherit (config.virtualisation.quadlet) networks;
 in {
-  imports = [./quadlet.nix];
+  imports = [./base.nix];
 
   server.glance = {
     services.jellyfin = {

@@ -1,7 +1,9 @@
 {lib, ...}: {
   imports = lib.imports [
     ./containers/glance.nix
+    ./containers/immich.nix
     ./containers/jellyfin.nix
+    ./containers/seafile.nix
     ./containers/stalwart.nix
     ./containers/syncthing.nix
     ./containers/prometheus-exporter.nix

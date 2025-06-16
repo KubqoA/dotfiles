@@ -2,7 +2,7 @@
   servicePort = toString 9000;
   internalPort = toString 9882;
 in {
-  imports = [./quadlet.nix];
+  imports = [./base.nix];
 
   server.glance.releases = ["containers/prometheus-podman-exporter"];
 

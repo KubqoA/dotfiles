@@ -3,7 +3,7 @@
   internalPort = toString 8384;
   inherit (config.virtualisation.quadlet) networks;
 in {
-  imports = [./quadlet.nix];
+  imports = [./base.nix];
 
   server.glance = {
     services.syncthing = {
@@ -20,7 +20,7 @@ in {
       volumes = [
         # TODO: Move /mnt/storagebox/syncthing/config -> /persist
         #       And define the configuration via Nix
-        "/mnt/storagebox/syncthing:/var/syncthing"
+        "/persist/data/syncthing:/var/syncthing"
       ];
       environments = {
         PUID = toString config.users.users.quadlet.uid;
