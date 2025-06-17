@@ -30,6 +30,8 @@
 
       # Fallback quickly if substituters are not available.
       connect-timeout = lib.mkDefault 5;
+
+      warn-dirty = false;
     };
 
     # Pinning the registry to the system pkgs on NixOS
