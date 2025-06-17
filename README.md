@@ -45,8 +45,7 @@
 
 
 ## To-Do
-- [ ] Custom Sway/Hyperland based setup for personal laptop
-- [ ] Better split NixOS laptop config
+- [ ] Sway/Hyperland based setup for personal laptop
 
 
 ## Useful resources

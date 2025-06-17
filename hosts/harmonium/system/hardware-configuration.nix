@@ -16,8 +16,6 @@
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-amd"];
   boot.extraModulePackages = [];
-  boot.consoleLogLevel = 3;
-  boot.kernelParams = ["quiet" "udev.log_priority=3"];
 
   boot.initrd.luks.devices."swap-enc" = {
     allowDiscards = true;
@@ -50,6 +48,7 @@
     device = "/dev/disk/by-uuid/42302778-a8e2-47b1-813e-7542012046d5";
     fsType = "btrfs";
     options = ["subvol=persist" "compress=zstd" "noatime"];
+    neededForBoot = true;
   };
 
   fileSystems."/var/log" = {
@@ -67,15 +66,6 @@
   swapDevices = [
     {device = "/dev/disk/by-uuid/5125afb9-9ae6-4dae-99b5-3c3ee3da0e51";}
   ];
-
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp2s0f0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp5s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp3s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
