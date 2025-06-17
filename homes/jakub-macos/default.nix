@@ -14,7 +14,6 @@
     "common/neovim"
     "common/password-store"
     "common/xdg"
-    "common/zsh"
     "darwin/dark-mode-notify"
     "dev/js"
     "dev/php"
