@@ -41,7 +41,7 @@
   };
 
   config = {
-    environment.persistence."/persist".directories = ["/var/lib/containers"];
+    impermanence.directories = ["/var/lib/containers"];
 
     # Create quadlet user for running containers
     users = {

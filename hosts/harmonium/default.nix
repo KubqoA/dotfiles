@@ -7,7 +7,6 @@
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen2
     ./system/audio.nix
     ./system/hardware-configuration.nix
-    ./system/impermanence.nix
     ./system/networking.nix
     ./system/plymouth.nix
     ./system/secureboot.nix
@@ -17,6 +16,7 @@
     "common/nix"
     "common/packages"
     "common/sudo"
+    "nixos/impermanence"
   ];
 
   sops = {
@@ -24,10 +24,17 @@
     age.keyFile = "/persist/sops-nix/key.txt";
   };
 
+  impermanence = {
+    rootPartition = "/dev/mapper/enc";
+    serviceAfter = ["systemd-cryptsetup@enc.service"]; # run after LUKS
+  };
+
+  time.timeZone = "Europe/Prague";
+
   security.polkit.enable = true;
 
   boot.loader = {
-    systemd-boot.configurationLimit = 5;
+    systemd-boot.configurationLimit = 3;
     efi.canTouchEfiVariables = true;
   };
 

@@ -4,7 +4,7 @@
     defaults.email = "hostmaster@${config.networking.domain}";
   };
 
-  environment.persistence."/persist".directories = ["/var/lib/acme"];
+  impermanence.directories = ["/var/lib/acme"];
 
   networking.firewall.allowedTCPPorts = [80 443];
 

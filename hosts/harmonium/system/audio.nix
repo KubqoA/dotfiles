@@ -3,6 +3,8 @@
   pkgs,
   ...
 }: {
+  impermanence.directories = ["/var/lib/bluetooth"];
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
