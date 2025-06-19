@@ -15,7 +15,7 @@ in {
 
   virtualisation.quadlet.containers.jellyfin = {
     containerConfig = {
-      image = "docker.io/jellyfin/jellyfin:latest";
+      image = "docker.io/jellyfin/jellyfin:10.10";
       name = "jellyfin";
       volumes = [
         "jellyfin-cache:/cache:Z"

@@ -15,7 +15,7 @@ in {
 
   virtualisation.quadlet.containers.syncthing = {
     containerConfig = {
-      image = "docker.io/syncthing/syncthing:latest";
+      image = "docker.io/syncthing/syncthing:1";
       name = "syncthing";
       volumes = [
         # TODO: Move /mnt/storagebox/syncthing/config -> /persist
