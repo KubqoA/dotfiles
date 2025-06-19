@@ -7,6 +7,7 @@
     ./containers/stalwart.nix
     ./containers/syncthing.nix
     ./containers/prometheus-exporter.nix
+    ./containers/vaultwarden.nix
     ./services/betterstack.nix
     ./services/docker.nix
     ./services/nginx.nix
