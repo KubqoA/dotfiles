@@ -1,6 +1,6 @@
 {config, ...}: let
   # internalPort = toString 80;
-  # servicePort = toString 9005;
+  # servicePort = toString 9007;
   # inherit (config.virtualisation.quadlet) networks;
 in {
   imports = [./base.nix];
