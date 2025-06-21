@@ -63,7 +63,7 @@
       autoUpdate.enable = true;
 
       # Setup internal network for easier communication between containers
-      networks.internal.networkConfig.driver = "bridge";
+      networks.internal = {};
     };
   };
 }
