@@ -59,9 +59,11 @@
       "gid=${toString config.users.groups.quadlet.gid}"
     ];
 
-    # Setup internal network for easier communication between containers
-    virtualisation.quadlet.networks = {
-      internal.networkConfig.driver = "bridge";
+    virtualisation.quadlet = {
+      autoUpdate.enable = true;
+
+      # Setup internal network for easier communication between containers
+      networks.internal.networkConfig.driver = "bridge";
     };
   };
 }
