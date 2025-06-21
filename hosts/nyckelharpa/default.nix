@@ -16,7 +16,6 @@
   desktop.icons = {
     "/Applications/Capture One.app" = ./icons/capture-one.icns;
     "/Applications/Logi Options.app" = ./icons/logi-options.icns;
-    "/Applications/Loom.app" = ./icons/loom.icns;
     "/Applications/MacMediaKeyForwarder.app" = ./icons/mac-media-key-forwarder.icns;
     "/Applications/Notion.app" = ./icons/notion.icns;
     "/Applications/Spotify.app" = ./icons/spotify.icns;

@@ -24,6 +24,7 @@
       "mise"
       "pinentry-mac"
       "less" # update the default one shipped with macOS
+      "bitwarden-cli"
 
       # ruby building
       "autoconf"
@@ -37,7 +38,6 @@
       "vips"
 
       # services
-      "mkcert" # local cert authority
       "puma/puma/puma-dev"
       {
         name = "postgresql@17";
@@ -47,23 +47,17 @@
         name = "redis";
         restart_service = "changed";
       }
-      {
-        name = "caddy";
-        restart_service = "changed";
-      }
     ];
 
     casks = [
-      "1password"
-      "1password-cli"
       "arc"
+      "bitwarden"
       "cursor"
       "figma"
       "ghostty"
       "httpie"
       "imaging-edge-webcam"
       "keyboardcleantool"
-      "loom"
       "macmediakeyforwarder"
       "monitorcontrol"
       "notion"
@@ -71,7 +65,6 @@
       "orbstack"
       "raycast"
       "rubymine"
-      "slack"
       "spotify"
       "syncthing"
       "tailscale"

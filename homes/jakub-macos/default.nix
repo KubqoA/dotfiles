@@ -20,7 +20,6 @@
     "dev/python"
     "dev/ruby"
     "dev/rust"
-    "dev/work"
   ];
 
   home = {
