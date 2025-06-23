@@ -28,6 +28,7 @@
       wantedBy = ["initrd.target"];
       before = ["sysroot.mount"];
       after = config.impermanence.serviceAfter;
+      wants = config.impermanence.serviceAfter;
       unitConfig.DefaultDependencies = "no";
       serviceConfig.Type = "oneshot";
 

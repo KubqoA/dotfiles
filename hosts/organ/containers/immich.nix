@@ -3,7 +3,7 @@
   lib,
   ...
 }: let
-  immichVersion = "release";
+  immichVersion = "v1.135.3";
   internalPort = toString 2283;
   servicePort = toString 9005;
   inherit (config.virtualisation.quadlet) networks pods;
@@ -67,22 +67,23 @@ in {
       immich-machine-learning = mkContainer {
         containerConfig = {
           image = "ghcr.io/immich-app/immich-machine-learning:${immichVersion}";
-          volumes = ["immich-model-cache:/cache"];
+          volumes = ["immich-model-cache:/cache:U"];
         };
       };
 
       immich-redis = mkContainer {
         containerConfig = {
           image = "docker.io/valkey/valkey:8-bookworm@sha256:fec42f399876eb6faf9e008570597741c87ff7662a54185593e74b09ce83d177";
+          volumes = ["immich-redis:/data:U"];
           healthCmd = "redis-cli ping || exit 1";
         };
       };
 
       immich-postgres = mkContainer {
         containerConfig = {
-          image = "ghcr.io/immich-app/postgres:14-vectorchord0.4.2-pgvectors0.2.0";
+          image = "ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0";
           environments.POSTGRES_INITDB_ARGS = "'--data-checksums'";
-          volumes = ["immich-postgres:/var/lib/postgresql/data"];
+          volumes = ["immich-postgres:/var/lib/postgresql/data:U"];
           healthCmd = "pg_isready -h localhost -p 5432 || exit 1";
         };
       };

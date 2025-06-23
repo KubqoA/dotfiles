@@ -18,8 +18,8 @@ in {
       image = "docker.io/jellyfin/jellyfin:10.10";
       name = "jellyfin";
       volumes = [
-        "jellyfin-cache:/cache:Z"
-        "jellyfin-config:/config:Z"
+        "jellyfin-cache:/cache:U"
+        "jellyfin-config:/config:U"
         "/mnt/storagebox/jellyfin:/media"
       ];
       networks = [networks.internal.ref];

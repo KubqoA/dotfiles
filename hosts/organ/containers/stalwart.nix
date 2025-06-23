@@ -23,7 +23,7 @@ in {
       volumes = [
         # TODO: mount to /persist and have pre-defined config here
         # TODO: re-use acme cert from nginx virtual host
-        "stalwart:/opt/stalwart:Z"
+        "stalwart:/opt/stalwart:U"
       ];
       networks = [networks.internal.ref];
       publishPorts = [
