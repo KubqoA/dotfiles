@@ -48,6 +48,7 @@ in {
       autoUpdate = "registry";
       user = toString config.users.users.quadlet.uid;
       group = toString config.users.groups.quadlet.gid;
+      healthCmd = "wget --spider -q http://localhost:8080/api/healthz";
     };
     serviceConfig = {
       Restart = "on-failure";

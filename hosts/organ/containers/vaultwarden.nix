@@ -30,6 +30,7 @@ in {
       autoUpdate = "registry";
       user = toString config.users.users.quadlet.uid;
       group = toString config.users.groups.quadlet.gid;
+      healthCmd = "/healthcheck.sh";
     };
     serviceConfig = {
       Restart = "on-failure";

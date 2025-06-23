@@ -21,6 +21,7 @@ in {
       publishPorts = ["127.0.0.1:${servicePort}:${internalPort}/tcp"];
       securityLabelDisable = true;
       autoUpdate = "registry";
+      healthCmd = "wget --spider -q http://localhost:9882";
     };
     serviceConfig = {
       Restart = "on-failure";

@@ -36,6 +36,7 @@ in {
       autoUpdate = "registry";
       user = toString config.users.users.quadlet.uid;
       group = toString config.users.groups.quadlet.gid;
+      healthCmd = "curl -fkLsS -m 2 127.0.0.1:8384/rest/noauth/health | grep -o --color=never OK || exit 1";
     };
     serviceConfig = {
       Restart = "on-failure";
