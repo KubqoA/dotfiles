@@ -18,7 +18,7 @@ in {
 
   virtualisation.quadlet.containers.stalwart = {
     containerConfig = {
-      image = "docker.io/stalwartlabs/stalwart:v0.12";
+      image = "docker.io/stalwartlabs/stalwart:v0.12.4";
       name = "stalwart";
       volumes = [
         # TODO: mount to /persist and have pre-defined config here
