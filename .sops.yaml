@@ -1,6 +1,6 @@
 keys:
-  - &jakub_macos age1mweq7c3fq28ezr28fvhkula3fhhyzq0hpmyjgzsvvhh2vr5y33psr9hv83
-  - &jakub_nixos age1kltklwj0f483lu0r3tn3ujpyangym430wg0cd76zn62lf7xhl5cswqugrq
+  - &jakub_lur age1ryedalt0ajly0l03sr7tfmuv7fvqcuaeq889try48zz0v7usnaeqskt5xd
+  - &jakub_harmonium age1kltklwj0f483lu0r3tn3ujpyangym430wg0cd76zn62lf7xhl5cswqugrq
   - &organ age1rz56p7reneqrucw0ypm34jqjkc85ulqpgevpcakna0slez880y9sm2ujem
   - &harmonium age143ct57jy20uqp9pdayn7z09axq9me40vlw8uaf3dm8myh6kkw94s36y3zf
 
@@ -8,13 +8,13 @@ creation_rules:
   - path_regex: hosts/organ/secrets.yaml$
     key_groups:
     - age:
-      - *jakub_macos
-      - *jakub_nixos
+      - *jakub_harmonium
+      - *jakub_lur
       - *organ
   - path_regex: hosts/harmonium/secrets.yaml$
     key_groups:
     - age:
-      - *jakub_macos
-      - *jakub_nixos
+      - *jakub_harmonium
+      - *jakub_lur
       - *harmonium
 
