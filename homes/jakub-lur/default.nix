@@ -11,6 +11,7 @@
     "common/home"
     "common/neovim"
     "common/password-store"
+    "common/ssh"
     "common/xdg"
     "dev/js"
     "dev/php"
