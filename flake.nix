@@ -4,16 +4,18 @@
   outputs = inputs:
     import ./bootstrap.nix inputs {
       aarch64-darwin = {
-        homes.jakub-macos = ./homes/jakub-macos;
         hosts.nyckelharpa = ./hosts/nyckelharpa;
+        homes.jakub-nyckelharpa = ./homes/jakub-nyckelharpa;
       };
       x86_64-linux = {
-        homes.jakub-nixos = ./homes/jakub-nixos;
         hosts.harmonium = ./hosts/harmonium;
+        homes.jakub-harmonium = ./homes/jakub-harmonium;
+        hosts.lur = ./hosts/lur;
+        homes.jakub-lur = ./homes/jakub-lur;
       };
       aarch64-linux = {
-        homes.jakub-server = ./homes/jakub-server;
         hosts.organ = ./hosts/organ;
+        homes.jakub-organ = ./homes/jakub-organ;
       };
     };
 
@@ -35,6 +37,9 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     nixos-hardware.url = "github:nixos/nixos-hardware";
+
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
 
     quadlet-nix.url = "github:SEIAROTg/quadlet-nix";
 

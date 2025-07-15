@@ -14,6 +14,10 @@ inputs: lib: _:
       then
         # Handle explicit paths
         path
+      else if (! builtins.isString path)
+      then
+        # If the path is not a string nor an explicit path try to import it directly
+        path
       else if builtins.substring 0 1 (toString path) == "/"
       then
         # Handle absolute paths, including concatenated ones

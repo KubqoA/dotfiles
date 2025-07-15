@@ -4,14 +4,14 @@
 [![NixOS Unstable](https://img.shields.io/badge/NixOS-unstable-blue.svg?style=flat-square&logo=NixOS&logoColor=white)](https://nixos.org)
 
 ❄️ Nix flake dotfiles with support for:
-- macOS and Linux on both x86 and ARM
-- home-manager for both macOS and NixOS
+- macOS, Linux on x86 and ARM, and WSL
+- home-manager for macOS, NixOS and WSL
 
 
 ## Overview
 
 ### macOS setup:
-[system](./hosts/nyckelharpa) · [home](./homes/jakub-macos)
+[system](./hosts/nyckelharpa) · [home](./homes/jakub-nyckelharpa)
 
 - Declarative homebrew packages [→](./hosts/nyckelharpa/homebrew.nix)
 - Sane system defaults [→](./hosts/nyckelharpa/system.nix)
@@ -19,7 +19,7 @@
 
 
 ### NixOS server setup:
-[system](./hosts/organ) · [home](./homes/jakub-server)
+[system](./hosts/organ) · [home](./homes/jakub-organ)
 
 - Declarative disk management using [disko](https://github.com/nix-community/disko) [→](./hosts/organ/disko.nix)
 - Remote installation support using [nixos-anywhere](https://github.com/nix-community/nixos-anywhere) [→](https://github.com/KubqoA/dotfiles/blob/main/hosts/organ/README.md#setup)
@@ -28,7 +28,7 @@
 
 
 ### NixOS laptop setup:
-[system](./hosts/harmonium) · [home](./homes/jakub-linux)
+[system](./hosts/harmonium) · [home](./homes/jakub-harmonium)
 
 - Darling erasure - restoring the machine to a clean state on every boot
 - Secureboot via [lanzaboote](https://github.com/nix-community/lanzaboote)
@@ -36,6 +36,12 @@
 - Flicker-free boot with Plymouth
 - Work in progress Wayland setup
 
+
+### NixOS WSL setup:
+[system](./hosts/lur) · [home](./homes/jakub-lur)
+
+- [NixOS-WSL](https://github.com/nix-community/nixos-wsl) based setup
+- Working VSCode Remote server
 
 ## Principles
 - Keep it simple, try to not introduce overly complicated boilerplate
