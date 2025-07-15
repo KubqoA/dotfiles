@@ -71,7 +71,7 @@
     widgets:
     - type: weather
       hour-format: 24h
-      location: Tromsø
+      location: Brno
       units: metric
 
     - type: markets
