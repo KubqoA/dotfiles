@@ -10,10 +10,9 @@
     # env._.path = ["{{config_root}}/node_modules/.bin"];
     # pin versions for better reproducibility
     tools = {
-      bun = "1.2.15";
-      deno = "2.3.5";
-      node = "23.11.1";
-      "npm:@anthropic-ai/claude-code" = "1.0.6";
+      bun = "1.2";
+      deno = "2.4";
+      node = "24.4";
       "npm:@astrojs/language-server" = "2.15.4";
       "npm:@biomejs/biome" = "1.9.4";
       "npm:@tailwindcss/language-server" = "0.14.20";

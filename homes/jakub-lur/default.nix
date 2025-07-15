@@ -12,6 +12,11 @@
     "common/neovim"
     "common/password-store"
     "common/xdg"
+    "dev/js"
+    "dev/php"
+    "dev/python"
+    "dev/ruby"
+    "dev/rust"
   ];
 
   programs = {
