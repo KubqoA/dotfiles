@@ -11,7 +11,6 @@
 
   programs = {
     bat.enable = true;
-    git.signing.signByDefault = false;
     zoxide.enable = true;
   };
 
