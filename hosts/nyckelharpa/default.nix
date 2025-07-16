@@ -24,10 +24,7 @@
 
   programs = {
     # home-manager on darwin doesn't support gpg-agent service, so it needs to be enabled here
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
+    gnupg.agent.enable = true;
 
     # Necessary here to set correct PATH, configuration managed by home-manager
     fish.enable = true;

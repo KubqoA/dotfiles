@@ -2,13 +2,15 @@
 # common packages shared across all systems
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    alejandra
-    git
-    curl
-    wget
-    neovim
     age
-    sops
+    alejandra
+    curl
+    git
+    neovim
+    nurl
     ripgrep
+    sops
+    tldr
+    wget
   ];
 }

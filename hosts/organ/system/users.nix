@@ -9,7 +9,7 @@
 
   users.users.${config.username} = {
     hashedPasswordFile = config.sops.secrets.jakub-password.path;
-    openssh.authorizedKeys.keys = [config.sshPublicKey];
+    openssh.authorizedKeys.keys = config.sshPublicKeys;
     isNormalUser = true;
     extraGroups = ["wheel"];
     shell = pkgs.fish;

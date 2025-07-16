@@ -13,12 +13,15 @@
         aarch64-linux = "/home/${config.username}";
         aarch64-darwin = "/Users/${config.username}";
       }
-      .${system};
-    packages = with pkgs; [
-      home-manager
-      curl
-      wget
-      nurl
-    ];
+      .${
+        system
+      };
+
+    packages = with pkgs; [home-manager];
+
+    sessionVariables = rec {
+      EDITOR = "nvim";
+      GIT_EDITOR = EDITOR;
+    };
   };
 }

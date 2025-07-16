@@ -1,7 +1,6 @@
 {lib, ...}: {
   imports = lib.imports [
     "common/aliases"
-    "common/env"
     "common/fish"
     "common/git"
     "common/home"

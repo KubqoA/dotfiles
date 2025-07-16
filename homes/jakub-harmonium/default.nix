@@ -6,9 +6,9 @@
 }: {
   imports = lib.imports [
     "common/aliases"
-    "common/env"
     "common/fish"
     "common/git"
+    "common/gpg"
     "common/home"
     "common/neovim"
     "common/password-store"
@@ -195,17 +195,7 @@
     ];
   };
 
-  programs.gpg.enable = true;
-  services.gpg-agent = {
-    enable = true;
-    enableSshSupport = true;
-    defaultCacheTtl = 172800;
-    maxCacheTtl = 172800;
-    defaultCacheTtlSsh = 172800;
-    maxCacheTtlSsh = 172800;
-    pinentryPackage = pkgs.pinentry-bemenu;
-    sshKeys = [config.gpgSshControl];
-  };
+  services.gpg-agent.pinentryPackage = pkgs.pinentry-bemenu;
 
   services.syncthing.enable = true;
   services.syncthing.tray.enable = false;

@@ -6,7 +6,6 @@
 }: {
   imports = lib.imports [
     "common/aliases"
-    "common/env"
     "common/fish"
     "common/ghostty"
     "common/git"
@@ -28,8 +27,6 @@
       git-crypt
       nerdfetch
       oath-toolkit # fix pass support in Raycast
-      tldr
-      bat
       httpie
 
       # dev env managed by mise, but here are some exceptions
@@ -56,18 +53,16 @@
       ".hushlogin".text = "";
       # Set up gpg agent configuration, home-manager gpg-agent module is not
       # supported on macOS
-      ".gnupg/sshcontrol".text = "${config.gpgSshControl}\n";
       ".gnupg/gpg-agent.conf".text = ''
         default-cache-ttl 172800
         max-cache-ttl 172800
-        default-cache-ttl-ssh 172800
-        max-cache-ttl-ssh 172800
         pinentry-program /opt/homebrew/bin/pinentry-mac
       '';
     };
   };
 
   programs = {
+    bat.enable = true;
     gpg.enable = true;
     zoxide.enable = true;
   };
