@@ -38,7 +38,7 @@ with lib; {
       };
     sshPublicKeys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPplCI6xumDIAyKig2qj/WA/UyyVmw79nSdxv0J84CJl jakub@lur"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHP5frSskVtjewKR1Bg2U7DFyG/o9HmwaRKbX8vnnEW+" # TODO: Remove
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHWaSqYW6qT2duI6wGyefAWHRI3x0oyj6tAOMh7fD8dl jakub@harmonium"
     ];
   };
 }
