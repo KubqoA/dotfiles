@@ -8,8 +8,11 @@
     "common/password-store"
   ];
 
+  home.file.".hushlogin".text = "";
+
   programs = {
     bat.enable = true;
+    fish.art = null;
     zoxide.enable = true;
   };
 

@@ -1,17 +1,27 @@
 # [home-manager]
-{pkgs, ...}: {
-  programs.fish = let
-    art = builtins.replaceStrings ["\\"] ["\\\\"] ''
-              _    .  ,   .           .
-          *  / \_ *  / \_      _  *        *   /\'__        *
-            /    \  /    \,   ((        .    _/  /  \  *'.
-       .   /\/\  /\/ :' __ \_  `          _^/  ^/    `--.
-          /    \/  \  _/  \-'\      *    /.' ^_   \_   .'\  *
-        /\  .-   `. \/     \ /==~=-=~=-=-;.  _/ \ -. `_/   \
-       /  `-.__ ^   / .-'.--\ =-=~_=-=~=^/  _ `--./ .-'  `-
-      /        `.  / /       `.~-^=-=~=^=.-'      '-._ `._
-    '';
-  in {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  options = with lib; {
+    programs.fish.art = mkOption {
+      type = types.nullOr types.str;
+      default = builtins.replaceStrings ["\\"] ["\\\\"] ''
+                _    .  ,   .           .
+            *  / \_ *  / \_      _  *        *   /\'__        *
+              /    \  /    \,   ((        .    _/  /  \  *'.
+         .   /\/\  /\/ :' __ \_  `          _^/  ^/    `--.
+            /    \/  \  _/  \-'\      *    /.' ^_   \_   .'\  *
+          /\  .-   `. \/     \ /==~=-=~=-=-;.  _/ \ -. `_/   \
+         /  `-.__ ^   / .-'.--\ =-=~_=-=~=^/  _ `--./ .-'  `-
+        /        `.  / /       `.~-^=-=~=^=.-'      '-._ `._
+      '';
+    };
+  };
+
+  config.programs.fish = {
     enable = true;
     plugins = [
       {
@@ -36,8 +46,13 @@
     functions = {
       fish_greeting = "echo $fish_greeting";
     };
-    interactiveShellInit = ''
-      set -U fish_greeting "${art}"
+    interactiveShellInit = let
+      optionalGreeting =
+        if builtins.isString config.programs.fish.art
+        then ''"${config.programs.fish.art}"''
+        else "";
+    in ''
+      set -U fish_greeting ${optionalGreeting}
       set -U fish_prompt_pwd_dir_length 10
       set -g hydro_symbol_start "\n"
       set -g hydro_symbol_prompt "❯"
@@ -52,8 +67,4 @@
       set -g hydro_cmd_duration_threshold 10000
     '';
   };
-
-  programs.ghostty.enableFishIntegration = true;
-  programs.mise.enableFishIntegration = true;
-  programs.zoxide.enableFishIntegration = true;
 }
