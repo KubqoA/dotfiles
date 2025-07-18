@@ -22,7 +22,15 @@ in {
       volumes = [
         "/persist/data/vaultwarden:/data"
       ];
-      environmentFiles = [config.sops.secrets.vaultwarden-env.path (toString ./vaultwarden/.env)];
+      environments = {
+        PUSH_ENABLED = "true";
+        PUSH_RELAY_URI = "https://api.bitwarden.eu";
+        PUSH_IDENTITY_URI = "https://identity.bitwarden.eu";
+        DOMAIN = "https://vaultwarden.${config.networking.domain}";
+        SIGNUPS_ALLOWED = "false";
+        ROCKET_PORT = "8080";
+      };
+      environmentFiles = [config.sops.secrets.vaultwarden-env.path];
       networks = [networks.internal.ref];
       publishPorts = [
         "127.0.0.1:${servicePort}:${internalPort}"

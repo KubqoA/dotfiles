@@ -35,7 +35,12 @@ in {
       mkContainer = lib.recursiveUpdate {
         containerConfig = {
           pod = pods.immich.ref;
-          environmentFiles = [config.sops.secrets.immich-env.path (toString ./immich/.env)];
+          environments = {
+            TZ = "Europe/Prague";
+            DB_USERNAME = "postgres";
+            DB_DATABASE_NAME = "immich";
+          };
+          environmentFiles = [config.sops.secrets.immich-env.path];
           autoUpdate = "registry";
           user = toString config.users.users.quadlet.uid;
           group = toString config.users.groups.quadlet.gid;
