@@ -8,14 +8,14 @@
     root-password.neededForUsers = true;
   };
 
-  programs.zsh.enable = true;
+  programs.fish.enable = true;
 
   users.users = {
     ${config.username} = {
       hashedPasswordFile = config.sops.secrets.jakub-password.path;
       isNormalUser = true;
       extraGroups = ["wheel"];
-      shell = pkgs.zsh;
+      shell = pkgs.fish;
     };
 
     root.hashedPasswordFile = config.sops.secrets.root-password.path;

@@ -7,6 +7,11 @@
 }: {
   xdg.configFile."nvim/lua".source = ./lua;
 
+  home.sessionVariables = rec {
+    EDITOR = "nvim";
+    GIT_EDITOR = EDITOR;
+  };
+
   # Editor
   programs.neovim = {
     enable = true;
