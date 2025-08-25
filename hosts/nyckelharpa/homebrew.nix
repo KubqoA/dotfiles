@@ -11,7 +11,6 @@
     };
 
     taps = [
-      "homebrew/services"
       "puma/puma"
     ];
 
@@ -25,6 +24,7 @@
       "pinentry-mac"
       "less" # update the default one shipped with macOS
       "bitwarden-cli"
+      "ollama"
 
       # ruby building
       "autoconf"
@@ -50,24 +50,22 @@
     ];
 
     casks = [
-      "arc"
-      "bitwarden"
       "cursor"
       "figma"
       "ghostty"
       "httpie"
       "imaging-edge-webcam"
       "keyboardcleantool"
+      "logitech-options"
       "macmediakeyforwarder"
       "monitorcontrol"
       "notion"
       "obsidian"
       "orbstack"
       "raycast"
-      "rubymine"
       "spotify"
+      "steam"
       "syncthing"
-      "tailscale"
       "whatsapp"
       "zed"
       "zen"

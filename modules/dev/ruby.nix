@@ -4,67 +4,66 @@
   pkgs,
   ...
 }: let
-  # Header paths
-  cppflags = builtins.concatStringsSep " " [
-    "-I${pkgs.openssl.dev}/include"
-    "-I${pkgs.libffi.dev}/include"
-    "-I${pkgs.readline.dev}/include"
-    "-I${pkgs.zlib.dev}/include"
-    "-I${pkgs.libyaml.dev}/include"
-    "-I${pkgs.gmp.dev}/include"
-    "-I${pkgs.jemalloc}/include"
-  ];
+  commonRubyConfigureOpts = "--with-jemalloc --disable-install-doc --enable-yjit";
 
-  # Library paths
-  ldflags = builtins.concatStringsSep " " [
-    "-L${pkgs.openssl.out}/lib"
-    "-L${pkgs.libffi.out}/lib"
-    "-L${pkgs.readline.out}/lib"
-    "-L${pkgs.zlib.out}/lib"
-    "-L${pkgs.libyaml.out}/lib"
-    "-L${pkgs.gmp.out}/lib"
-    "-L${pkgs.jemalloc}/lib"
-  ];
-
-  pkgConfigPath = builtins.concatStringsSep ":" [
-    "${pkgs.openssl.dev}/lib/pkgconfig"
-    "${pkgs.libffi.dev}/lib/pkgconfig"
-    "${pkgs.readline.dev}/lib/pkgconfig"
-    "${pkgs.zlib.dev}/lib/pkgconfig"
-    "${pkgs.libyaml.dev}/lib/pkgconfig"
-    "${pkgs.gmp.dev}/lib/pkgconfig"
-  ];
-
-  configureOpts = builtins.concatStringsSep " " [
-    "--with-openssl-dir=${pkgs.openssl.dev}"
-    "--with-readline-dir=${pkgs.readline.dev}"
-    "--with-libffi-dir=${pkgs.libffi.dev}"
-    "--with-zlib-dir=${pkgs.zlib.dev}"
-    "--with-libyaml-dir=${pkgs.libyaml.dev}"
-    "--with-gmp-dir=${pkgs.gmp.dev}"
-    "--with-jemalloc"
-    "--disable-install-doc"
-    "--enable-yjit"
-  ];
+  osSepcificVars =
+    if pkgs.stdenv.isDarwin
+    then {
+      RUBY_CONFIGURE_OPTS = commonRubyConfigureOpts;
+    }
+    else {
+      CPPFLAGS = builtins.concatStringsSep " " [
+        "-I${pkgs.openssl.dev}/include"
+        "-I${pkgs.libffi.dev}/include"
+        "-I${pkgs.readline.dev}/include"
+        "-I${pkgs.zlib.dev}/include"
+        "-I${pkgs.libyaml.dev}/include"
+        "-I${pkgs.gmp.dev}/include"
+        "-I${pkgs.jemalloc}/include"
+      ];
+      LDFLAGS = builtins.concatStringsSep " " [
+        "-L${pkgs.openssl.out}/lib"
+        "-L${pkgs.libffi.out}/lib"
+        "-L${pkgs.readline.out}/lib"
+        "-L${pkgs.zlib.out}/lib"
+        "-L${pkgs.libyaml.out}/lib"
+        "-L${pkgs.gmp.out}/lib"
+        "-L${pkgs.jemalloc}/lib"
+      ];
+      PKG_CONFIG_PATH = builtins.concatStringsSep ":" [
+        "${pkgs.openssl.dev}/lib/pkgconfig"
+        "${pkgs.libffi.dev}/lib/pkgconfig"
+        "${pkgs.readline.dev}/lib/pkgconfig"
+        "${pkgs.zlib.dev}/lib/pkgconfig"
+        "${pkgs.libyaml.dev}/lib/pkgconfig"
+        "${pkgs.gmp.dev}/lib/pkgconfig"
+      ];
+      RUBY_CONFIGURE_OPTS = builtins.concatStringsSep " " [
+        "--with-openssl-dir=${pkgs.openssl.dev}"
+        "--with-readline-dir=${pkgs.readline.dev}"
+        "--with-libffi-dir=${pkgs.libffi.dev}"
+        "--with-zlib-dir=${pkgs.zlib.dev}"
+        "--with-libyaml-dir=${pkgs.libyaml.dev}"
+        "--with-gmp-dir=${pkgs.gmp.dev}"
+        commonRubyConfigureOpts
+      ];
+    };
 in {
   imports = [./mise.nix];
 
   home = {
-    sessionVariables = {
-      # Ruby
-      OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
-      DISABLE_SPRING = "true";
-      BUNDLE_USER_CACHE = "${config.xdg.cacheHome}/bundle";
-      BUNDLE_USER_CONFIG = "${config.xdg.configHome}/bundle/config";
-      BUNDLE_USER_PLUGIN = "${config.xdg.dataHome}/bundle";
-      RUBY_DEBUG_HISTORY_FILE = "${config.xdg.dataHome}/rdbg_history";
-
-      CPPFLAGS = cppflags;
-      LDFLAGS = ldflags;
-      RUBY_CONFIGURE_OPTS = configureOpts;
-      PKG_CONFIG_PATH = pkgConfigPath;
-      RUBY_YJIT_ENABLE = 1;
-    };
+    sessionVariables =
+      {
+        # Ruby
+        OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
+        DISABLE_SPRING = "true";
+        BUNDLE_USER_CACHE = "${config.xdg.cacheHome}/bundle";
+        BUNDLE_USER_CONFIG = "${config.xdg.configHome}/bundle/config";
+        BUNDLE_USER_PLUGIN = "${config.xdg.dataHome}/bundle";
+        RUBY_DEBUG_HISTORY_FILE = "${config.xdg.dataHome}/rdbg_history";
+        RUBY_YJIT_ENABLE = 1;
+      }
+      // osSepcificVars;
 
     shellAliases = {
       puma-dev = "puma-dev --dir \"${config.xdg.configHome}/puma-dev\"";
@@ -97,7 +96,7 @@ in {
 
   # pin versions for better reproducibility
   programs.mise.globalConfig = {
-    tools.ruby = "3.4.4";
+    tools.ruby = "3.4.5";
     settings.idiomatic_version_file_enable_tools = ["ruby"];
     settings.ruby.default_packages_file = "${config.xdg.configHome}/mise/default-gems";
   };

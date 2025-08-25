@@ -3,30 +3,21 @@
   self,
   ...
 }: {
-  # More reliable than using system.keyboard.nonUS.remapTilde option
-  launchd.daemons.tildeRemap = {
-    serviceConfig = {
-      Label = "tilde-remap";
-      KeepAlive = false;
-      RunAtLoad = true;
-    };
-    script = ''
-      /usr/bin/hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000064,"HIDKeyboardModifierMappingDst":0x700000035}]}'
-    '';
-  };
-
   system = {
     defaults = {
       dock = {
         autohide-delay = 0.2;
         mineffect = "scale";
+        minimize-to-application = true;
         persistent-apps = [
           "/Applications/Zen.app"
           "/Applications/Ghostty.app"
           "/Applications/Cursor.app"
           "/Applications/Spotify.app"
         ];
+        persistent-others = [];
         show-recents = false;
+        tilesize = 32;
       };
       loginwindow = {
         DisableConsoleAccess = true;
@@ -37,9 +28,17 @@
         ShowDate = 0;
         ShowDayOfWeek = true;
       };
+      NSGlobalDomain = {
+        "com.apple.trackpad.scaling" = 1.5;
+        InitialKeyRepeat = 15;
+        KeyRepeat = 2;
+      };
       screensaver = {
         askForPassword = true;
         askForPasswordDelay = 60;
+      };
+      trackpad = {
+        Clicking = true;
       };
     };
 

@@ -39,6 +39,7 @@ with lib; {
     sshPublicKeys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPplCI6xumDIAyKig2qj/WA/UyyVmw79nSdxv0J84CJl jakub@lur"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHWaSqYW6qT2duI6wGyefAWHRI3x0oyj6tAOMh7fD8dl jakub@harmonium"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAzB/MNk46dD3VE4W7nK03iK0VACFGYs5S5Uc9JucsWQ jakub@nyckelharpa"
     ];
   };
 }

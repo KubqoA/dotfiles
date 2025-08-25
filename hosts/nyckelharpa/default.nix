@@ -8,13 +8,13 @@
   imports = lib.imports [
     ./homebrew.nix
     ./system.nix
-    "common/nix"
     "common/packages"
     "darwin/icons"
   ];
 
+  nix.enable = false; # Required for use with Determinate Nix
+
   desktop.icons = {
-    "/Applications/Capture One.app" = ./icons/capture-one.icns;
     "/Applications/Logi Options.app" = ./icons/logi-options.icns;
     "/Applications/MacMediaKeyForwarder.app" = ./icons/mac-media-key-forwarder.icns;
     "/Applications/Notion.app" = ./icons/notion.icns;

@@ -62,7 +62,7 @@
   };
 
   programs = {
-    bat.enable = true;
+    # bat.enable = true;
     gpg.enable = true;
     zoxide.enable = true;
   };

@@ -38,13 +38,13 @@ inputs @ {
       then {
         fn = lib.darwinSystem;
         option = "darwinConfigurations";
-        command = "nix run nix-darwin --";
+        command = "sudo nix run nix-darwin --";
         sopsModule = sops-nix.darwinModules.sops;
       }
       else {
         fn = lib.nixosSystem;
         option = "nixosConfigurations";
-        command = "nixos-rebuild";
+        command = "sudo nixos-rebuild";
         sopsModule = sops-nix.nixosModules.sops;
       };
 

@@ -3,11 +3,7 @@
 # nyckelharpa
 
 ## Setup
-1. Install prerequisites - [`nix`](https://nix.dev/install-nix) and [homebrew](https://brew.sh)
-```sh
-curl -L https://nixos.org/nix/install | sh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
+1. Install prerequisites - [`nix`](https://docs.determinate.systems/) and [homebrew](https://brew.sh)
 
 2. Clone the repository
 ```sh
@@ -18,8 +14,8 @@ git clone git@github.com:KubqoA/dotfiles.git ~/.config/dotfiles
 ```sh
 nix develop
 # Runs nix-darwin and home-manager
-os nyckelharpa
-hm jakub-macos
+os nyckelharpa switch
+hm jakub-macos switch
 ```
 
 4. To apply further updates, run
@@ -27,3 +23,11 @@ hm jakub-macos
 os switch
 hm switch
 ```
+
+5. Convert SSH key to age, and add it to `.sops.yaml`
+```
+nix shell nixpkgs#ssh-to-age --command sh -c "ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.config/sops/age/keys.txt"
+age-keygen -y ~/.config/sops/age/keys.txt | pbcopy
+vim .sops.yaml
+```
+
