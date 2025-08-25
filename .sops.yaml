@@ -11,6 +11,7 @@ creation_rules:
     - age:
       - *jakub_harmonium
       - *jakub_lur
+      - *jakub_nyckelharpa
       - *organ
   - path_regex: hosts/harmonium/secrets.yaml$
     key_groups:
