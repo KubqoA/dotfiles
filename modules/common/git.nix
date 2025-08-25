@@ -21,6 +21,7 @@
   };
 
   home.shellAliases = {
+    g = "git";
     gad = "git add .";
     gc = "git commit";
     gcm = "git commit -m";

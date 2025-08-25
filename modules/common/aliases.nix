@@ -19,11 +19,21 @@
       };
   in {
     cd = lib.mkIf config.programs.zoxide.enable "z";
-    ls = "ls --color=tty";
+    ls =
+      if config.programs.eza.enable
+      then "eza -lh --group-directories-first --icons=auto"
+      else "ls --color=tty";
+    lsa = "ls -a";
+    lt = lib.mkIf config.programs.eza.enable "eza --tree --level=2 --long --icons --git";
+    lta = lib.mkIf config.programs.eza.enable "lt -a";
+    ff = lib.mkIf (config.programs.fzf.enable && config.programs.bat.enable) "fzf --preview 'bat --style=numbers --color=always {}'";
+
+    ".." = "cd ..";
+    "..." = "cd ../..";
+    "...." = "cd ../../..";
     chx = "chmod +x";
 
     # Utils
-    benchzsh = "hyperfine 'zsh -i -c exit' --warmup 1";
     hm = "home-manager --flake \"${config.dotfilesPath}#${homeName}\"";
     os = "${osCommand} --flake \"${config.dotfilesPath}\"";
     dots = "$EDITOR \"${config.dotfilesPath}\"";

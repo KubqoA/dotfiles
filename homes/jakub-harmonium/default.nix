@@ -1,8 +1,4 @@
-{
-  lib,
-  pkgs,
-  ...
-}: {
+{lib, ...}: {
   imports = lib.imports [
     "common/aliases"
     "common/fish"
@@ -15,20 +11,8 @@
     "common/ssh"
     "common/xdg"
     ./desktop
+    ./programs.nix
   ];
-
-  programs = {
-    bat.enable = true;
-    zoxide.enable = true;
-  };
-
-  home.packages = with pkgs; [
-    chromium
-    firefox
-    obsidian
-  ];
-
-  services.syncthing.enable = true;
 
   home.stateVersion = "24.05";
 }
