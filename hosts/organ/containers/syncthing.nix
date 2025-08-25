@@ -1,4 +1,5 @@
 {config, ...}: let
+  syncthingVersion = "2.0";
   servicePort = toString 9004;
   internalPort = toString 8384;
   inherit (config.virtualisation.quadlet) networks;
@@ -15,7 +16,7 @@ in {
 
   virtualisation.quadlet.containers.syncthing = {
     containerConfig = {
-      image = "docker.io/syncthing/syncthing:1";
+      image = "docker.io/syncthing/syncthing:${syncthingVersion}";
       name = "syncthing";
       volumes = [
         # TODO: Move /mnt/storagebox/syncthing/config -> /persist

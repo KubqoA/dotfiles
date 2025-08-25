@@ -1,4 +1,5 @@
 {config, ...}: let
+  vaultwardenVersion = "1.34.3";
   internalPort = toString 8080;
   servicePort = toString 9006;
   inherit (config.virtualisation.quadlet) networks;
@@ -17,7 +18,7 @@ in {
 
   virtualisation.quadlet.containers.vaultwarden = {
     containerConfig = {
-      image = "ghcr.io/dani-garcia/vaultwarden:latest";
+      image = "ghcr.io/dani-garcia/vaultwarden:${vaultwardenVersion}";
       name = "vaultwarden";
       volumes = [
         "/persist/data/vaultwarden:/data"

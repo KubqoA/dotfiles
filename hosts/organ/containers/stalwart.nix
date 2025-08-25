@@ -1,4 +1,5 @@
 {config, ...}: let
+  stalwartVersion = "0.13.2";
   servicePort = toString 9003;
   internalPort = toString 8080;
   inherit (config.virtualisation.quadlet) networks;
@@ -18,7 +19,7 @@ in {
 
   virtualisation.quadlet.containers.stalwart = {
     containerConfig = {
-      image = "docker.io/stalwartlabs/stalwart:v0.13.0";
+      image = "docker.io/stalwartlabs/stalwart:v${stalwartVersion}";
       name = "stalwart";
       volumes = [
         # TODO: mount to /persist and have pre-defined config here
