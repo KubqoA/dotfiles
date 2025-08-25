@@ -17,5 +17,6 @@ creation_rules:
     - age:
       - *jakub_harmonium
       - *jakub_lur
+      - *jakub_nyckelharpa
       - *harmonium
 
