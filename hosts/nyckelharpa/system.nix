@@ -2,7 +2,21 @@
   config,
   self,
   ...
-}: {
+}: let
+  # User UUID, required by some settings
+  # dscl /Search -read "/Users/$USER" GeneratedUID | cut -d ' ' -f2
+  uuid = "9A95453F-92B5-4C37-98FD-7809C8B7CE44";
+in {
+  networking = {
+    knownNetworkServices = ["Wi-Fi"];
+    dns = [
+      "1.1.1.1"
+      "1.0.0.1"
+      "2606:4700:4700::1111"
+      "2606:4700:4700::1001"
+    ];
+  };
+
   system = {
     defaults = {
       dock = {
@@ -12,7 +26,7 @@
         persistent-apps = [
           "/Applications/Zen.app"
           "/Applications/Ghostty.app"
-          "/Applications/Cursor.app"
+          "/Applications/Zed.app"
           "/Applications/Spotify.app"
         ];
         persistent-others = [];
@@ -29,7 +43,8 @@
         ShowDayOfWeek = true;
       };
       NSGlobalDomain = {
-        "com.apple.trackpad.scaling" = 1.5;
+        "com.apple.trackpad.scaling" = 1.5; # trackpad speed
+        AppleInterfaceStyleSwitchesAutomatically = true; # automatically switch between light and dark mode
         InitialKeyRepeat = 15;
         KeyRepeat = 2;
       };
@@ -39,6 +54,33 @@
       };
       trackpad = {
         Clicking = true;
+      };
+      CustomSystemPreferences = {
+        "/var/root/Library/Preferences/com.apple.CoreBrightness.plist" = {
+          "CBUser-${uuid}" = {
+            CBBlueReductionStatus = {
+              AutoBlueReductionEnabled = 1;
+              BlueLightReductionAlgoOverride = 0;
+              BlueLightReductionDisableScheduleAlertCounter = 3;
+              BlueLightReductionSchedule = {
+                DayStartHour = 7;
+                DayStartMinute = 0;
+                NightStartHour = 22;
+                NightStartMinute = 0;
+              };
+              BlueReductionAvailable = 1;
+              BlueReductionEnabled = 0;
+              BlueReductionMode = 1;
+              BlueReductionSunScheduleAllowed = true;
+              Version = 1;
+            };
+          };
+          "Keyboard Dim Time" = 30;
+          KeyboardBacklight = {
+            KeyboardBacklightABEnabled = true;
+            KeyboardBacklightIdleDimTime = 30;
+          };
+        };
       };
     };
 

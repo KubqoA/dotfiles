@@ -47,16 +47,18 @@
         name = "redis";
         restart_service = "changed";
       }
+      {
+        name = "syncthing";
+        restart_service = "changed";
+      }
     ];
 
     casks = [
       "cursor"
       "figma"
       "ghostty"
-      "httpie"
       "imaging-edge-webcam"
       "keyboardcleantool"
-      "logitech-options"
       "macmediakeyforwarder"
       "monitorcontrol"
       "notion"
@@ -65,7 +67,6 @@
       "raycast"
       "spotify"
       "steam"
-      "syncthing"
       "whatsapp"
       "zed"
       "zen"

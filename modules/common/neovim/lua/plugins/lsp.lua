@@ -42,6 +42,10 @@ return {
 				},
 				capabilities = capabilities,
 			})
+			lspconfig.nextls.setup({
+				cmd = { "nextls", "--stdio" },
+				capabilities = capabilities,
+			})
 			lspconfig.nil_ls.setup({ capabilities = capabilities })
 			lspconfig.phpactor.setup({ capabilities = capabilities })
 			lspconfig.ruby_lsp.setup({ capabilities = capabilities })

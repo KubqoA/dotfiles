@@ -7,5 +7,6 @@
       user = "jakub";
       extraOptions.VerifyHostKeyDNS = "yes";
     };
+    matchBlocks."*".setEnv.TERM = "xterm-256color";
   };
 }

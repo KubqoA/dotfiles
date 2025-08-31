@@ -38,7 +38,7 @@ in {
         exit 1
       fi
 
-      ${concatMapStringsSep "\n" (item: ''sudo /opt/homebrew/bin/fileicon set "${item.path}" "${item.icon}"'') iconsList}
+      ${concatMapStringsSep "\n" (item: ''/opt/homebrew/bin/fileicon set "${item.path}" "${item.icon}"'') iconsList}
 
       echo "clearing iconcache and restarting Dock..."
       rm /var/folders/*/*/*/com.apple.dock.iconcache

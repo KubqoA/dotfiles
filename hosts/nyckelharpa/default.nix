@@ -13,9 +13,12 @@
   ];
 
   nix.enable = false; # Required for use with Determinate Nix
+  environment.etc."nix/nix.custom.conf".text = ''
+    trusted-users = root ${config.username}
+    warn-dirty = false
+  '';
 
   desktop.icons = {
-    "/Applications/Logi Options.app" = ./icons/logi-options.icns;
     "/Applications/MacMediaKeyForwarder.app" = ./icons/mac-media-key-forwarder.icns;
     "/Applications/Notion.app" = ./icons/notion.icns;
     "/Applications/Spotify.app" = ./icons/spotify.icns;

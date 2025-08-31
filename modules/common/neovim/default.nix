@@ -33,6 +33,7 @@
       nil
       nixd
       harper
+      next-ls # elixir
     ];
 
     plugins = let
@@ -77,6 +78,7 @@
               tree-sitter-bash
               tree-sitter-c
               tree-sitter-clojure
+              tree-sitter-elixir
               tree-sitter-fennel
               tree-sitter-haskell
               tree-sitter-json
@@ -119,8 +121,9 @@
         },
       })
 
-      require("config.opt")
-      require("config.keymap")
+      require("config")
+      require("opt")
+      require("keymap")
     '';
   };
 }

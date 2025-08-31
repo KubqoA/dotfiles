@@ -12,6 +12,7 @@
     "common/home"
     "common/neovim"
     "common/password-store"
+    "common/ssh"
     "common/xdg"
     "darwin/dark-mode-notify"
     "dev/js"
