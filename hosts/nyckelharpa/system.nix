@@ -45,6 +45,7 @@ in {
       NSGlobalDomain = {
         "com.apple.trackpad.scaling" = 1.5; # trackpad speed
         AppleInterfaceStyleSwitchesAutomatically = true; # automatically switch between light and dark mode
+        ApplePressAndHoldEnabled = false; # disable accented characters pop-up
         InitialKeyRepeat = 15;
         KeyRepeat = 2;
       };

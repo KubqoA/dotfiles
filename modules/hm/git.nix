@@ -1,4 +1,3 @@
-# [home-manager]
 {...}: {
   programs.git = {
     enable = true;

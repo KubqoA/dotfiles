@@ -1,4 +1,3 @@
-# [home-manager]
 {
   config,
   pkgs,
@@ -60,8 +59,10 @@ in {
         BUNDLE_USER_CACHE = "${config.xdg.cacheHome}/bundle";
         BUNDLE_USER_CONFIG = "${config.xdg.configHome}/bundle/config";
         BUNDLE_USER_PLUGIN = "${config.xdg.dataHome}/bundle";
+        IRBRC = "${config.xdg.configHome}/irb/irbrc";
         RUBY_DEBUG_HISTORY_FILE = "${config.xdg.dataHome}/rdbg_history";
         RUBY_YJIT_ENABLE = 1;
+        SOLARGRAPH_CACHE = "${config.xdg.cacheHome}/solargraph";
       }
       // osSepcificVars;
 
@@ -100,4 +101,6 @@ in {
     settings.idiomatic_version_file_enable_tools = ["ruby"];
     settings.ruby.default_packages_file = "${config.xdg.configHome}/mise/default-gems";
   };
+
+  programs.git.ignores = [".ruby-lsp"];
 }

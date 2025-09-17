@@ -1,4 +1,3 @@
-# [home-manager]
 # common aliases shared across all systems
 {
   config,

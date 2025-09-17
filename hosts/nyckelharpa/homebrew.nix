@@ -24,7 +24,6 @@
       "pinentry-mac"
       "less" # update the default one shipped with macOS
       "bitwarden-cli"
-      "ollama"
 
       # ruby building
       "autoconf"
@@ -65,12 +64,19 @@
       "obsidian"
       "orbstack"
       "raycast"
+      "rubymine"
+      "slack"
       "spotify"
       "steam"
       "whatsapp"
       "zed"
       "zen"
       "zoom"
+
+      {
+        name = "Sikarugir-App/sikarugir/sikarugir";
+        args = { no_quarantine = true; };
+      }
     ];
   };
 }

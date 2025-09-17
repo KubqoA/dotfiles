@@ -1,10 +1,24 @@
-# [home-manager]
-{...}: {
+{
+  config,
+  lib,
+  ...
+}: let
+  xdgOptional = lib.mkIf config.xdg.enable;
+in {
   imports = [./mise.nix];
 
   home.sessionVariables = {
     MISE_NODE_COREPACK = "true";
+    NODE_REPL_HISTORY = xdgOptional "${config.xdg.dataHome}/node_repl_history";
+    NPM_CONFIG_USERCONFIG = xdgOptional "${config.xdg.configHome}/npm/npmrc";
   };
+
+  xdg.configFile."npm/npmrc".text = xdgOptional ''
+    prefix=''${XDG_DATA_HOME}/npm
+    cache=''${XDG_CACHE_HOME}/npm
+    init-module=''${XDG_CONFIG_HOME}/npm/config/npm-init.js
+    logs-dir=''${XDG_STATE_HOME}/npm/logs
+  '';
 
   programs.mise.globalConfig = {
     # env._.path = ["{{config_root}}/node_modules/.bin"];

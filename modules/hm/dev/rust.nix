@@ -1,10 +1,14 @@
-# [home-manager]
 {
   config,
   lib,
   ...
 }: {
   imports = [./mise.nix];
+
+  home.sessionVariables = {
+    CARGO_HOME = "${config.xdg.dataHome}/cargo";
+    RUSTUP_HOME = "${config.xdg.dataHome}/rustup";
+  };
 
   programs.mise.globalConfig = {
     tools.rust = {

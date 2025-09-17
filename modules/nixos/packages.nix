@@ -1,4 +1,3 @@
-# [nixos/nix-darwin]
 # common packages shared across all systems
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
@@ -6,7 +5,9 @@
     alejandra
     curl
     git
+    nerdfetch
     neovim
+    nil
     nurl
     ripgrep
     sops

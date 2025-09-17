@@ -8,15 +8,10 @@
   imports = lib.imports [
     ./homebrew.nix
     ./system.nix
-    "common/packages"
     "darwin/icons"
+    "darwin/nix"
+    "darwin/packages"
   ];
-
-  nix.enable = false; # Required for use with Determinate Nix
-  environment.etc."nix/nix.custom.conf".text = ''
-    trusted-users = root ${config.username}
-    warn-dirty = false
-  '';
 
   desktop.icons = {
     "/Applications/MacMediaKeyForwarder.app" = ./icons/mac-media-key-forwarder.icns;

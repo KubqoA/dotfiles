@@ -1,4 +1,4 @@
-# [home-manager]
+# TODO: NixOS compatibility
 {
   config,
   lib,

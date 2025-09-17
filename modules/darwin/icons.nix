@@ -1,3 +1,4 @@
+# Make sure the terminal has Full Disk Access, otherwise this might fail.
 {
   config,
   lib,

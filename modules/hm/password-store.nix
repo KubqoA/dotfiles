@@ -1,4 +1,3 @@
-# [home-manager]
 # password-store with otp support and custom store location
 {pkgs, ...}: {
   programs.password-store = {

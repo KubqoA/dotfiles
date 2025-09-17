@@ -1,4 +1,3 @@
-# [home-manager]
 {
   lib,
   pkgs,

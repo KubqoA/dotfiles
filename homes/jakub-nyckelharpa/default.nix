@@ -5,31 +5,25 @@
   ...
 }: {
   imports = lib.imports [
-    "common/aliases"
-    "common/fish"
-    "common/ghostty"
-    "common/git"
-    "common/home"
-    "common/neovim"
-    "common/password-store"
-    "common/ssh"
-    "common/xdg"
-    "darwin/dark-mode-notify"
-    "dev/js"
-    "dev/php"
-    "dev/python"
-    "dev/ruby"
-    "dev/rust"
+    "hm/aliases"
+    "hm/dark-mode-notify"
+    "hm/fish"
+    "hm/ghostty"
+    "hm/git"
+    "hm/home"
+    "hm/neovim"
+    "hm/password-store"
+    "hm/ssh"
+    "hm/xdg"
+    "hm/dev/js"
+    "hm/dev/php"
+    "hm/dev/python"
+    "hm/dev/ruby"
+    "hm/dev/rust"
   ];
 
   home = {
     packages = with pkgs; [
-      hyperfine
-      git-crypt
-      nerdfetch
-      oath-toolkit # fix pass support in Raycast
-      httpie
-
       # dev env managed by mise, but here are some exceptions
       shellcheck
     ];

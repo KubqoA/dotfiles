@@ -1,9 +1,9 @@
-# [home-manager]
 {config, ...}: {
   imports = [./mise.nix];
 
   home.sessionVariables = {
     MISE_PYTHON_DEFAULT_PACKAGES_FILE = "${config.xdg.configHome}/mise/default-python-packages";
+    PYTHON_HISTORY = "${config.xdg.dataHome}/python_history";
   };
 
   xdg.configFile = {

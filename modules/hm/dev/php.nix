@@ -1,4 +1,3 @@
-# [home-manager]
 {pkgs, ...}: {
   home.packages = with pkgs; let
     phpEnv = php84.buildEnv {

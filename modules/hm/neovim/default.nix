@@ -1,4 +1,3 @@
-# [home-manager]
 # inspired by https://nixalted.com/
 {
   config,
