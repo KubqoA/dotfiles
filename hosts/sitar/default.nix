@@ -1,0 +1,49 @@
+{
+  config,
+  lib,
+  pkgs,
+  system,
+  ...
+}: {
+  imports = lib.imports [
+    ./homebrew.nix
+    ./system.nix
+    "darwin/icons"
+    "darwin/nix"
+    "darwin/packages"
+  ];
+
+  desktop.icons = {
+    "/Applications/MacMediaKeyForwarder.app" = ./icons/mac-media-key-forwarder.icns;
+    "/Applications/Notion.app" = ./icons/notion.icns;
+    "/Applications/Spotify.app" = ./icons/spotify.icns;
+  };
+
+  programs = {
+    # Necessary here to set correct PATH, configuration managed by home-manager
+    fish.enable = true;
+  };
+
+  security = {
+    # Add ability to use Touch ID for sudo
+    pam.services.sudo_local = {
+      reattach = true;
+      touchIdAuth = true;
+    };
+    sudo.extraConfig = ''
+      Defaults timestamp_timeout=5
+    '';
+  };
+
+  # Set the knownUsers so that the default shell works
+  # https://github.com/LnL7/nix-darwin/issues/1237#issuecomment-2562230471
+  users.knownUsers = [config.username];
+  users.users.${config.username} = {
+    home = config.homePath;
+    shell = pkgs.fish;
+    uid = 501;
+  };
+
+  # The platform the configuration will be used on.
+  nixpkgs.hostPlatform = system;
+}

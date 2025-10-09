@@ -6,6 +6,8 @@
       aarch64-darwin = {
         hosts.nyckelharpa = ./hosts/nyckelharpa;
         homes.jakub-nyckelharpa = ./homes/jakub-nyckelharpa;
+        hosts.sitar = ./hosts/sitar;
+        homes.jakub-sitar = ./homes/jakub-sitar;
       };
       x86_64-linux = {
         hosts.harmonium = ./hosts/harmonium;
