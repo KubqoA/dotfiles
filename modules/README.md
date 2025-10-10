@@ -25,5 +25,4 @@ imports = lib.imports [
 ];
 ```
 
-Note: The previous `common/*` modules were split into `hm/*` (Home Manager) and
-`nixos/*` (NixOS). Please update any remaining `common/...` imports accordingly.
+
