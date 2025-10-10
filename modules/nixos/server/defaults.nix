@@ -7,8 +7,8 @@
   ...
 }: {
   imports = lib.imports [
-    "common/nix"
-    "common/sudo"
+    "nixos/nix"
+    "nixos/sudo"
     ./networking.nix
   ];
 

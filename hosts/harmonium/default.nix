@@ -13,9 +13,9 @@
     ./system/users.nix
     ./system/video.nix
     ./ui.nix
-    "common/nix"
-    "common/packages"
-    "common/sudo"
+    "nixos/nix"
+    "nixos/packages"
+    "nixos/sudo"
     "nixos/impermanence"
   ];
 

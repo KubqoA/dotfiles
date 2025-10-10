@@ -1,15 +1,15 @@
 {lib, ...}: {
   imports = lib.imports [
-    "common/aliases"
-    "common/fish"
-    "common/ghostty"
-    "common/git"
-    "common/gpg"
-    "common/home"
-    "common/neovim"
-    "common/password-store"
-    "common/ssh"
-    "common/xdg"
+    "hm/aliases"
+    "hm/fish"
+    "hm/ghostty"
+    "hm/git"
+    "hm/gpg"
+    "hm/home"
+    "hm/neovim"
+    "hm/password-store"
+    "hm/ssh"
+    "hm/xdg"
     ./desktop
     ./programs.nix
   ];
