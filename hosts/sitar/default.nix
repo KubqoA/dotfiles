@@ -14,6 +14,7 @@
   ];
 
   desktop.icons = {
+    "/Applications/Beekeeper Studio.app" = ./icons/beekeeper-studio.icns;
     "/Applications/MacMediaKeyForwarder.app" = ./icons/mac-media-key-forwarder.icns;
     "/Applications/Notion.app" = ./icons/notion.icns;
     "/Applications/Spotify.app" = ./icons/spotify.icns;

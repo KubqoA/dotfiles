@@ -27,11 +27,16 @@
     ];
 
     casks = [
+      "beekeeper-studio"
+      "cursor"
       "figma"
       "ghostty"
       "imaging-edge-webcam"
       "keyboardcleantool"
-      "macmediakeyforwarder"
+      {
+        name = "macmediakeyforwarder";
+        args.no_quarantine = true;
+      }
       "monitorcontrol"
       "notion"
       "obsidian"

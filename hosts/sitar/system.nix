@@ -5,7 +5,7 @@
 }: let
   # User UUID, required by some settings
   # dscl /Search -read "/Users/$USER" GeneratedUID | cut -d ' ' -f2
-  uuid = "9A95453F-92B5-4C37-98FD-7809C8B7CE44";
+  uuid = "B1819449-1EB0-4B20-9148-5DBE2695842B";
 in {
   networking = {
     knownNetworkServices = ["Wi-Fi"];
@@ -26,8 +26,10 @@ in {
         persistent-apps = [
           "/Applications/Zen.app"
           "/Applications/Ghostty.app"
-          "/Applications/Zed.app"
+          "/Applications/Cursor.app"
           "/Applications/Spotify.app"
+          "/Applications/Slack.app"
+          "/Applications/Notion.app"
         ];
         persistent-others = [];
         show-recents = false;
@@ -83,6 +85,11 @@ in {
           };
         };
       };
+    };
+
+    keyboard = {
+      enableKeyMapping = true;
+      nonUS.remapTilde = true;
     };
 
     # Set Git commit hash for darwin-version.
