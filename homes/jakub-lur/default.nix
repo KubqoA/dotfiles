@@ -4,20 +4,20 @@
   ...
 }: {
   imports = lib.imports [
-    "common/aliases"
-    "common/fish"
-    "common/git"
-    "common/gpg"
-    "common/home"
-    "common/neovim"
-    "common/password-store"
-    "common/ssh"
-    "common/xdg"
-    "dev/js"
-    "dev/php"
-    "dev/python"
-    "dev/ruby"
-    "dev/rust"
+    "hm/aliases"
+    "hm/fish"
+    "hm/git"
+    "hm/gpg"
+    "hm/home"
+    "hm/neovim"
+    "hm/password-store"
+    "hm/ssh"
+    "hm/xdg"
+    "hm/dev/js"
+    "hm/dev/php"
+    "hm/dev/python"
+    "hm/dev/ruby"
+    "hm/dev/rust"
   ];
 
   programs = {

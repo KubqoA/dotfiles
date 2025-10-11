@@ -17,8 +17,8 @@
     ./system/networking.nix
     ./system/storagebox.nix
     ./system/users.nix
-    "common/packages"
-    "server/defaults"
+    "nixos/packages"
+    "nixos/server/defaults"
   ];
 
   sops = {

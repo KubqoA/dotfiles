@@ -1,11 +1,11 @@
 {lib, ...}: {
   imports = lib.imports [
-    "common/aliases"
-    "common/fish"
-    "common/git"
-    "common/home"
-    "common/neovim"
-    "common/password-store"
+    "hm/aliases"
+    "hm/fish"
+    "hm/git"
+    "hm/home"
+    "hm/neovim"
+    "hm/password-store"
   ];
 
   home.file.".hushlogin".text = "";

@@ -7,9 +7,9 @@
 }: {
   imports = lib.imports [
     inputs.nixos-wsl.nixosModules.wsl
-    "common/nix"
-    "common/packages"
-    "common/sudo"
+    "nixos/nix"
+    "nixos/packages"
+    "nixos/sudo"
   ];
 
   programs = {
