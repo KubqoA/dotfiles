@@ -6,9 +6,9 @@
   ...
 }:
 with lib; let
-  cfg = config.desktop.icons;
+  cfg = config.my.icons;
 in {
-  options.desktop.icons = mkOption {
+  options.my.icons = mkOption {
     type = types.attrsOf types.path;
     default = {};
     example = literalExpression ''
@@ -23,6 +23,8 @@ in {
   };
 
   config = mkIf (cfg != {}) {
+    homebrew.brews = ["fileicon"];
+
     system.activationScripts.postActivation.text = let
       iconsList =
         mapAttrsToList (path: icon: {

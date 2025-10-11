@@ -1,53 +1,87 @@
-{
-  config,
-  lib,
-  pkgs,
-  system,
-  ...
-}: {
-  imports = lib.imports [
-    ./homebrew.nix
-    ./system.nix
-    "darwin/icons"
-    "darwin/nix"
-    "darwin/packages"
-  ];
+{lib, ...}: {
+  imports = lib.imports ["darwin/base"];
 
-  desktop.icons = {
-    "/Applications/MacMediaKeyForwarder.app" = ./icons/mac-media-key-forwarder.icns;
-    "/Applications/Notion.app" = ./icons/notion.icns;
-    "/Applications/Spotify.app" = ./icons/spotify.icns;
-    "/Applications/Steam.app" = ./icons/steam.icns;
-  };
-
-  programs = {
-    # home-manager on darwin doesn't support gpg-agent service, so it needs to be enabled here
-    gnupg.agent.enable = true;
-
-    # Necessary here to set correct PATH, configuration managed by home-manager
-    fish.enable = true;
-  };
-
-  security = {
-    # Add ability to use Touch ID for sudo
-    pam.services.sudo_local = {
-      reattach = true;
-      touchIdAuth = true;
+  my = {
+    dock = [
+      "/Applications/Zen.app"
+      "/Applications/Ghostty.app"
+      "/Applications/Zed.app"
+      "/Applications/Spotify.app"
+    ];
+    icons = {
+      "/Applications/Notion.app" = ./icons/notion.icns;
+      "/Applications/Spotify.app" = ./icons/spotify.icns;
+      "/Applications/Steam.app" = ./icons/steam.icns;
     };
-    sudo.extraConfig = ''
-      Defaults timestamp_timeout=5
-    '';
+    uuid = "9A95453F-92B5-4C37-98FD-7809C8B7CE44";
   };
 
-  # Set the knownUsers so that the default shell works
-  # https://github.com/LnL7/nix-darwin/issues/1237#issuecomment-2562230471
-  users.knownUsers = [config.username];
-  users.users.${config.username} = {
-    home = config.homePath;
-    shell = pkgs.fish;
-    uid = 501;
-  };
+  # home-manager on darwin doesn't support gpg-agent service, so it needs to be enabled here
+  programs.gnupg.agent.enable = true;
 
-  # The platform the configuration will be used on.
-  nixpkgs.hostPlatform = system;
+  homebrew = {
+    taps = [
+      "puma/puma"
+    ];
+
+    brews = [
+      "ripgrep"
+      "gh"
+      "mise"
+      "pinentry-mac"
+      "bitwarden-cli"
+
+      # ruby building
+      "autoconf"
+      "gmp"
+      "jemalloc"
+      "libsodium"
+      "libyaml"
+      "openssl@3"
+      "python-setuptools"
+      "readline"
+      "vips"
+
+      # services
+      "puma/puma/puma-dev"
+      {
+        name = "postgresql@17";
+        restart_service = "changed";
+      }
+      {
+        name = "redis";
+        restart_service = "changed";
+      }
+      {
+        name = "syncthing";
+        restart_service = "changed";
+      }
+    ];
+
+    casks = [
+      "cursor"
+      "figma"
+      "ghostty"
+      "imaging-edge-webcam"
+      "keyboardcleantool"
+      "monitorcontrol"
+      "notion"
+      "obsidian"
+      "orbstack"
+      "raycast"
+      "rubymine"
+      "slack"
+      "spotify"
+      "steam"
+      "whatsapp"
+      "zed"
+      "zen"
+      "zoom"
+
+      {
+        name = "Sikarugir-App/sikarugir/sikarugir";
+        args = {no_quarantine = true;};
+      }
+    ];
+  };
 }

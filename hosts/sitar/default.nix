@@ -1,50 +1,51 @@
-{
-  config,
-  lib,
-  pkgs,
-  system,
-  ...
-}: {
-  imports = lib.imports [
-    ./homebrew.nix
-    ./system.nix
-    "darwin/icons"
-    "darwin/nix"
-    "darwin/packages"
-  ];
+{lib, ...}: {
+  imports = lib.imports ["darwin/base"];
 
-  desktop.icons = {
-    "/Applications/Beekeeper Studio.app" = ./icons/beekeeper-studio.icns;
-    "/Applications/MacMediaKeyForwarder.app" = ./icons/mac-media-key-forwarder.icns;
-    "/Applications/Notion.app" = ./icons/notion.icns;
-    "/Applications/Spotify.app" = ./icons/spotify.icns;
-  };
-
-  programs = {
-    # Necessary here to set correct PATH, configuration managed by home-manager
-    fish.enable = true;
-  };
-
-  security = {
-    # Add ability to use Touch ID for sudo
-    pam.services.sudo_local = {
-      reattach = true;
-      touchIdAuth = true;
+  my = {
+    dock = [
+      "/Applications/Zen.app"
+      "/Applications/Ghostty.app"
+      "/Applications/Cursor.app"
+      "/Applications/Spotify.app"
+      "/Applications/Slack.app"
+      "/Applications/Notion.app"
+    ];
+    icons = {
+      "/Applications/Beekeeper Studio.app" = ./icons/beekeeper-studio.icns;
+      "/Applications/Notion.app" = ./icons/notion.icns;
+      "/Applications/Spotify.app" = ./icons/spotify.icns;
     };
-    sudo.extraConfig = ''
-      Defaults timestamp_timeout=5
-    '';
+    uuid = "B1819449-1EB0-4B20-9148-5DBE2695842B";
   };
 
-  # Set the knownUsers so that the default shell works
-  # https://github.com/LnL7/nix-darwin/issues/1237#issuecomment-2562230471
-  users.knownUsers = [config.username];
-  users.users.${config.username} = {
-    home = config.homePath;
-    shell = pkgs.fish;
-    uid = 501;
-  };
+  homebrew = {
+    brews = [
+      "ripgrep"
+      "gh"
+      "mise"
+      "bitwarden-cli"
+      {
+        name = "syncthing";
+        restart_service = "changed";
+      }
+    ];
 
-  # The platform the configuration will be used on.
-  nixpkgs.hostPlatform = system;
+    casks = [
+      "beekeeper-studio"
+      "cursor"
+      "figma"
+      "ghostty"
+      "imaging-edge-webcam"
+      "keyboardcleantool"
+      "monitorcontrol"
+      "notion"
+      "obsidian"
+      "orbstack"
+      "raycast"
+      "slack"
+      "spotify"
+      "zed"
+      "zen"
+    ];
+  };
 }
