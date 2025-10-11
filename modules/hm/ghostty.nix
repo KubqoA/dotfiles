@@ -3,10 +3,16 @@
   pkgs,
   ...
 }: {
+  home.sessionVariables = lib.mkIf pkgs.stdenv.isDarwin rec {
+    TERMINFO = lib.mkForce "/Applications/Ghostty.app/Contents/Resources/terminfo";
+    TERMINFO_DIRS = lib.mkForce "/Applications/Ghostty.app/Contents/Resources/terminfo:/usr/share/terminfo";
+  };
+
   programs.ghostty = {
     enable = true;
     # On macOS the nix build of ghostty is broken
     package = lib.brew-alias pkgs "ghostty";
+    installBatSyntax = lib.mkForce false;
     settings = {
       theme = "dark:kanso-zen,light:kanso-pearl";
       macos-titlebar-style = "tabs";

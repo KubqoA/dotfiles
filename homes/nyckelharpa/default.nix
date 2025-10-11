@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   pkgs,
   ...
@@ -24,7 +23,6 @@
 
   home = {
     packages = with pkgs; [
-      # dev env managed by mise, but here are some exceptions
       shellcheck
     ];
 
@@ -57,7 +55,11 @@
   };
 
   programs = {
-    # bat.enable = true;
+    bat = {
+      enable = true;
+      config.theme = "base16";
+    };
+    fzf.enable = true;
     gpg.enable = true;
     zoxide.enable = true;
   };
