@@ -3,22 +3,9 @@
 
   outputs = inputs:
     import ./bootstrap.nix inputs {
-      aarch64-darwin = {
-        hosts.nyckelharpa = ./hosts/nyckelharpa;
-        homes.jakub-nyckelharpa = ./homes/jakub-nyckelharpa;
-        hosts.sitar = ./hosts/sitar;
-        homes.jakub-sitar = ./homes/jakub-sitar;
-      };
-      x86_64-linux = {
-        hosts.harmonium = ./hosts/harmonium;
-        homes.jakub-harmonium = ./homes/jakub-harmonium;
-        hosts.lur = ./hosts/lur;
-        homes.jakub-lur = ./homes/jakub-lur;
-      };
-      aarch64-linux = {
-        hosts.organ = ./hosts/organ;
-        homes.jakub-organ = ./homes/jakub-organ;
-      };
+      aarch64-darwin = ["nyckelharpa" "sitar"];
+      x86_64-linux = ["harmonium" "lur"];
+      aarch64-linux = ["organ"];
     };
 
   inputs = {

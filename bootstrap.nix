@@ -10,10 +10,7 @@
 # Usage:
 # ```
 # import ./bootstrap.nix inputs {
-#   <architecture> = {
-#     homes.<name> = path;
-#     systems.<name> = path;
-#   };
+#   <architecture> = ["hostname1" "hostname2"];
 # }
 # ```
 inputs @ {
@@ -27,10 +24,7 @@ inputs @ {
 
   inherit (lib) foldl recursiveUpdate mapAttrsToList;
 
-  mapSystem = system: {
-    homes ? {},
-    hosts ? {},
-  }: let
+  mapSystem = system: hostnames: let
     pkgs = nixpkgs.legacyPackages.${system};
 
     systemSpecifics =
@@ -48,19 +42,31 @@ inputs @ {
         sopsModule = sops-nix.nixosModules.sops;
       };
 
-    mapHosts = builtins.mapAttrs (hostName: path:
-      systemSpecifics.fn {
-        inherit system;
-        specialArgs = {inherit inputs lib self system hostName;};
-        modules = [path systemSpecifics.sopsModule] ++ lib.autoloadedModules;
-      });
+    mapHosts = builtins.listToAttrs (map (hostname: {
+        name = hostname;
+        value = systemSpecifics.fn {
+          inherit system;
+          specialArgs = {
+            inherit inputs lib self system;
+            hostName = hostname;
+          };
+          modules = [./hosts/${hostname} systemSpecifics.sopsModule] ++ lib.autoloadedModules;
+        };
+      })
+      hostnames);
 
-    mapHomes = builtins.mapAttrs (homeName: path:
-      lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = {inherit inputs lib system homeName;};
-        modules = [path sops-nix.homeManagerModules.sops] ++ lib.autoloadedModules;
-      });
+    mapHomes = builtins.listToAttrs (map (hostname: {
+        name = hostname;
+        value = lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = {
+            inherit inputs lib system;
+            homeName = hostname;
+          };
+          modules = [./homes/${hostname} sops-nix.homeManagerModules.sops] ++ lib.autoloadedModules;
+        };
+      })
+      hostnames);
   in {
     formatter.${system} = pkgs.alejandra;
     devShells.${system}.default = pkgs.mkShell {
@@ -68,8 +74,8 @@ inputs @ {
       shellHook = ''
         export PS1='\[\e[1;32m\][${system}:\w]\$\[\e[0m\] '
         echo
-        echo "‹os›: ${builtins.concatStringsSep ", " (builtins.attrNames hosts)}"
-        echo "‹hm›: ${builtins.concatStringsSep ", " (builtins.attrNames homes)}"
+        echo "‹os›: ${builtins.concatStringsSep ", " hostnames}"
+        echo "‹hm›: ${builtins.concatStringsSep ", " hostnames}"
         echo
 
         hm() {
@@ -81,8 +87,8 @@ inputs @ {
         }
       '';
     };
-    ${systemSpecifics.option} = mapHosts hosts;
-    homeConfigurations = mapHomes homes;
+    ${systemSpecifics.option} = mapHosts;
+    homeConfigurations = mapHomes;
   };
 
   configuration = foldl recursiveUpdate {} (mapAttrsToList mapSystem systems);
