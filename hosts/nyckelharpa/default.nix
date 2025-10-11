@@ -22,6 +22,7 @@
   homebrew = {
     taps = [
       "puma/puma"
+      "Sikarugir-App/sikarugir"
     ];
 
     brews = [
