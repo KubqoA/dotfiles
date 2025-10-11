@@ -14,7 +14,7 @@ NixOS modules. Includes `nixos/server/*` and common system-wide options.
 
 ---
 
-Imports now use `lib.imports` with paths relative to `modules/`:
+Modules can be imported with the `lib.imports` with paths relative to `modules/`:
 
 ```nix
 imports = lib.imports [
@@ -22,6 +22,8 @@ imports = lib.imports [
   "darwin/packages"
   "nixos/nix"
   "nixos/server/defaults"
+  inputs.nixos-wsl.nixosModules.wsl # module import are also supported
+  ./relative.nix                    # and relative imports as well
 ];
 ```
 
