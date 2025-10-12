@@ -3,7 +3,7 @@
   lib,
   ...
 }: let
-  immichVersion = "v1.139.3";
+  immichVersion = "v2.0.1";
   internalPort = toString 2283;
   servicePort = toString 9005;
   inherit (config.virtualisation.quadlet) networks pods;

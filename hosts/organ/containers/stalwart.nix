@@ -1,5 +1,5 @@
 {config, ...}: let
-  stalwartVersion = "0.13.2";
+  stalwartVersion = "0.13.4";
   servicePort = toString 9003;
   internalPort = toString 8080;
   inherit (config.virtualisation.quadlet) networks;
