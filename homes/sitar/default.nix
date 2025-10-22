@@ -34,7 +34,10 @@
   };
 
   programs = {
-    bat.enable = true;
+    bat = {
+      enable = true;
+      config.theme = "base16";
+    };
     fzf.enable = true;
     zoxide.enable = true;
   };

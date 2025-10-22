@@ -14,6 +14,7 @@
       "/Applications/Beekeeper Studio.app" = ./icons/beekeeper-studio.icns;
       "/Applications/Notion.app" = ./icons/notion.icns;
       "/Applications/Spotify.app" = ./icons/spotify.icns;
+      "/Applications/WireGuard.app" = ./icons/wireguard.icns;
     };
     uuid = "B1819449-1EB0-4B20-9148-5DBE2695842B";
   };
@@ -35,6 +36,7 @@
       "cursor"
       "figma"
       "ghostty"
+      "httpie-desktop"
       "imaging-edge-webcam"
       "keyboardcleantool"
       "monitorcontrol"
@@ -47,5 +49,10 @@
       "zed"
       "zen"
     ];
+
+    masApps = {
+      Bitwarden = 1352778147;
+      WireGuard = 1451685025;
+    };
   };
 }

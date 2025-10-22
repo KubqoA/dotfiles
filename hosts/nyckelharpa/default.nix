@@ -84,5 +84,9 @@
         args = {no_quarantine = true;};
       }
     ];
+
+    masApps = {
+      Bitwarden = 1352778147;
+    };
   };
 }
