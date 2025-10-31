@@ -39,6 +39,7 @@
       # Fix Homebrew libs
       LDFLAGS = "-L/opt/homebrew/lib";
       CPPFLAGS = "-I/opt/homebrew/include";
+      RUSTFLAGS = "-L /opt/homebrew/lib";
     };
 
     file = {

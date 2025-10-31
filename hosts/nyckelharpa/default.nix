@@ -5,7 +5,7 @@
     dock = [
       "/Applications/Zen.app"
       "/Applications/Ghostty.app"
-      "/Applications/Zed.app"
+      "/Applications/Cursor.app"
       "/Applications/Spotify.app"
     ];
     icons = {
@@ -31,6 +31,10 @@
       "mise"
       "pinentry-mac"
       "bitwarden-cli"
+      {
+        name = "libiconv";
+        link = true;
+      }
 
       # ruby building
       "autoconf"
@@ -38,7 +42,7 @@
       "jemalloc"
       "libsodium"
       "libyaml"
-      "openssl@3"
+      "openssl@3.5"
       "python-setuptools"
       "readline"
       "vips"
@@ -46,7 +50,11 @@
       # services
       "puma/puma/puma-dev"
       {
-        name = "postgresql@17";
+        name = "postgresql@18";
+        restart_service = "changed";
+      }
+      {
+        name = "mariadb";
         restart_service = "changed";
       }
       {
@@ -65,8 +73,10 @@
       "ghostty"
       "imaging-edge-webcam"
       "keyboardcleantool"
+      "meld"
       "monitorcontrol"
       "notion"
+      "nordvpn"
       "obsidian"
       "orbstack"
       "raycast"

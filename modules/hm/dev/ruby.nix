@@ -63,6 +63,8 @@ in {
         RUBY_DEBUG_HISTORY_FILE = "${config.xdg.dataHome}/rdbg_history";
         RUBY_YJIT_ENABLE = 1;
         SOLARGRAPH_CACHE = "${config.xdg.cacheHome}/solargraph";
+        THOR_DIFF = "meld";
+        THOR_MERGE = "meld"; # explore using nvim as alternative
       }
       // osSepcificVars;
 
