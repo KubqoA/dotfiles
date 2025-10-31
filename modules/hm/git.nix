@@ -2,8 +2,6 @@
   programs.git = {
     enable = true;
     lfs.enable = true;
-    userName = "Jakub Arbet";
-    userEmail = "hi@jakubarbet.me";
     signing = {
       format = "ssh";
       key = "~/.ssh/id_ed25519.pub";
@@ -16,7 +14,13 @@
       ".zed"
       ".cursor"
     ];
-    extraConfig.init.defaultBranch = "main";
+    settings = {
+      user = {
+        name = "Jakub Arbet";
+        email = "hi@jakubarbet.me";
+      };
+      init.defaultBranch = "main";
+    };
   };
 
   home.shellAliases = {
