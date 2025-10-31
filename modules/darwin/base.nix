@@ -1,16 +1,15 @@
 {
   config,
-  lib,
   pkgs,
   self,
   system,
   ...
 }: {
-  imports = lib.imports [
-    "darwin/icons"
-    "darwin/nix"
-    "darwin/packages"
-    "darwin/settings"
+  imports = [
+    ./icons.nix
+    ./nix.nix
+    ./packages.nix
+    ./settings.nix
   ];
 
   # Sensible Homebrew defaults
@@ -29,6 +28,22 @@
       "coreutils"
       "less" # update the default one shipped with macOS
     ];
+  };
+
+  environment.variables = {
+    # Inlined from eval "$(/opt/homebrew/bin/brew shellenv)"
+    HOMEBREW_PREFIX = "/opt/homebrew";
+    HOMEBREW_CELLAR = "/opt/homebrew/Cellar";
+    HOMEBREW_REPOSITORY = "/opt/homebrew";
+    INFOPATH = "/opt/homebrew/share/info:$INFOPATH";
+
+    # Include Homebrew and Orbstack in the PATH
+    PATH = "/opt/homebrew/bin:/opt/homebrew/sbin:$PATH:/Users/jakub/.orbstack/bin";
+
+    # Fix Homebrew libs
+    LDFLAGS = "-L/opt/homebrew/lib";
+    CPPFLAGS = "-I/opt/homebrew/include";
+    RUSTFLAGS = "-L /opt/homebrew/lib";
   };
 
   # Necessary here to set correct PATH, configuration managed by home-manager

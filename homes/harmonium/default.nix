@@ -1,18 +1,30 @@
-{lib, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   imports = lib.imports [
-    "hm/aliases"
-    "hm/fish"
+    "hm/base"
     "hm/ghostty"
-    "hm/git"
     "hm/gpg"
-    "hm/home"
-    "hm/neovim"
     "hm/password-store"
     "hm/ssh"
-    "hm/xdg"
     ./desktop
-    ./programs.nix
   ];
 
-  home.stateVersion = "24.05";
+  programs = {
+    eza.enable = true;
+    fd.enable = true;
+    ripgrep.enable = true;
+  };
+
+  services = {
+    syncthing.enable = true;
+  };
+
+  home.packages = with pkgs; [
+    chromium
+    firefox
+    obsidian
+  ];
 }

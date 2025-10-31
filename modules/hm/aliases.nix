@@ -3,19 +3,14 @@
   config,
   homeName,
   lib,
-  system,
+  pkgs,
   ...
 }: {
   home.shellAliases = let
     osCommand =
-      {
-        "x86_64-linux" = "sudo nixos-rebuild";
-        "aarch64-linux" = "sudo nixos-rebuild";
-        "aarch64-darwin" = "sudo darwin-rebuild";
-      }
-      .${
-        system
-      };
+      if pkgs.stdenv.isDarwin
+      then "sudo darwin-rebuild"
+      else "sudo nixos-rebuild";
   in {
     cd = lib.mkIf config.programs.zoxide.enable "z";
     ls =

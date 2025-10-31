@@ -18,8 +18,6 @@ Modules can be imported with the `lib.imports` with paths relative to `modules/`
 
 ```nix
 imports = lib.imports [
-  "hm/aliases"
-  "darwin/packages"
   "nixos/nix"
   "nixos/server/defaults"
   inputs.nixos-wsl.nixosModules.wsl # module import are also supported
