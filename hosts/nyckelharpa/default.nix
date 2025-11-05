@@ -26,11 +26,7 @@
     ];
 
     brews = [
-      "ripgrep"
-      "gh"
-      "mise"
       "pinentry-mac"
-      "bitwarden-cli"
       {
         name = "libiconv";
         link = true;
@@ -61,32 +57,17 @@
         name = "redis";
         restart_service = "changed";
       }
-      {
-        name = "syncthing";
-        restart_service = "changed";
-      }
     ];
 
     casks = [
-      "cursor"
-      "figma"
-      "ghostty"
       "imaging-edge-webcam"
       "keyboardcleantool"
       "meld"
-      "monitorcontrol"
-      "notion"
       "nordvpn"
-      "obsidian"
-      "orbstack"
-      "raycast"
       "rubymine"
-      "slack"
-      "spotify"
       "steam"
       "whatsapp"
       "zed"
-      "zen"
       "zoom"
 
       {
@@ -94,9 +75,5 @@
         args = {no_quarantine = true;};
       }
     ];
-
-    masApps = {
-      Bitwarden = 1352778147;
-    };
   };
 }

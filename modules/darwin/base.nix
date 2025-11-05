@@ -16,18 +16,11 @@
   environment.variables.HOMEBREW_NO_ANALYTICS = "1";
   homebrew = {
     enable = true;
-
     onActivation = {
       autoUpdate = true;
       cleanup = "zap";
       upgrade = true;
     };
-
-    brews = [
-      "cmake"
-      "coreutils"
-      "less" # update the default one shipped with macOS
-    ];
   };
 
   environment.variables = {

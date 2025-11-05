@@ -21,39 +21,15 @@
   };
 
   homebrew = {
-    brews = [
-      "ripgrep"
-      "gh"
-      "mise"
-      "bitwarden-cli"
-      {
-        name = "syncthing";
-        restart_service = "changed";
-      }
-    ];
-
     casks = [
       "beekeeper-studio"
-      "cursor"
-      "figma"
-      "ghostty"
       "httpie-desktop"
-      "imaging-edge-webcam"
       "keyboardcleantool"
-      "logitech-options"
-      "monitorcontrol"
-      "notion"
-      "obsidian"
-      "orbstack"
-      "raycast"
       "slack"
-      "spotify"
       "zed"
-      "zen"
     ];
 
     masApps = {
-      Bitwarden = 1352778147;
       WireGuard = 1451685025;
     };
   };
