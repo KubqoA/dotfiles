@@ -1,0 +1,123 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'fileutils'
+require 'etc'
+require 'open3'
+
+# ANSI colors
+COLORS = {
+  reset: "\e[0m", bold: "\e[1m", red: "\e[31m", green: "\e[32m",
+  yellow: "\e[33m", blue: "\e[34m", cyan: "\e[36m", gray: "\e[90m"
+}.freeze
+
+def colorize(color, text) = "#{COLORS[color]}#{text}#{COLORS[:reset]}"
+def success(text) = puts "#{colorize(:green, '✓')} #{text}"
+def error(text) = puts "#{colorize(:red, '✗')} #{text}"
+def info(text) = puts "#{colorize(:cyan, 'ℹ')} #{text}"
+def step(text) = print "#{colorize(:gray, '→')} #{text}... "
+
+# Configuration
+USERNAME = Etc.getlogin || ENV['USER'] || ENV['USERNAME']
+KEY_PATH = File.join(Dir.home, '.ssh', 'id_ed25519')
+AGE_KEYS_FILE = File.join(Dir.home, '.config', 'sops', 'age', 'keys.txt')
+DOTFILES_ROOT = File.expand_path(File.join(__dir__, '..'))
+SOPS_YAML = File.join(DOTFILES_ROOT, '.sops.yaml')
+CONFIG_NIX = File.join(DOTFILES_ROOT, 'modules', 'autoload', 'config.nix')
+
+# Header
+puts "\n#{colorize(:bold, '═' * 18)}"
+puts colorize(:bold, '⚿  SSH Key Setup')
+puts "#{colorize(:bold, '═' * 18)}\n\n"
+
+# Prompts
+default_machine = `hostname`.strip
+print colorize(:blue, "Machine name [#{default_machine}]: ")
+machine_name = $stdin.gets.chomp
+machine_name = default_machine if machine_name.empty?
+
+print colorize(:blue, 'Update config.nix and .sops.yaml? [y/N]: ')
+update_config = $stdin.gets.chomp =~ /^[Yy]/
+
+KEY_COMMENT = "#{USERNAME}@#{machine_name}".freeze
+ANCHOR_NAME = "#{USERNAME}_#{machine_name}".freeze
+
+puts "\n#{colorize(:bold, 'Configuration:')}"
+puts "  Generating SSH key for: #{colorize(:cyan, KEY_COMMENT)}"
+puts "  Update configs: #{update_config ? colorize(:green, 'Yes') : colorize(:gray, 'No')}\n\n"
+
+# Check existing key
+if File.exist?(KEY_PATH)
+  puts colorize(:yellow, "⚠ SSH key already exists at #{KEY_PATH}")
+  print colorize(:blue, 'Overwrite? [y/N]: ')
+  unless $stdin.gets.chomp =~ /^[Yy]/
+    error('Aborted by user')
+    exit 1
+  end
+  File.delete(KEY_PATH)
+  File.delete("#{KEY_PATH}.pub") if File.exist?("#{KEY_PATH}.pub")
+end
+
+# Generate SSH key
+step 'Generating SSH key'
+FileUtils.mkdir_p(File.dirname(KEY_PATH))
+if system('ssh-keygen', '-q', '-t', 'ed25519', '-C', KEY_COMMENT, '-f', KEY_PATH, '-N', '', out: File::NULL, err: File::NULL)
+  success('Done')
+else
+  error('Failed')
+  exit 1
+end
+
+PUBLIC_KEY = File.read("#{KEY_PATH}.pub").strip
+
+if update_config
+  puts
+  # Update config.nix
+  step 'Updating config.nix'
+  config_content = File.read(CONFIG_NIX)
+  if config_content.sub!(/(")([^"]+#{Regexp.escape(KEY_COMMENT)}")/, "\\1#{PUBLIC_KEY}\"")
+    File.write(CONFIG_NIX, config_content)
+    success('Updated existing key')
+  elsif config_content.sub!(/(sshPublicKeys\s*=\s*\[.*?)(\n\s*"[^"]+"\n)(\s*\];)/m,
+                            "\\1\\2      \"#{PUBLIC_KEY}\"\n\\3")
+    File.write(CONFIG_NIX, config_content)
+    success('Added new key')
+  else
+    error('Could not find sshPublicKeys array')
+  end
+
+  # Convert to age
+  step 'Converting SSH key to age format'
+  FileUtils.mkdir_p(File.dirname(AGE_KEYS_FILE))
+  if system('ssh-to-age', '-private-key', '-i', KEY_PATH, '-o', AGE_KEYS_FILE, out: File::NULL, err: File::NULL)
+    age_public_key = `ssh-to-age -i #{KEY_PATH}.pub`.strip
+    success('Done')
+  else
+    error('Failed')
+    exit 1
+  end
+
+  # Update .sops.yaml
+  step 'Updating .sops.yaml'
+  sops_content = File.read(SOPS_YAML)
+  if sops_content.sub!(/(&#{Regexp.escape(ANCHOR_NAME)}\s+)(age\w+)/, "\\1#{age_public_key}")
+    File.write(SOPS_YAML, sops_content)
+    success('Updated existing key')
+  elsif sops_content.sub!(/(keys:.*?)(^\s*- &\w+\s+age\w+\n)(?!^\s*- &)/m,
+                          "\\1\\2  - &#{ANCHOR_NAME} #{age_public_key}\n")
+    File.write(SOPS_YAML, sops_content)
+    success('Added new key')
+    info("Please manually add '- *#{ANCHOR_NAME}' for desired hosts in .sops.yaml")
+  else
+    error('Could not find keys section')
+  end
+end
+
+# Completion
+puts "\n#{colorize(:bold, '─' * 18)}"
+puts colorize(:green, '✓') + colorize(:bold, ' Setup complete!')
+puts "#{colorize(:bold, '─' * 18)}\n"
+info('Next step: Add your SSH key to GitHub')
+puts "#{colorize(:gray, '  → https://github.com/settings/keys')}\n"
+puts colorize(:bold, 'Your public key:')
+puts "  #{colorize(:cyan, PUBLIC_KEY)}\n\n"
