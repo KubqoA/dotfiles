@@ -12,6 +12,7 @@
     ];
     icons = {
       "/Applications/Beekeeper Studio.app" = ./icons/beekeeper-studio.icns;
+      "/Applications/Logi Options.app" = ./icons/logi-options.icns;
       "/Applications/Notion.app" = ./icons/notion.icns;
       "/Applications/Spotify.app" = ./icons/spotify.icns;
       "/Applications/WireGuard.app" = ./icons/wireguard.icns;
@@ -39,6 +40,7 @@
       "httpie-desktop"
       "imaging-edge-webcam"
       "keyboardcleantool"
+      "logitech-options"
       "monitorcontrol"
       "notion"
       "obsidian"
