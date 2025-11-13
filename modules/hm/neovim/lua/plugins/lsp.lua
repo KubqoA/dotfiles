@@ -1,25 +1,49 @@
--- Migrate to 0.11+ setup using vim.lsp
 return {
 	{
-		"neovim/nvim-lspconfig",
-		dependencies = {
-			"saghen/blink.cmp",
-			{
-				"folke/lazydev.nvim",
-				opts = {
-					library = {
-						{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+		"folke/lazydev.nvim",
+		ft = "lua", -- only load on lua files
+		opts = {
+			library = {
+				-- See the configuration section for more details
+				-- Load luvit types when the `vim.uv` word is found
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+			},
+		},
+	},
+
+	{
+		"saghen/blink.cmp",
+		-- optional: provides snippets for the snippet source
+		dependencies = { "rafamadriz/friendly-snippets" },
+		---@module 'blink.cmp'
+		---@type blink.cmp.Config
+		opts = {
+			sources = {
+				-- add lazydev to your completion providers
+				default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+				providers = {
+					lazydev = {
+						name = "LazyDev",
+						module = "lazydev.integrations.blink",
+						-- make lazydev completions top priority (see `:h blink.cmp`)
+						score_offset = 100,
 					},
 				},
 			},
-		},
-		event = { "VeryLazy" },
-		config = function()
-			local lspconfig = require("lspconfig")
-			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
+			keymap = { preset = "super-tab" },
+
+			appearance = {
+				nerd_font_variant = "mono",
+			},
+		},
+	},
+
+	{
+		"neovim/nvim-lspconfig",
+		config = function()
 			-- spellcheck
-			lspconfig.harper_ls.setup({
+			vim.lsp.config("harper_ls", {
 				settings = {
 					["harper-ls"] = {
 						linters = {
@@ -29,55 +53,39 @@ return {
 						},
 					},
 				},
-				capabilities = capabilities,
 			})
 
-			lspconfig.astro.setup({ capabilities = capabilities })
-			lspconfig.lua_ls.setup({
+			-- nextls doesn't have a default `cmd`
+			vim.lsp.config("nextls", {
+				cmd = { "nextls", "--stdio" },
+			})
+
+			vim.lsp.config("yamlls", {
 				settings = {
-					["nil"] = {
-						formatting = "alejandra",
-						nix = { maxMemoryMB = 512 },
+					yaml = {
+						schemas = {
+							["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+						},
 					},
 				},
-				capabilities = capabilities,
 			})
-			lspconfig.nextls.setup({
-				cmd = { "nextls", "--stdio" },
-				capabilities = capabilities,
-			})
-			lspconfig.nil_ls.setup({ capabilities = capabilities })
-			lspconfig.phpactor.setup({ capabilities = capabilities })
-			lspconfig.ruby_lsp.setup({ capabilities = capabilities })
-			lspconfig.ruff.setup({ capabilities = capabilities }) -- python
-			lspconfig.rust_analyzer.setup({ capabilities = capabilities })
-			lspconfig.tailwindcss.setup({ capabilities = capabilities })
 
-			-- disabled LSPs
-			-- lspconfig.nixd.setup({
-			-- 	cmd = { "nixd" },
-			-- 	settings = {
-			-- 		nixd = {
-			-- 			nixpkgs = {
-			-- 				expr = 'import (builtins.getFlake "/Users/jakub/.config/dotfiles").inputs.nixpkgs { }',
-			-- 			},
-			-- 			options = {
-			-- 				nixos = {
-			-- 					expr = '(builtins.getFlake "/Users/jakub/.config/dotfiles").options.nixos',
-			-- 				},
-			-- 				darwin = {
-			-- 					expr = '(builtins.getFlake "/Users/jakub/.config/dotfiles").options.darwin',
-			-- 				},
-			-- 				home_manager = {
-			-- 					expr = '(builtins.getFlake "/Users/jakub/.config/dotfiles").options.home-manager',
-			-- 				},
-			-- 			},
-			-- 		},
-			-- 	},
-			-- 	capabilities = capabilities,
-			-- })
-			-- lspconfig.stimulus_ls.setup({ capabilities = capabilities })
-			-- lspconfig.turbo_ls.setup({ capabilities = capabilities }) -- currently not in nixpkgs nvim-lspconfig
+			vim.lsp.enable({
+				"astro",
+				"harper_ls",
+				"jsonls",
+				"lua_ls",
+				"marksman",
+				"nextls",
+				"nil_ls",
+				"phpactor",
+				"ruby_lsp",
+				"ruff",
+				"rust_analyzer",
+				"tailwindcss",
+				"tsgo",
+				"yamlls",
+			})
 		end,
 	},
 }

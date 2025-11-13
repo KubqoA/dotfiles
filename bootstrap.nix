@@ -103,17 +103,5 @@ inputs @ {
   };
 
   configuration = foldl recursiveUpdate {} (mapAttrsToList mapSystem systems);
-
-  getOptions = configs: foldl recursiveUpdate {} (mapAttrsToList (_: value: value.options) configs);
 in
-  configuration
-  // {
-    inherit lib;
-
-    # Merge all options into one attribute set for use with ‹nixd›
-    options = {
-      nixos = getOptions self.nixosConfigurations;
-      darwin = getOptions self.darwinConfigurations;
-      home-manager = getOptions self.homeConfigurations;
-    };
-  }
+  configuration // {inherit lib;}

@@ -1,4 +1,9 @@
+vim.keymap.set("n", "<leader>w", ":w<CR>")
+vim.keymap.set("n", "<leader>u", ":update<CR>")
+vim.keymap.set("n", "<leader>q", ":q<CR>")
+
 vim.keymap.set("n", "<space><space>", "<cmd>nohlsearch<CR>")
+
 vim.keymap.set("n", "grn", vim.lsp.buf.rename)
 vim.keymap.set("n", "gra", vim.lsp.buf.code_action)
 vim.keymap.set("n", "grr", vim.lsp.buf.references)
