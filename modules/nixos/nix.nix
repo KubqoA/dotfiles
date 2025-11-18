@@ -3,10 +3,15 @@
   config,
   inputs,
   lib,
+  pkgs,
   system,
   ...
 }: {
   nix = {
+    # Needed otherwise this assertion fails: A corresponding Nix package must be
+    # specified via `nix.package` for generating nix.conf
+    package = pkgs.nix;
+
     # Disable nix channels. Use flakes instead.
     channel.enable = lib.mkDefault false;
 

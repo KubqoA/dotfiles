@@ -1,7 +1,6 @@
 {lib, ...}: {
   imports = lib.imports [
     "hm/base"
-    "hm/dark-mode-notify"
     "hm/ghostty"
     "hm/gpg"
     "hm/password-store"

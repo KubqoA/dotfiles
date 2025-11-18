@@ -1,5 +1,6 @@
 {
   config,
+  hostName,
   pkgs,
   self,
   system,
@@ -13,7 +14,6 @@
   ];
 
   # Sensible Homebrew defaults
-  environment.variables.HOMEBREW_NO_ANALYTICS = "1";
   homebrew = {
     enable = true;
     onActivation = {
@@ -23,27 +23,30 @@
     };
   };
 
-  environment.variables = {
-    # Inlined from eval "$(/opt/homebrew/bin/brew shellenv)"
-    HOMEBREW_PREFIX = "/opt/homebrew";
-    HOMEBREW_CELLAR = "/opt/homebrew/Cellar";
-    HOMEBREW_REPOSITORY = "/opt/homebrew";
-    INFOPATH = "/opt/homebrew/share/info:$INFOPATH";
+  environment = {
+    systemPath = ["/opt/homebrew/bin" "/opt/homebrew/sbin"];
 
-    # Include Homebrew and Orbstack in the PATH
-    PATH = "/opt/homebrew/bin:/opt/homebrew/sbin:${config.homePath}/.local/state/nix/profile/bin:$PATH:${config.homePath}/.orbstack/bin";
+    variables = {
+      HOMEBREW_NO_ANALYTICS = "1";
 
-    # Fix Homebrew libs
-    LDFLAGS = "-L/opt/homebrew/lib";
-    CPPFLAGS = "-I/opt/homebrew/include";
-    RUSTFLAGS = "-L /opt/homebrew/lib";
+      # Inlined from eval "$(/opt/homebrew/bin/brew shellenv)"
+      HOMEBREW_PREFIX = "/opt/homebrew";
+      HOMEBREW_CELLAR = "/opt/homebrew/Cellar";
+      HOMEBREW_REPOSITORY = "/opt/homebrew";
+      INFOPATH = "/opt/homebrew/share/info:$INFOPATH";
+
+      # Fix Homebrew libs
+      LDFLAGS = "-L/opt/homebrew/lib";
+      CPPFLAGS = "-I/opt/homebrew/include";
+      RUSTFLAGS = "-L /opt/homebrew/lib";
+    };
   };
 
   # Necessary here to set correct PATH, configuration managed by home-manager
   programs.fish.enable = true;
 
   # Set the knownUsers so that the default shell works
-  # https://github.com/LnL7/nix-darwin/issues/1237#issuecomment-2562230471
+  # https://github.com/nix-darwin/nix-darwin/issues/1237#issuecomment-2562230471
   users.knownUsers = [config.username];
   users.users.${config.username} = {
     home = config.homePath;
@@ -67,6 +70,8 @@
 
   # Use 1.1.1.1 as DNS resolver
   networking = {
+    computerName = hostName;
+    hostName = hostName;
     knownNetworkServices = ["Wi-Fi"];
     dns = [
       "1.1.1.1"
