@@ -13,9 +13,7 @@
     ./system/users.nix
     ./system/video.nix
     ./ui.nix
-    "nixos/nix"
-    "nixos/packages"
-    "nixos/sudo"
+    "nixos/base"
     "nixos/impermanence"
   ];
 
@@ -24,7 +22,7 @@
     age.keyFile = "/persist/sops-nix/key.txt";
   };
 
-  impermanence = {
+  my.impermanence = {
     rootPartition = "/dev/mapper/enc";
     serviceAfter = ["systemd-cryptsetup@enc.service"]; # run after LUKS
   };
@@ -39,6 +37,4 @@
   };
 
   hardware.enableAllFirmware = true;
-
-  system.stateVersion = "25.11";
 }

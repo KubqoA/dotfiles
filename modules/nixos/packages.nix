@@ -5,6 +5,7 @@
     alejandra
     curl
     git
+    jq
     nerdfetch
     neovim
     nil

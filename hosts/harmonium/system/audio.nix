@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: {
-  impermanence.directories = ["/var/lib/bluetooth"];
+  my.impermanence.directories = ["/var/lib/bluetooth"];
 
   services.pipewire = {
     enable = true;

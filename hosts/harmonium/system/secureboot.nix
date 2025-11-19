@@ -6,7 +6,7 @@
 }: {
   imports = [inputs.lanzaboote.nixosModules.lanzaboote];
 
-  impermanence.directories = ["/etc/secureboot"];
+  my.impermanence.directories = ["/etc/secureboot"];
 
   environment.systemPackages = with pkgs; [
     # For debugging and troubleshooting Secure Boot.

@@ -313,7 +313,8 @@
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
         "quadlet-nix": "quadlet-nix",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "srvos": "srvos"
       }
     },
     "rust-overlay": {
@@ -354,6 +355,26 @@
       "original": {
         "owner": "Mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "srvos": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1763341292,
+        "narHash": "sha256-Cdn4V/Gljk4x9dn6vU7PE8iDOHOayxbtXXKJBfpunUM=",
+        "owner": "nix-community",
+        "repo": "srvos",
+        "rev": "4d555d1649dc4344e62a4e796197dcf6186cf587",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "srvos",
         "type": "github"
       }
     }

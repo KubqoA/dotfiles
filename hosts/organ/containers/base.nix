@@ -41,7 +41,7 @@
   };
 
   config = {
-    impermanence.directories = ["/var/lib/containers"];
+    my.impermanence.directories = ["/var/lib/containers"];
 
     # Create quadlet user for running containers
     users = {

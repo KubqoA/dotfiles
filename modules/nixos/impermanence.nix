@@ -3,10 +3,12 @@
   inputs,
   lib,
   ...
-}: {
+}: let
+  cfg = config.my.impermanence;
+in {
   imports = [inputs.impermanence.nixosModules.impermanence];
 
-  options.impermanence = with lib; {
+  options.my.impermanence = with lib; {
     rootPartition = mkOption {type = types.str;};
     serviceAfter = mkOption {
       type = types.listOf types.str;
@@ -27,8 +29,8 @@
       description = "Rollback BTRFS root subvolume to a pristine state";
       wantedBy = ["initrd.target"];
       before = ["sysroot.mount"];
-      after = config.impermanence.serviceAfter;
-      wants = config.impermanence.serviceAfter;
+      after = cfg.serviceAfter;
+      wants = cfg.serviceAfter;
       unitConfig.DefaultDependencies = "no";
       serviceConfig.Type = "oneshot";
 
@@ -37,7 +39,7 @@
 
         # We first mount the btrfs root to /mnt
         # so we can manipulate btrfs subvolumes.
-        mount -o subvol=/ ${config.impermanence.rootPartition} /mnt
+        mount -o subvol=/ ${cfg.rootPartition} /mnt
 
         # While we're tempted to just delete /root and create
         # a new snapshot from /root-blank, /root is already
@@ -77,13 +79,13 @@
         [
           "/var/lib/nixos" # needed to persist dynamically assigned uids/gids
         ]
-        ++ config.impermanence.directories;
+        ++ cfg.directories;
       files =
         [
           "/etc/machine-id"
           "/etc/adjtime"
         ]
-        ++ config.impermanence.files;
+        ++ cfg.files;
     };
   };
 }
