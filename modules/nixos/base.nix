@@ -30,6 +30,10 @@ in {
     nameservers = lib.mkIf (!wslGenerateResolvConf) ["1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001"];
   };
 
+  # GitHub has their public key published
+  # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
+  programs.ssh.knownHosts."github.com".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
+
   security.sudo = {
     # Only allow members of the wheel group to execute sudo by setting the executable’s
     # permissions accordingly. This prevents users that are not members of wheel from

@@ -20,6 +20,11 @@
     uuid = "B1819449-1EB0-4B20-9148-5DBE2695842B";
   };
 
+  system.keyboard = {
+    enableKeyMapping = true;
+    nonUS.remapTilde = true;
+  };
+
   homebrew = {
     casks = [
       "beekeeper-studio"

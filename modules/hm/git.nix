@@ -48,5 +48,6 @@
     gclean = "git restore --staged .";
     gs = "git stash";
     gsp = "git stash pop";
+    linear = "git checkout -b (pbpaste)"; # TODO: pbpaste only works on macOS
   };
 }

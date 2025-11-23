@@ -3,7 +3,7 @@
 # nyckelharpa
 
 ## Setup
-1. Install prerequisites - [`nix`](https://docs.determinate.systems/) and [homebrew](https://brew.sh)
+1. Install [`nix`](https://docs.determinate.systems/)
 
 2. Clone the repository
 ```sh

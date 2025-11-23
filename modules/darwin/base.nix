@@ -7,40 +7,12 @@
   ...
 }: {
   imports = [
+    ./homebrew.nix
     ./icons.nix
     ./nix.nix
     ./packages.nix
     ./settings.nix
   ];
-
-  # Sensible Homebrew defaults
-  homebrew = {
-    enable = true;
-    onActivation = {
-      autoUpdate = true;
-      cleanup = "zap";
-      upgrade = true;
-    };
-  };
-
-  environment = {
-    systemPath = ["/opt/homebrew/bin" "/opt/homebrew/sbin"];
-
-    variables = {
-      HOMEBREW_NO_ANALYTICS = "1";
-
-      # Inlined from eval "$(/opt/homebrew/bin/brew shellenv)"
-      HOMEBREW_PREFIX = "/opt/homebrew";
-      HOMEBREW_CELLAR = "/opt/homebrew/Cellar";
-      HOMEBREW_REPOSITORY = "/opt/homebrew";
-      INFOPATH = "/opt/homebrew/share/info:$INFOPATH";
-
-      # Fix Homebrew libs
-      LDFLAGS = "-L/opt/homebrew/lib";
-      CPPFLAGS = "-I/opt/homebrew/include";
-      RUSTFLAGS = "-L /opt/homebrew/lib";
-    };
-  };
 
   # Necessary here to set correct PATH, configuration managed by home-manager
   programs.fish.enable = true;
@@ -80,6 +52,10 @@
       "2606:4700:4700::1001"
     ];
   };
+
+  # GitHub has their public key published
+  # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
+  programs.ssh.knownHosts."github.com".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
 
   system = {
     # Set Git commit hash for darwin-version.
