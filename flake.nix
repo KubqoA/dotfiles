@@ -1,5 +1,5 @@
 {
-  description = "My NixOS, macOS and home-manager configurations";
+  description = "My macOS, NixOS, and home-manager configurations";
 
   outputs = inputs:
     import ./bootstrap.nix inputs {
