@@ -27,7 +27,7 @@ inputs: lib: _:
         # Handle directory modules
         ./modules/${path}
       else
-        # Otherwise assume it's a nix file
+        # Otherwise, assume it's a nix file
         ./modules/${path}.nix;
   in
     builtins.map modulePath;
@@ -52,6 +52,7 @@ inputs: lib: _:
 
   capitalize = str: lib.toUpper (lib.substring 0 1 str) + lib.substring 1 (-1) str;
   compactAttrs = lib.filterAttrs (_: value: value != null);
+  mapToAttrs = fn: list: builtins.listToAttrs (map fn list);
 }
 # Make sure to add lib extensions from inputs
 // inputs.home-manager.lib

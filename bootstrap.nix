@@ -1,28 +1,29 @@
-# Turns the abstract per system configuration in ‹flake.nix› to individual
-# nixos, darwin and home-manager configs. Additionally for each system architecture
-# defines formatting with ‹nix fmt› and a custom ‹nix develop› shell with helpers
-# for activating configurations on new machines. Also defines a custom lib with
-# extensions defined in ‹lib.nix›.
-#
-# For all nixos, darwin, and home-manager config autoloads ‹config.nix›, agenix, and
-# all autoloaded modules.
-#
 # Usage:
 # ```
 # import ./bootstrap.nix inputs {
-#   <architecture> = ["hostname1" "hostname2"];
+#   <system> = ["hostname1" "hostname2"];
 # }
 # ```
+# For each system defines:
+# - `alejandra` as the default formatter
+# - `nix develop` shell for easily activating configs on new machines
+#
+# And for each host in a system defines:
+# - darwin or nixos system config imported from `./hosts/${hostname}`
+# - home-manager config imported from `./homes/${hostname}`
+#
+# Both configs also get:
+# - custom `lib` from `./lib.nix`
+# - all autoloaded modules `./modules/autoload`
 inputs @ {
   nixpkgs,
   self,
-  sops-nix,
   ...
 }: systems: let
   # system agnostic lib with custom extensions
   lib = nixpkgs.lib.extend (import ./lib.nix inputs);
 
-  inherit (lib) foldl recursiveUpdate mapAttrsToList;
+  inherit (lib) foldl recursiveUpdate mapAttrsToList mapToAttrs;
 
   mapSystem = system: hostnames: let
     pkgs = nixpkgs.legacyPackages.${system};
@@ -33,40 +34,30 @@ inputs @ {
         fn = lib.darwinSystem;
         option = "darwinConfigurations";
         command = "sudo nix run nix-darwin --";
-        sopsModule = sops-nix.darwinModules.sops;
       }
       else {
         fn = lib.nixosSystem;
         option = "nixosConfigurations";
         command = "sudo nixos-rebuild";
-        sopsModule = sops-nix.nixosModules.sops;
       };
 
-    mapHosts = builtins.listToAttrs (map (hostname: {
-        name = hostname;
-        value = systemSpecifics.fn {
-          inherit system;
-          specialArgs = {
-            inherit inputs lib self system;
-            hostName = hostname;
-          };
-          modules = [./hosts/${hostname} systemSpecifics.sopsModule] ++ lib.autoloadedModules;
-        };
-      })
-      hostnames);
+    mkHost = name: {
+      inherit name;
+      value = systemSpecifics.fn {
+        inherit system;
+        specialArgs = {inherit inputs lib name self system;};
+        modules = [./hosts/${name}] ++ lib.autoloadedModules;
+      };
+    };
 
-    mapHomes = builtins.listToAttrs (map (hostname: {
-        name = hostname;
-        value = lib.homeManagerConfiguration {
-          inherit pkgs;
-          extraSpecialArgs = {
-            inherit inputs lib system;
-            homeName = hostname;
-          };
-          modules = [./homes/${hostname} sops-nix.homeManagerModules.sops] ++ lib.autoloadedModules;
-        };
-      })
-      hostnames);
+    mkHome = name: {
+      inherit name;
+      value = lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = {inherit inputs name lib system;};
+        modules = [./homes/${name}] ++ lib.autoloadedModules;
+      };
+    };
   in {
     formatter.${system} = pkgs.alejandra;
     devShells.${system}.default = pkgs.mkShell {
@@ -98,8 +89,8 @@ inputs @ {
         export PATH="$PATH:$(pwd)/scripts"
       '';
     };
-    ${systemSpecifics.option} = mapHosts;
-    homeConfigurations = mapHomes;
+    ${systemSpecifics.option} = mapToAttrs mkHost hostnames;
+    homeConfigurations = mapToAttrs mkHome hostnames;
   };
 
   configuration = foldl recursiveUpdate {} (mapAttrsToList mapSystem systems);

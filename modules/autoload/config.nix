@@ -1,4 +1,3 @@
-# [home-manager/nixos/nix-darwin]
 # Global configuration options that can be referenced by all modules
 {
   lib,

@@ -1,9 +1,11 @@
 {
   config,
+  inputs,
   pkgs,
   ...
 }: {
   imports = [
+    inputs.sops-nix.homeManagerModules.sops
     ./aliases.nix
     ./fish.nix
     ./git.nix

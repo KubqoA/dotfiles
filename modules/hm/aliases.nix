@@ -1,8 +1,8 @@
 # common aliases shared across all systems
 {
   config,
-  homeName,
   lib,
+  name,
   pkgs,
   ...
 }: {
@@ -28,7 +28,7 @@
     chx = "chmod +x";
 
     # Utils
-    hm = "home-manager --flake \"${config.dotfilesPath}#${homeName}\"";
+    hm = "home-manager --flake \"${config.dotfilesPath}#${name}\"";
     os = "${osCommand} --flake \"${config.dotfilesPath}\"";
     dots = "$EDITOR \"${config.dotfilesPath}\"";
     zd = "cd \"${config.dotfilesPath}\"";

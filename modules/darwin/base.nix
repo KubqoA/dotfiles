@@ -1,12 +1,14 @@
 {
   config,
-  hostName,
+  inputs,
+  name,
   pkgs,
   self,
   system,
   ...
 }: {
   imports = [
+    inputs.sops-nix.darwinModules.sops
     ./homebrew.nix
     ./icons.nix
     ./nix.nix
@@ -42,8 +44,8 @@
 
   # Use 1.1.1.1 as DNS resolver
   networking = {
-    computerName = hostName;
-    hostName = hostName;
+    computerName = name;
+    hostName = name;
     knownNetworkServices = ["Wi-Fi"];
     dns = [
       "1.1.1.1"

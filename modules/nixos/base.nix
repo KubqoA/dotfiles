@@ -1,7 +1,8 @@
 {
   config,
-  hostName,
+  inputs,
   lib,
+  name,
   options,
   pkgs,
   ...
@@ -9,7 +10,7 @@
   sopsEnabled = (builtins.tryEval (config.sops.defaultSopsFile != null)).value;
   wslGenerateResolvConf = options ? wsl && config.wsl.wslConf.network.generateResolvConf;
 in {
-  imports = [./nix.nix ./packages.nix];
+  imports = [inputs.sops-nix.nixosModules.sops ./nix.nix ./packages.nix];
 
   sops = lib.mkIf sopsEnabled {secrets."${config.username}-password".neededForUsers = true;};
 
@@ -26,7 +27,7 @@ in {
   programs.fish.enable = true;
 
   networking = {
-    hostName = hostName;
+    hostName = name;
     nameservers = lib.mkIf (!wslGenerateResolvConf) ["1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001"];
   };
 
