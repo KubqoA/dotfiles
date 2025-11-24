@@ -7,17 +7,17 @@ keys:
 
 creation_rules:
   - path_regex: hosts/organ/secrets.yaml$
+    unencrypted_suffix: "-example"
     key_groups:
-    - age:
-      - *host_organ
-      - *jakub_harmonium
-      - *jakub_lur
-      - *jakub_nyckelharpa
+      - age:
+          - *host_organ
+          - *jakub_harmonium
+          - *jakub_lur
+          - *jakub_nyckelharpa
   - path_regex: hosts/harmonium/secrets.yaml$
     key_groups:
-    - age:
-      - *host_harmonium
-      - *jakub_harmonium
-      - *jakub_lur
-      - *jakub_nyckelharpa
-
+      - age:
+          - *host_harmonium
+          - *jakub_harmonium
+          - *jakub_lur
+          - *jakub_nyckelharpa
