@@ -59,7 +59,6 @@
       nvim-web-devicons # nerd font icons
       vim-vinegar # better netrw
       gitsigns-nvim
-      incline-nvim # floating filename
       dropbar-nvim # IDE-like breadcrumbs
       lualine-nvim # better statusline
       noice-nvim # replaces UI for cmdline, messages, ...
