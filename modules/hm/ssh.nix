@@ -20,6 +20,7 @@
         controlMaster = "no";
         controlPath = "~/.ssh/master-%r@%n:%p";
         controlPersist = "no";
+        extraOptions.GlobalKnownHostsFile = "/etc/ssh/ssh_known_hosts";
       };
     };
   };
