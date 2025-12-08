@@ -43,7 +43,7 @@
       }
     ];
     functions = {
-      fish_greeting = "echo $fish_greeting";
+      fish_greeting = "echo -n $fish_greeting";
     };
     interactiveShellInit = let
       optionalGreeting =
