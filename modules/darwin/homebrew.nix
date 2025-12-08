@@ -1,9 +1,9 @@
 {
-  lib,
   config,
+  lib,
   ...
 }: let
-  inherit (config.homebrew) brewPrefix;
+  brewPrefix = "/opt/homebrew";
 in {
   # Sensible Homebrew defaults
   homebrew = {
@@ -38,8 +38,8 @@ in {
 
   # Install homebrew if it is not installed
   system.activationScripts.homebrew.text = lib.mkBefore ''
-    if [[ ! -f "${brewPrefix}/brew" ]]; then
-      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    if [[ ! -f "${brewPrefix}/bin/brew" ]]; then
+      sudo -u ${config.username} /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     fi
   '';
 }
