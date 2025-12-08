@@ -54,6 +54,17 @@ in {
     trackpad = {
       Clicking = true;
     };
+    CustomUserPreferences = {
+      # Avoid creating .DS_Store files on network or USB volumes
+      "com.apple.desktopservices" = {
+        DSDontWriteNetworkStores = true;
+        DSDontWriteUSBStores = true;
+      };
+      # Save screenshots to clipboard by default
+      "com.apple.screencapture".target = "clipboard";
+      # Turn on app auto-update
+      "com.apple.commerce".AutoUpdate = true;
+    };
     CustomSystemPreferences = {
       "/var/root/Library/Preferences/com.apple.CoreBrightness.plist" = {
         "CBUser-${cfg.uuid}" = {
