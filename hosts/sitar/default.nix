@@ -8,7 +8,6 @@
       "/Applications/Cursor.app"
       "/Applications/Spotify.app"
       "/Applications/Slack.app"
-      "/Applications/Notion.app"
     ];
     icons = {
       "/Applications/Beekeeper Studio.app" = ./icons/beekeeper-studio.icns;
@@ -30,6 +29,7 @@
       "beekeeper-studio"
       "httpie-desktop"
       "keyboardcleantool"
+      "notion-calendar"
       "slack"
       "zed"
     ];

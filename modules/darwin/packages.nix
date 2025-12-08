@@ -7,8 +7,12 @@
       "cmake"
       "coreutils"
       "gh"
-      "less" # update the default one shipped with macOS
+      "mas"
       "mise"
+
+      # newer version of CLIs present in MacOS
+      "less"
+      "openssh"
 
       {
         name = "syncthing";
@@ -31,6 +35,7 @@
 
     masApps = {
       Bitwarden = 1352778147;
+      "Home Assistant" = 1099568401;
     };
   };
 }

@@ -62,18 +62,15 @@
     casks = [
       "imaging-edge-webcam"
       "keyboardcleantool"
+      "macmediakeyforwarder"
       "meld"
-      "nordvpn"
+      "private-internet-access"
       "rubymine"
+      "Sikarugir-App/sikarugir/sikarugir"
       "steam"
       "whatsapp"
       "zed"
       "zoom"
-
-      {
-        name = "Sikarugir-App/sikarugir/sikarugir";
-        args = {no_quarantine = true;};
-      }
     ];
   };
 }
