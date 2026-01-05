@@ -9,6 +9,7 @@
       "gh"
       "mas"
       "mise"
+      "dive"
 
       # newer version of CLIs present in MacOS
       "less"
@@ -24,6 +25,7 @@
       "cursor"
       "ghostty"
       "logitech-options"
+      "macmediakeyforwarder"
       "monitorcontrol"
       "notion"
       "obsidian"

@@ -9,8 +9,6 @@
       "/Applications/Spotify.app"
     ];
     icons = {
-      "/Applications/Notion.app" = ./icons/notion.icns;
-      "/Applications/Spotify.app" = ./icons/spotify.icns;
       "/Applications/Steam.app" = ./icons/steam.icns;
     };
     uuid = "9A95453F-92B5-4C37-98FD-7809C8B7CE44";
@@ -62,7 +60,6 @@
     casks = [
       "imaging-edge-webcam"
       "keyboardcleantool"
-      "macmediakeyforwarder"
       "meld"
       "private-internet-access"
       "rubymine"

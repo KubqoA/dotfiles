@@ -10,10 +10,7 @@
       "/Applications/Slack.app"
     ];
     icons = {
-      "/Applications/Beekeeper Studio.app" = ./icons/beekeeper-studio.icns;
       "/Applications/Logi Options.app" = ./icons/logi-options.icns;
-      "/Applications/Notion.app" = ./icons/notion.icns;
-      "/Applications/Spotify.app" = ./icons/spotify.icns;
       "/Applications/WireGuard.app" = ./icons/wireguard.icns;
     };
     uuid = "B1819449-1EB0-4B20-9148-5DBE2695842B";
@@ -25,6 +22,11 @@
   };
 
   homebrew = {
+    brews = [
+      "valkey"
+      "postgresql@18"
+    ];
+
     casks = [
       "beekeeper-studio"
       "httpie-desktop"
