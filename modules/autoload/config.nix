@@ -18,7 +18,10 @@ with lib; {
       if pkgs.stdenv.isDarwin
       then "/Users/${username}"
       else "/home/${username}";
-    dotfilesPath = "${homePath}/.config/dotfiles";
+    dotfilesPath =
+      if pkgs.stdenv.isDarwin
+      then "${homePath}/.config/dotfiles"
+      else "/persist/dotfiles";
     sshPublicKeys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPplCI6xumDIAyKig2qj/WA/UyyVmw79nSdxv0J84CJl jakub@lur"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHWaSqYW6qT2duI6wGyefAWHRI3x0oyj6tAOMh7fD8dl jakub@harmonium"

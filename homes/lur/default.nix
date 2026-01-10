@@ -14,6 +14,7 @@
   # Custom pinentry program taken from https://github.com/rupor-github/win-gpg-agent
   # TODO: Possibly turn into a nix package
   services.gpg-agent.extraConfig = ''
+    grab
     pinentry-program /home/jakub/pinentry.exe
   '';
 }
