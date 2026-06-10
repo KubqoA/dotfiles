@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   home.packages = with pkgs; let
-    phpEnv = php84.buildEnv {
+    phpEnv = php85.buildEnv {
       extensions = {
         enabled,
         all,

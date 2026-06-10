@@ -2,25 +2,25 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks = {
+    settings = {
       organ = {
-        hostname = "organ.jakubarbet.me";
-        user = "jakub";
-        extraOptions.VerifyHostKeyDNS = "yes";
+        HostName = "organ.jakubarbet.me";
+        User = "jakub";
+        VerifyHostKeyDNS = "yes";
       };
       "*" = {
-        setEnv.TERM = "xterm-256color";
-        forwardAgent = false;
-        addKeysToAgent = "no";
-        compression = false;
-        serverAliveInterval = 0;
-        serverAliveCountMax = 3;
-        hashKnownHosts = false;
-        userKnownHostsFile = "~/.ssh/known_hosts";
-        controlMaster = "no";
-        controlPath = "~/.ssh/master-%r@%n:%p";
-        controlPersist = "no";
-        extraOptions.GlobalKnownHostsFile = "/etc/ssh/ssh_known_hosts";
+        SetEnv.TERM = "xterm-256color";
+        ForwardAgent = false;
+        AddKeysToAgent = "no";
+        Compression = false;
+        ServerAliveInterval = 0;
+        ServerAliveCountMax = 3;
+        HashKnownHosts = false;
+        UserKnownHostsFile = "~/.ssh/known_hosts";
+        ControlMaster = "no";
+        ControlPath = "~/.ssh/master-%r@%n:%p";
+        ControlPersist = "no";
+        GlobalKnownHostsFile = "/etc/ssh/ssh_known_hosts";
       };
     };
   };

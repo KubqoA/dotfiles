@@ -3,10 +3,11 @@
 
   my = {
     dock = [
-      "/Applications/Zen.app"
+      "/Applications/Helium.app"
       "/Applications/Ghostty.app"
-      "/Applications/Cursor.app"
+      "/Applications/Zed.app"
       "/Applications/Spotify.app"
+      "/Applications/WhatsApp.app"
     ];
     icons = {
       "/Applications/Steam.app" = ./icons/steam.icns;
@@ -20,7 +21,6 @@
   homebrew = {
     taps = [
       "puma/puma"
-      "Sikarugir-App/sikarugir"
     ];
 
     brews = [
@@ -63,7 +63,6 @@
       "meld"
       "private-internet-access"
       "rubymine"
-      "Sikarugir-App/sikarugir/sikarugir"
       "steam"
       "whatsapp"
       "zed"

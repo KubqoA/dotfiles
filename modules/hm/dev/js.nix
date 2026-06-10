@@ -21,19 +21,15 @@ in {
   '';
 
   programs.mise.globalConfig = {
-    # env._.path = ["{{config_root}}/node_modules/.bin"];
-    # pin versions for better reproducibility
     tools = {
       bun = "1.3";
-      deno = "2.5";
+      deno = "2.8";
       node = "24";
-      "npm:stimulus-language-server" = "1.0.4";
-      "npm:turbo-language-server" = "0.0.2";
     };
     settings = {
       idiomatic_version_file_enable_tools = ["node"];
       node.compile = false;
-      npm.bun = true;
+      node.corepack = true;
     };
   };
 }

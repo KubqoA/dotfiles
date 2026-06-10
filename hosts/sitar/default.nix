@@ -3,9 +3,9 @@
 
   my = {
     dock = [
-      "/Applications/Zen.app"
+      "/Applications/Helium.app"
       "/Applications/Ghostty.app"
-      "/Applications/Cursor.app"
+      "/Applications/Zed.app"
       "/Applications/Spotify.app"
       "/Applications/Slack.app"
     ];
@@ -23,17 +23,17 @@
 
   homebrew = {
     brews = [
-      "valkey"
+      "shfmt"
+
       "postgresql@18"
+      "valkey"
     ];
 
     casks = [
       "beekeeper-studio"
       "httpie-desktop"
       "keyboardcleantool"
-      "notion-calendar"
       "slack"
-      "zed"
     ];
 
     masApps = {

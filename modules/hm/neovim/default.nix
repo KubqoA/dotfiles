@@ -17,25 +17,23 @@
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
+
+    withPython3 = false;
     withRuby = false; # use Ruby from mise, not the built-in one
 
-    # Add missing formatters, and language server packages
+    # Add formatters, and language server packages
     # Most of these are managed in `modules/dev` for the respective languages
     extraPackages = with pkgs; [
       # formatters
       alejandra # nix
-      stylua # lua
+      stylua # Lua
 
       # language servers
-      astro-language-server
       harper # grammar checker
-      vscode-json-languageserver
       lua-language-server
-      next-ls # elixir
-      nil
-      marksman
-      tailwindcss-language-server
-      typescript-go
+      marksman # Markdown
+      nil # nix
+      vscode-json-languageserver
       yaml-language-server
     ];
 
@@ -65,7 +63,7 @@
       nui-nvim
     ];
 
-    extraLuaConfig = ''
+    initLua = ''
       vim.loader.enable() -- Enables built-in module loader cache system
 
       require("config") -- first setup general settings

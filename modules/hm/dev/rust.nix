@@ -13,7 +13,7 @@
   programs.mise.globalConfig = {
     tools.rust = {
       # pin versions for better reproducibility
-      version = "1.90";
+      version = "1.96";
       components = "rust-analyzer";
     };
     settings = {

@@ -10,12 +10,11 @@ in {
     enable = true;
     onActivation = {
       autoUpdate = true;
-      cleanup = "zap";
       upgrade = true;
-    };
 
-    # Don't quarantine apps installed by homebrew with gatekeeper
-    caskArgs.no_quarantine = lib.mkDefault true;
+      cleanup = "zap";
+      extraFlags = ["--force-cleanup"];
+    };
   };
 
   environment = {

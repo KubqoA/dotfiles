@@ -6,14 +6,19 @@
       "bitwarden-cli"
       "cmake"
       "coreutils"
+      "dive"
       "gh"
+      "httpie"
       "mas"
       "mise"
-      "dive"
 
       # newer version of CLIs present in MacOS
       "less"
       "openssh"
+
+      # AI
+      "anomalyco/tap/opencode"
+      "rtk"
 
       {
         name = "syncthing";
@@ -22,17 +27,26 @@
     ];
 
     casks = [
-      "cursor"
       "ghostty"
+      "helium-browser"
       "logitech-options"
       "macmediakeyforwarder"
       "monitorcontrol"
       "notion"
+      "notion-calendar"
       "obsidian"
       "orbstack"
       "raycast"
       "spotify"
+      "zed"
       "zen"
+
+      # AI
+      "claude-code@latest"
+      "claude"
+
+      "codex"
+      "codex-app"
     ];
 
     masApps = {
