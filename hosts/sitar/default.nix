@@ -33,6 +33,8 @@
       "beekeeper-studio"
       "httpie-desktop"
       "keyboardcleantool"
+      "logitech-options"
+      "notion-calendar"
       "slack"
     ];
 

@@ -1,5 +1,5 @@
 {lib, ...}: {
-  imports = lib.imports ["darwin/base"];
+  imports = lib.imports ["darwin/base" "darwin/ruby"];
 
   my = {
     dock = [
@@ -19,30 +19,9 @@
   programs.gnupg.agent.enable = true;
 
   homebrew = {
-    taps = [
-      "puma/puma"
-    ];
-
     brews = [
       "pinentry-mac"
-      {
-        name = "libiconv";
-        link = true;
-      }
 
-      # ruby building
-      "autoconf"
-      "gmp"
-      "jemalloc"
-      "libsodium"
-      "libyaml"
-      "openssl@3.5"
-      "python-setuptools"
-      "readline"
-      "vips"
-
-      # services
-      "puma/puma/puma-dev"
       {
         name = "postgresql@18";
         restart_service = "changed";
@@ -52,21 +31,20 @@
         restart_service = "changed";
       }
       {
-        name = "redis";
+        name = "valkey";
         restart_service = "changed";
       }
     ];
 
     casks = [
+      "google-chrome"
+      "iina"
       "imaging-edge-webcam"
       "keyboardcleantool"
-      "meld"
+      "logi-options+"
       "private-internet-access"
-      "rubymine"
       "steam"
       "whatsapp"
-      "zed"
-      "zoom"
     ];
   };
 }

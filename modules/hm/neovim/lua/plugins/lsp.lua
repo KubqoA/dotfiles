@@ -72,6 +72,7 @@ return {
 
 			vim.lsp.enable({
 				"astro",
+				"gleam",
 				"harper_ls",
 				"jsonls",
 				"lua_ls",

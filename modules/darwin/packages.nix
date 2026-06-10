@@ -29,11 +29,9 @@
     casks = [
       "ghostty"
       "helium-browser"
-      "logitech-options"
       "macmediakeyforwarder"
       "monitorcontrol"
       "notion"
-      "notion-calendar"
       "obsidian"
       "orbstack"
       "raycast"
