@@ -1,17 +1,6 @@
 {lib, ...}: {
   imports = lib.imports ["darwin/base" "darwin/ruby"];
 
-  my = {
-    dock = [
-      "/Applications/Helium.app"
-      "/Applications/Ghostty.app"
-      "/Applications/Zed.app"
-      "/Applications/Spotify.app"
-      "/Applications/WhatsApp.app"
-    ];
-    uuid = "9A95453F-92B5-4C37-98FD-7809C8B7CE44";
-  };
-
   # home-manager on darwin doesn't support gpg-agent service, so it needs to be enabled here
   programs.gnupg.agent.enable = true;
 

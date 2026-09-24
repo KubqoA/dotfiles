@@ -1,74 +1,28 @@
+# System-level macOS settings, user preferences are managed by home-manager in `modules/hm/macos.nix`
 {
+  homes,
   lib,
-  config,
   ...
 }: let
-  cfg = config.my;
+  uuids = lib.filter (uuid: uuid != null) (map (home: home.config.my.uuid or null) homes);
 in {
-  options.my = with lib; {
-    uuid = mkOption {
-      type = types.str;
-      example = "9A95453F-92B5-4C37-98FD-7809C8B7CE44";
-      description = ''
-        User UUID, required by some settings.
-        Obtain with `dscl /Search -read \"/Users/$USER\" GeneratedUID | cut -d ' ' -f2`
-      '';
-    };
-    dock = mkOption {
-      type = types.listOf types.str;
-      example = ["/Applications/Zen.app" "/Applications/Spotify.app"];
-      description = "Alias for system.defaults.dock.persistent-apps";
-    };
-  };
-
-  config.system.defaults = {
-    dock = {
-      autohide-delay = 0.2;
-      mineffect = "scale";
-      minimize-to-application = true;
-      persistent-apps = cfg.dock;
-      persistent-others = [];
-      show-recents = false;
-      tilesize = 32;
-    };
+  system.defaults = {
     loginwindow = {
       DisableConsoleAccess = true;
       GuestEnabled = false;
     };
-    menuExtraClock = {
-      Show24Hour = true;
-      ShowDate = 0;
-      ShowDayOfWeek = true;
-    };
-    NSGlobalDomain = {
-      "com.apple.trackpad.scaling" = 1.5; # trackpad speed
-      AppleInterfaceStyleSwitchesAutomatically = true; # automatically switch between light and dark mode
-      ApplePressAndHoldEnabled = false; # disable accented characters pop-up
-      InitialKeyRepeat = 15;
-      KeyRepeat = 2;
-    };
-    screensaver = {
-      askForPassword = true;
-      askForPasswordDelay = 60;
-    };
-    trackpad = {
-      Clicking = true;
-    };
-    CustomUserPreferences = {
-      # Avoid creating .DS_Store files on network or USB volumes
-      "com.apple.desktopservices" = {
-        DSDontWriteNetworkStores = true;
-        DSDontWriteUSBStores = true;
-      };
-      # Save screenshots to clipboard by default
-      "com.apple.screencapture".target = "clipboard";
-      # Turn on app auto-update
-      "com.apple.commerce".AutoUpdate = true;
-    };
     CustomSystemPreferences = {
-      "/var/root/Library/Preferences/com.apple.CoreBrightness.plist" = {
-        "CBUser-${cfg.uuid}" = {
-          CBBlueReductionStatus = {
+      "/var/root/Library/Preferences/com.apple.CoreBrightness.plist" =
+        {
+          "Keyboard Dim Time" = 30;
+          KeyboardBacklight = {
+            KeyboardBacklightABEnabled = true;
+            KeyboardBacklightIdleDimTime = 30;
+          };
+        }
+        // lib.mapToAttrs (uuid: {
+          name = "CBUser-${uuid}";
+          value.CBBlueReductionStatus = {
             AutoBlueReductionEnabled = 1;
             BlueLightReductionAlgoOverride = 0;
             BlueLightReductionDisableScheduleAlertCounter = 3;
@@ -84,13 +38,8 @@ in {
             BlueReductionSunScheduleAllowed = true;
             Version = 1;
           };
-        };
-        "Keyboard Dim Time" = 30;
-        KeyboardBacklight = {
-          KeyboardBacklightABEnabled = true;
-          KeyboardBacklightIdleDimTime = 30;
-        };
-      };
+        })
+        uuids;
     };
   };
 }

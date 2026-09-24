@@ -81,11 +81,5 @@
     # Used for backwards compatibility, please read the changelog before changing.
     # $ os changelog
     stateVersion = 4;
-
-    # https://medium.com/@zmre/nix-darwin-quick-tip-activate-your-preferences-f69942a93236
-    activationScripts.postActivation.text = ''
-      echo "activating settings..."
-      sudo -u ${config.username} /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-    '';
   };
 }
