@@ -7,6 +7,17 @@
 in {
   imports = [./mise.nix];
 
+  # Globally installed npm packages, the prefix is moved by npmrc below
+  home.sessionPath = xdgOptional ["${config.xdg.dataHome}/npm/bin"];
+
+  home.shellAliases.yarn = xdgOptional ''yarn --use-yarnrc "${config.xdg.configHome}/yarn/config"'';
+
+  # Yarn fails when the config passed with --use-yarnrc doesn't exist, it's kept writable for `yarn config set`
+  home.activation.yarnConfig = xdgOptional (lib.hm.dag.entryAfter ["writeBoundary"] ''
+    run mkdir -p "${config.xdg.configHome}/yarn"
+    run touch "${config.xdg.configHome}/yarn/config"
+  '');
+
   home.sessionVariables = {
     MISE_NODE_COREPACK = "true";
     NODE_REPL_HISTORY = xdgOptional "${config.xdg.dataHome}/node_repl_history";

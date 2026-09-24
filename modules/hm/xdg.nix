@@ -21,7 +21,6 @@ in {
 
     shellAliases = {
       wget = ''wget --hsts-file="${dataHome}/wget-hsts"'';
-      yarn = ''yarn --use-yarnrc "${configHome}/yarn/config"'';
     };
   };
 
