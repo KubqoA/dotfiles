@@ -34,7 +34,7 @@ inputs: lib: _:
 
   # On macOS creates a simple package that symlinks to a package installed by homebrew
   brew-alias = pkgs: name:
-    lib.mkIf pkgs.stdenv.isDarwin
+    lib.mkIf pkgs.stdenv.hostPlatform.isDarwin
     (pkgs.stdenv.mkDerivation {
       name = "${name}-brew";
       version = "1.0.0";

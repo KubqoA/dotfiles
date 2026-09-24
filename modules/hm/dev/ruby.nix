@@ -6,7 +6,7 @@
   commonRubyConfigureOpts = "--with-jemalloc --disable-install-doc --enable-yjit";
 
   osSepcificVars =
-    if pkgs.stdenv.isDarwin
+    if pkgs.stdenv.hostPlatform.isDarwin
     then {
       RUBY_CONFIGURE_OPTS = commonRubyConfigureOpts;
     }

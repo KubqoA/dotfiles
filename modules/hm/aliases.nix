@@ -8,7 +8,7 @@
 }: {
   home.shellAliases = let
     osCommand =
-      if pkgs.stdenv.isDarwin
+      if pkgs.stdenv.hostPlatform.isDarwin
       then "sudo darwin-rebuild"
       else "sudo nixos-rebuild";
   in {

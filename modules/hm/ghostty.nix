@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: {
-  home.sessionVariables = lib.mkIf pkgs.stdenv.isDarwin rec {
+  home.sessionVariables = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin rec {
     TERMINFO = lib.mkForce "/Applications/Ghostty.app/Contents/Resources/terminfo";
     TERMINFO_DIRS = lib.mkForce "/Applications/Ghostty.app/Contents/Resources/terminfo:/usr/share/terminfo";
   };

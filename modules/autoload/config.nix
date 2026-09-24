@@ -15,11 +15,11 @@ with lib; {
   config = rec {
     username = "jakub";
     homePath =
-      if pkgs.stdenv.isDarwin
+      if pkgs.stdenv.hostPlatform.isDarwin
       then "/Users/${username}"
       else "/home/${username}";
     dotfilesPath =
-      if pkgs.stdenv.isDarwin
+      if pkgs.stdenv.hostPlatform.isDarwin
       then "${homePath}/.config/dotfiles"
       else "/persist/dotfiles";
     sshPublicKeys = [

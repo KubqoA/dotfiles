@@ -29,7 +29,7 @@ inputs @ {
     pkgs = nixpkgs.legacyPackages.${system};
 
     systemSpecifics =
-      if pkgs.stdenv.isDarwin
+      if pkgs.stdenv.hostPlatform.isDarwin
       then {
         fn = lib.darwinSystem;
         option = "darwinConfigurations";
