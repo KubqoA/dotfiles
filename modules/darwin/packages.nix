@@ -16,10 +16,6 @@
       "less"
       "openssh"
 
-      # AI
-      "anomalyco/tap/opencode"
-      "rtk"
-
       {
         name = "syncthing";
         restart_service = "changed";
