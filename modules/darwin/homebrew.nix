@@ -13,7 +13,6 @@ in {
       upgrade = true;
 
       cleanup = "zap";
-      extraFlags = ["--force-cleanup"];
     };
   };
 
