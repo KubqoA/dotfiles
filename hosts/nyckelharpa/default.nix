@@ -9,9 +9,6 @@
       "/Applications/Spotify.app"
       "/Applications/WhatsApp.app"
     ];
-    icons = {
-      "/Applications/Steam.app" = ./icons/steam.icns;
-    };
     uuid = "9A95453F-92B5-4C37-98FD-7809C8B7CE44";
   };
 
