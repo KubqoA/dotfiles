@@ -33,15 +33,12 @@
       }
     ];
 
+    # Hardware and system-level apps, user apps are declared in the home configs
     casks = [
-      "google-chrome"
-      "iina"
       "imaging-edge-webcam"
       "keyboardcleantool"
       "logi-options+"
       "private-internet-access"
-      "steam"
-      "whatsapp"
     ];
   };
 }

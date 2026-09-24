@@ -15,4 +15,15 @@
   programs = {
     eza.enable = true;
   };
+
+  # Installed system-wide by the nyckelharpa darwin config
+  homebrew = {
+    brews = ["cloudflare-wrangler"];
+    casks = [
+      "google-chrome"
+      "iina"
+      "steam"
+      "whatsapp"
+    ];
+  };
 }

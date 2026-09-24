@@ -9,6 +9,7 @@
     ./aliases.nix
     ./fish.nix
     ./git.nix
+    ./homebrew.nix
     ./neovim
     ./xdg.nix
   ];

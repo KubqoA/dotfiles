@@ -1,13 +1,21 @@
 {
   config,
+  homes,
   lib,
   ...
 }: let
   brewPrefix = "/opt/homebrew";
+  fromHomes = option: map (home: home.config.homebrew.${option}) homes;
 in {
   # Sensible Homebrew defaults
   homebrew = {
     enable = true;
+
+    # Homebrew is shared by all users, so install packages requested by home-manager configs of this host
+    brews = lib.concatLists (fromHomes "brews");
+    casks = lib.concatLists (fromHomes "casks");
+    masApps = lib.mkMerge (fromHomes "masApps");
+
     onActivation = {
       autoUpdate = true;
       upgrade = true;
