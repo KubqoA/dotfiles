@@ -1,6 +1,8 @@
 {
   config,
+  homes,
   inputs,
+  lib,
   name,
   pkgs,
   self,
@@ -19,13 +21,24 @@
   # Necessary here to set correct PATH, configuration managed by home-manager
   programs.fish.enable = true;
 
+  # Declare the primary user and every user with a home-manager config on this host.
   # Set the knownUsers so that the default shell works
   # https://github.com/nix-darwin/nix-darwin/issues/1237#issuecomment-2562230471
-  users.knownUsers = [config.username];
-  users.users.${config.username} = {
-    home = config.homePath;
-    shell = pkgs.fish;
-    uid = 501;
+  users = let
+    toAccount = cfg: {inherit (cfg) username homePath uid;};
+    accounts = lib.unique (map toAccount ([config] ++ map (home: home.config) homes));
+  in {
+    knownUsers = map (account: account.username) accounts;
+    users =
+      lib.mapToAttrs (account: {
+        name = account.username;
+        value = {
+          home = account.homePath;
+          shell = pkgs.fish;
+          inherit (account) uid;
+        };
+      })
+      accounts;
   };
 
   security = {

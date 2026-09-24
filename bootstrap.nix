@@ -10,7 +10,10 @@
 #
 # And for each host in a system defines:
 # - darwin or nixos system config imported from `./hosts/${hostname}`
-# - home-manager config imported from `./homes/${hostname}`
+# - home-manager config for every user `./homes/${hostname}/${username}.nix` as `${username}@${hostname}`
+#
+# The darwin system config receives all home-manager configs of the host as `homes`,
+# so it can create the users and install their homebrew packages.
 #
 # Both configs also get:
 # - custom `lib` from `./lib.nix`
@@ -23,7 +26,22 @@ inputs @ {
   # system agnostic lib with custom extensions
   lib = nixpkgs.lib.extend (import ./lib.nix inputs);
 
-  inherit (lib) foldl recursiveUpdate mapAttrsToList mapToAttrs;
+  inherit (lib) attrNames filterAttrs foldl hasSuffix mapAttrsToList mapToAttrs recursiveUpdate removeSuffix;
+
+  # Home-manager configs of a host, keyed by their flake output name.
+  # Every top-level `.nix` file in `./homes/${hostname}` is a user, subdirectories are
+  # ignored as they are regular modules imported by the home configs.
+  hostHomes = hostname: let
+    dir = ./homes/${hostname};
+    usernames = map (removeSuffix ".nix") (attrNames (filterAttrs
+      (file: type: type == "regular" && hasSuffix ".nix" file)
+      (builtins.readDir dir)));
+  in
+    mapToAttrs (username: {
+      name = "${username}@${hostname}";
+      value.modules = [(dir + "/${username}.nix") {inherit username;}];
+    })
+    usernames;
 
   mapSystem = system: hostnames: let
     pkgs = nixpkgs.legacyPackages.${system};
@@ -41,21 +59,29 @@ inputs @ {
         command = "sudo nixos-rebuild";
       };
 
+    mkHome = name: homeName: {modules}:
+      lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = {inherit homeName inputs name lib system;};
+        modules = modules ++ lib.autoloadedModules;
+      };
+
+    homes =
+      mapToAttrs (name: {
+        inherit name;
+        value = lib.mapAttrs (mkHome name) (hostHomes name);
+      })
+      hostnames;
+
     mkHost = name: {
       inherit name;
       value = systemSpecifics.fn {
         inherit system;
-        specialArgs = {inherit inputs lib name self system;};
+        specialArgs = {
+          inherit inputs lib name self system;
+          homes = builtins.attrValues homes.${name};
+        };
         modules = [./hosts/${name}] ++ lib.autoloadedModules;
-      };
-    };
-
-    mkHome = name: {
-      inherit name;
-      value = lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = {inherit inputs name lib system;};
-        modules = [./homes/${name}] ++ lib.autoloadedModules;
       };
     };
   in {
@@ -72,7 +98,7 @@ inputs @ {
         echo -e "        Hosts: \e[36m${builtins.concatStringsSep "\\e[0m, \\e[36m" hostnames}\e[0m"
         echo
         echo -e "  \e[1;33m‹hm›\e[0m  → Apply home-manager configuration"
-        echo -e "        Hosts: \e[36m${builtins.concatStringsSep "\\e[0m, \\e[36m" hostnames}\e[0m"
+        echo -e "        Homes: \e[36m${builtins.concatStringsSep "\\e[0m, \\e[36m" (lib.concatMap attrNames (builtins.attrValues homes))}\e[0m"
         echo
         echo -e "  \e[1;33m‹ssh-key-setup›\e[0m → SSH key setup"
         echo
@@ -90,7 +116,7 @@ inputs @ {
       '';
     };
     ${systemSpecifics.option} = mapToAttrs mkHost hostnames;
-    homeConfigurations = mapToAttrs mkHome hostnames;
+    homeConfigurations = foldl (a: b: a // b) {} (builtins.attrValues homes);
   };
 
   configuration = foldl recursiveUpdate {} (mapAttrsToList mapSystem systems);

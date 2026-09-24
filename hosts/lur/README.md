@@ -25,7 +25,7 @@ nix develop
 
 ```sh
 os lur boot
-hm jakub-lur switch
+hm jakub@lur switch
 ```
 
 4. The configuration changes the default username, so per [NixOS-WSL docs](https://nix-community.github.io/NixOS-WSL/how-to/change-username.html) apply these changes correctly. In PowerShell:

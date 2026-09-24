@@ -40,7 +40,7 @@ Get from a new Hetzner Cloud VPS to a ready-system.
   ```sh
   cd /persist/dotfiles
   nix develop
-  hm jakub-server switch
+  hm jakub@organ switch
   ```
 10. Reconnect to fully-apply new home-manager configuration
 11. Make it possible to use `sops` to edit secrets

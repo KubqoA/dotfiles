@@ -15,7 +15,7 @@ git clone git@github.com:KubqoA/dotfiles.git ~/.config/dotfiles
 nix develop
 # Runs nix-darwin and home-manager
 os nyckelharpa switch
-hm jakub-macos switch
+hm jakub@nyckelharpa switch
 ```
 
 4. To apply further updates, run
