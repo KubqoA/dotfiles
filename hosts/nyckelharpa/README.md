@@ -31,3 +31,14 @@ age-keygen -y ~/.config/sops/age/keys.txt | pbcopy
 vim .sops.yaml
 ```
 
+
+## Work user
+Each user has its home in `homes/nyckelharpa/<username>.nix`, the system is managed by `jakub`.
+The `work` user's home is defined in [`homes/nyckelharpa/work.nix`](../../homes/nyckelharpa/work.nix).
+
+1. Create the `work` user in System Settings, then apply the system config (`os switch`, any admin user can run it) so the user and its casks are set up
+2. Log in as `work`, clone the repository to `~/.config/dotfiles` and run
+```sh
+nix develop
+hm work@nyckelharpa switch
+```
