@@ -50,6 +50,12 @@
     sudo.extraConfig = ''
       Defaults timestamp_timeout=5
     '';
+
+    # https://emudhra.we-have-a-problem.com/#linux
+    pki.caCertificateBlacklist = [
+      "Comodo AAA Services root"
+      "emSign ECC Root CA - G3"
+    ];
   };
 
   # The platform the configuration will be used on.
